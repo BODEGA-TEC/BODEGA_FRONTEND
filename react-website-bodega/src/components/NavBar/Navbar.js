@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { Button } from '../Button/Button';
 
@@ -10,7 +10,12 @@ function Navbar() {
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
-
+    const navigate = useNavigate();
+  
+    const navigateToLogIn = () => {
+      navigate('/log-in');
+    };
+  
     // Funtion that displays the button in mobile screens
     // when its required.
     const showButton = () => {
@@ -74,7 +79,12 @@ function Navbar() {
                   </Link>
                 </li>
               </ul>
-              {button && <Button buttonStyle='btn--outline'>Iniciar sesión</Button>}
+            {button &&
+              <Button
+                buttonStyle='btn--outline'
+                onClick={navigateToLogIn}
+              >
+                Iniciar sesión </Button>}
             </div>
           </nav>
         </>

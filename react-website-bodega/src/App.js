@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import Forms from './pages/Forms';
 import LogIn from './pages/LogIn';
+import News from './pages/News';
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
           <Route path='/' exact element={<Home/>}/>
           <Route path='/services' element={<Services/>}/>
           <Route path='/forms' element={<Forms/>}/>
-          <Route path='/log-in' element={<LogIn/>}/>
+          <Route path='/log-in' element={<LogIn />} />
+          <Route path='/news' element={<News/>}/>
+
         </Routes>
       </Router>
     </>

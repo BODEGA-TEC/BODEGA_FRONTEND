@@ -10,36 +10,36 @@ function Cards() {
         <div className='cards__wrapper'>
           <ul className='cards__items'>
             <CardItem
-              src='images/img-9.jpg'
-              text='Explore the hidden waterfall deep inside the Amazon Jungle'
-              label='Adventure'
-              path='/services'
+              src='images/wall-e.jpg'
+              text='Nuevo bot creado para la consulta de información relevante.'
+              label='Bot'
+              path='/news'
             />
             <CardItem
-              src='images/img-2.jpg'
-              text='Travel through the Islands of Bali in a Private Cruise'
-              label='Luxury'
+              src='images/trump.jpg'
+              text='Cinco osciloscopios nuevos han sido donados al ITCR por Donald Trump.'
+              label='Equipo'
               path='/services'
             />
           </ul>
           <ul className='cards__items'>
             <CardItem
-              src='images/img-3.jpg'
-              text='Set Sail in the Atlantic Ocean visiting Uncharted Waters'
-              label='Mystery'
+              src='images/prof-ie.jpg'
+              text='La lista de contactos de profesores ha sido publicada.'
+              label='Profesores IE'
               path='/services'
             />
             <CardItem
               src='images/img-4.jpg'
-              text='Experience Football on Top of the Himilayan Mountains'
-              label='Adventure'
-              path='/products'
+              text='Fuertes multas han sido impuestas por robo contínuo de componentes.'
+              label='Riesgo'
+              path='/services'
             />
             <CardItem
-              src='images/img-8.jpg'
-              text='Ride through the Sahara Desert on a guided camel tour'
-              label='Adrenaline'
-              path='/sign-up'
+              src='images/img-home.jpg'
+              text='En vista del posible incremento de presupuesto al FEST se espera una pronta actualización de equipo.'
+              label='Equipo'
+              path='/services'
             />
           </ul>
         </div>
