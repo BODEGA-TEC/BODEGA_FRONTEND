@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '../Button/Button';
 import '../../App.css';
 import './HeroSection.css';
-
 import { useNavigate } from 'react-router-dom';
 
 

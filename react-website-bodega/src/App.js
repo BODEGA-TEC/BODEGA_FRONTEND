@@ -18,7 +18,6 @@ function App() {
           <Route path='/forms' element={<Forms/>}/>
           <Route path='/log-in' element={<LogIn />} />
           <Route path='/news' element={<News/>}/>
-
         </Routes>
       </Router>
     </>
