@@ -1,22 +1,16 @@
 import React from 'react'
 import { Button, Container, Grid, TextField,Select, MenuItem, FormControl, FormHelperText,InputLabel } from "@mui/material";
 import { useState, useEffect } from "react";
+import './Forms.css';
 import { useForm, Form } from '../UseForm/useForm';
 import { isNumber } from '../../utils/formsUtils'
+import SignaturePad from '../SignaturePad/SignaturePad';
 
-const PersonalInfo = ({ nextStep, setFormData }) => {
+const StudentInfo = ({ initialValues, nextStep, formData, setFormData }) => {
   
 
   const courses = ['Laboratorio de Elementos Activos', 'Taller de Diseño Digital', 'Taller de Diseño Analógico'];
   const [Courses] = useState(courses);
-
-  const initialValues = {
-    Nombre: "",
-    PrimerApellido: "",
-    SegundoApellido: "",
-    Carnet: "",
-    Curso: ""
-  }
 
   const {
     values,
@@ -31,6 +25,16 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
     setFormData(values)
   }, [values])
 
+  /**
+   * Thiss function saves the signature image.
+   * @param {String}
+   */
+  const setSignature = (url) => {
+    setValues({
+      ...values,
+      Signature: url
+    })
+  };
 
   /**
    * @description Validates all the established restrictions for these fields
@@ -90,20 +94,20 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
     }
   }
 
-  const style = 'standard';
+  const style = 'outlined';
   return (
-    <div sx={{marginTop: '2%'}}>
+    <Container sx={{marginTop: '2%'}}>
       <Form onSubmit={submit}>
         {/* <AlertDialog title={titleDialog} open={openDialog} handleClose={setOpenDialog} content={bodyDialog}/>  */}
 
         <Grid container rowSpacing={6}>
           
-          <Grid item xs={12} md={11} align="justify">
+          <Grid item xs={12} md={12} align="justify">
             <h1>Solicitud de componentes y equipo para estudiantes</h1>
-            <p mt='6%'>El siguiente formulario esta diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica. Por lo cual, se solicita la adecuada revisión antes de enviarlo para minimizar los errores y problemas en el proceso de solicitud.</p>
+            <p>El siguiente formulario esta diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica. Por lo cual, se solicita la adecuada revisión antes de enviarlo para minimizar los errores y problemas en el proceso de solicitud.</p>
           </Grid>
 
-          <Grid item md={12}>
+          <Grid item xs={12} md={8}>
             
             <Grid container rowSpacing={5}>
               
@@ -114,7 +118,7 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                     variant={style}
                     name="PrimerApellido"
                     placeholder="Ingrese su primer apellido "
-                    value={values.PrimerApellido}
+                    value={formData.PrimerApellido}
                     onChange={handleInputChange}
                     InputLabelProps={{
                       shrink: true,
@@ -133,7 +137,7 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                     label="Segundo Apellido*"
                     name="SegundoApellido"
                     placeholder="Ingrese su segundo apellido "
-                    value={values.SegundoApellido}
+                    value={formData.SegundoApellido}
                     onChange={handleInputChange}
                     InputLabelProps={{
                       shrink: true
@@ -152,7 +156,7 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                     label="Nombre*"
                     name="Nombre"
                     placeholder="Ingrese su nombre"
-                    value={values.Nombre}
+                    value={formData.Nombre}
                     onChange={handleInputChange}
                     InputLabelProps={{
                       shrink: true,
@@ -172,7 +176,7 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                     label="Carné *"
                     name="Carnet"
                     placeholder="Ingrese su carné"
-                    value={values.Carnet}
+                    value={formData.Carnet}
                     onChange={handleInputChange}
                     InputLabelProps={{
                       shrink: true,
@@ -194,7 +198,7 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                       variant = {style}
                       name="Curso"
                       id="courseBox"
-                      value={values.Curso}
+                      value={formData.Curso}
                       onChange={handleInputChange}
                       sx={{ width: '85%' }}
                       error={errors.Curso !== "" && errors.Curso !== undefined ? true : false}
@@ -212,24 +216,29 @@ const PersonalInfo = ({ nextStep, setFormData }) => {
                 </Grid>
               </Grid>
 
-              <Grid item xs={12} md={6}> </Grid>
+              <Grid item xs={12} md={12}> </Grid>
+            </Grid> 
 
-              <Grid item xs={12} md={6}>
-                <Grid container justifyContent='flex-end'>
-                  <Button style={{ background: '#D11616' }} variant="contained" type="submit"> Siguiente </Button>
-                </Grid>
-              </Grid>        
-            </Grid>               
+  
           </Grid>
+
+          <Grid item xs={12} md={4}>
+              <Grid container justifyContent='flex-start'>
+                <SignaturePad title='Firme Aquí' setSignature={setSignature}> </SignaturePad>
+              </Grid>
+          </Grid>
+
+          <Grid item xs={12} md={12}>
+              <Grid container mt="2%" justifyContent='flex-start'>
+                <Button style={{ background: '#D11616' }} variant="contained" type="submit"> Siguiente </Button>
+              </Grid>
+          </Grid> 
+          
         </Grid> 
       </Form>
-    </
-    div>
+    </Container>
   )
-  
 
-  
 }
 
-
-export default PersonalInfo;
+export default StudentInfo;
