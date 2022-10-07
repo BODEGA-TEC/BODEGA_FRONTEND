@@ -79,27 +79,27 @@ async function pdfGenerator(props) {
     
   
     // Dibuja el nombre
-    firstPage.drawText(Fecha.value, {
-      x: 388,
-      y: 598,
-      size: 12,
-      font: helveticaFont,
-      color: rgb(0, 0, 0.8),
+  firstPage.drawText(Fecha.value, {
+    x: 388,
+    y: 598,
+    size: 12,
+    font: helveticaFont,
+    color: rgb(0, 0, 0.8),
   });
 
   // Dibuja la imagen de la firma
   firstPage.drawImage(Signature, {
-      x: 120,
-      y: 150,
-      width: pngDims.width,
-      height: pngDims.height,
+    x: 120,
+    y: 150,
+    width: pngDims.width,
+    height: pngDims.height,
   });
 
   // Serialize the PDFDocument to bytes (a Uint8Array)
   const pdfBytes = await pdfDoc.save();
 
   // Trigger the browser to download the PDF document
-  PDFDocument.download(pdfBytes, "boleta-estudiate-" + PrimerApellido.value + "-" + SegundoApellido.value + "-" + Nombre.value +".pdf", "application/pdf");
+  // PDFDocument.download(pdfBytes, "boleta-estudiate-" + PrimerApellido.value + "-" + SegundoApellido.value + "-" + Nombre.value +".pdf", "application/pdf");
 }
 
 module.exports = {

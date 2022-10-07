@@ -1,82 +1,17 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from '../Button/Button';
-import { useNavigate } from 'react-router-dom';
 import "../../App.css";
 import Input from "./Input";
-
-const courses = ['Laboratorio de Elementos Activos', 'Taller de Diseño Digital', 'Taller de Diseño Analógico'];
-const studentsForm = {
-
-  nombre: {
-    label: "Nombre",
-    type: "textfield",
-    placeholder: "Ingrese su nombre",
-    defaultValue: "",
-    rules: {
-      required: true,
-    },
-    
-  },
-  primerApellido: {
-    label: "Primer Apellido",
-    type: "textfield",
-    placeholder: "Ingrese su primer apellido",
-    defaultValue: "",
-    rules: {
-      required: true,
-    },
-  },
-  segundoApellido: {
-    label: "Segundo Apellido",
-    type: "textfield",
-    placeholder: "Ingrese su segundo apellido",
-    defaultValue: "",
-    rules: {
-      required: true,
-    },
-  },
-
-  carnet: {
-    label: "Carné",
-    type: "textfield",
-    placeholder: "Ingrese su número de carné",
-    defaultValue: "",
-    rules: {
-      required: true,
-    },
-  },
-
-  // gender: {
-  //   label: "Gender",
-  //   type: "radio",
-  //   options: ["male", "female"],
-  //   defaultValue: "",
-  //   rules: {
-  //     required: true,
-  //   },
-  // },
-  curso: {
-    label: "Curso",
-    type: "select",
-    options: courses,
-    defaultValue: "",
-    rules: {
-      required: true,
-    },
-  }
-};
+import { Container, Grid } from "@mui/material";
 
 //Error Component
-const Error = ({ children }) => <p style={{ color: "red" }}>{children}</p>;
+const Error = ({ children }) => <p style={{ color: "red", fontSize:'12px' }}>{children}</p>;
 
-const DynamicForm = () => {
-
-  // const navigate = useNavigate();
-  //   const navigateToForm1 = () => {
-  //     navigate('/forms-1');
-  // }; 
+const DynamicForm = (props) => {
   
+  const { formData, handleInputChange, jsonForm } = props;
+
   const {
     handleSubmit,
     control,
@@ -86,13 +21,13 @@ const DynamicForm = () => {
     defaultValues: {}
   });
 
-  const formInputs = Object.keys(studentsForm).map((e) => {
-    const { rules, defaultValue, label } = studentsForm[e];
+  const formInputs = Object.keys(jsonForm).map((e) => {
+    const { rules, defaultValue, label } = jsonForm[e];
 
     return (
       <section key={e}>
-        <label>{label}</label>
-        <Controller
+        {/* <label>{label}</label> */}
+        <Controller sx={{ marginTop:'4%' }}
           name={e}
           control={control}
           rules={rules}
@@ -100,9 +35,11 @@ const DynamicForm = () => {
           render={({ field }) => (
             <div>
               <Input
+                label={label}
                 value={field.value}
-                onChange={field.onChange}
-                {...studentsForm[e]}
+                setFormData
+                onChange={handleInputChange}
+                {...jsonForm[e]}
               />
             </div>
           )}
@@ -112,38 +49,31 @@ const DynamicForm = () => {
     );
   });
 
-  const onSubmit = (data) => console.log(data);
 
   // console.log(watch("example")); // watch input value by passing the name of it
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <div>
-      <h2>Solicitud de componentes y equipo para estudiantes</h2>
-      <p>El siguiente formulario esta diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica. Por lo cual, se solicita la adecuada revisión antes de enviarlo para minimizar los errores y problemas en el proceso de solicitud.</p>
+    <Container sx={{ marginTop: '2%' }}>
+      <Grid container rowSpacing={3}>
+        
+        <Grid item xs={12} md={12} align="center">
+          <h2>Solicitud de Componentes y Equipo para Estudiantes</h2>
+        </Grid>
+
+        <Grid item xs={12} md={12}  align="">
+          <p>El siguiente formulario esta diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica.</p>
+        </Grid>
+
+        <Grid item xs={12} md={12} align="justify">
+          <form>
+            {formInputs}
+          </form>
+        </Grid>
+
+      </Grid>
       
-      {/* <Button className='btns' buttonStyle='btn--primary' buttonSize='btn--large' onClick={navigateToForm1}>
-        Estudiantes
-      </Button> */}
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {formInputs}
-        <div style={{ textAlign: "center" }}>
-          <Button type="submit" cssClass="e-success">
-            Success
-          </Button>
-        </div>
-      </form>
-    </div>
-    
-
-  //   <div className="wrapper">
-      
-  //     <Link to="/normal">
-  //       <ButtonComponent cssClass="e-success">Go to Normal</ButtonComponent>
-  //     </Link>
-
-  //   </div>
+    </Container>  
   );
 };
   
