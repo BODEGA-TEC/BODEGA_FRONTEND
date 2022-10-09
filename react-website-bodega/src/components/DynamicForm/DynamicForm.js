@@ -1,33 +1,32 @@
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Button } from '../Button/Button';
 import "../../App.css";
 import Input from "./Input";
 import { Container, Grid } from "@mui/material";
 
 //Error Component
-const Error = ({ children }) => <p style={{ color: "red", fontSize:'12px' }}>{children}</p>;
+const Error = ({ children }) => (
+  <p style={{ color: "red", fontSize: "12px" }}>{children}</p>
+);
 
 const DynamicForm = (props) => {
-  
-  const { formData, handleInputChange, jsonForm } = props;
+  const { title, description, form, submitRef, setFormInput } = props;
 
   const {
-    handleSubmit,
+    handleSubmit, // evalua las restricciones de las entradas.
     control,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm({
-    defaultValues: {}
+    defaultValues: {},
   });
 
-  const formInputs = Object.keys(jsonForm).map((e) => {
-    const { rules, defaultValue, label } = jsonForm[e];
+  const formInputs = Object.keys(form).map((e) => {
+    const { rules, defaultValue, label } = form[e];
 
     return (
       <section key={e}>
-        {/* <label>{label}</label> */}
-        <Controller sx={{ marginTop:'4%' }}
+        <Controller
+          sx={{ marginTop: "4%" }}
           name={e}
           control={control}
           rules={rules}
@@ -37,9 +36,8 @@ const DynamicForm = (props) => {
               <Input
                 label={label}
                 value={field.value}
-                setFormData
-                onChange={handleInputChange}
-                {...jsonForm[e]}
+                onChange={field.onChange}
+                {...form[e]}
               />
             </div>
           )}
@@ -49,33 +47,35 @@ const DynamicForm = (props) => {
     );
   });
 
-
+  const onSubmit = (data) => {
+    setFormInput(data);
+  };
   // console.log(watch("example")); // watch input value by passing the name of it
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <Container sx={{ marginTop: '2%' }}>
+    <Container sx={{ marginTop: "2%" }}>
       <Grid container rowSpacing={3}>
-        
-        <Grid item xs={12} md={12} align="center">
-          <h2>Solicitud de Componentes y Equipo para Estudiantes</h2>
-        </Grid>
-
-        <Grid item xs={12} md={12}  align="">
-          <p>El siguiente formulario esta diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica.</p>
+        <Grid item align="center">
+          <h2>{title}</h2>
         </Grid>
 
         <Grid item xs={12} md={12} align="justify">
-          <form>
-            {formInputs}
-          </form>
+          <p>{description}</p>
         </Grid>
 
+        <Grid item xs={12} md={12} align="justify">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* render the form inputs */}
+            {formInputs}
+            {/* Invisible button to be able to activate the submit of the form through 
+            the reference to the submit button of the parent class. */}
+            <button ref={submitRef} type="submit" style={{ display: "none" }}> child Submit </button>
+          </form>
+        </Grid>
       </Grid>
-      
-    </Container>  
+    </Container>
   );
 };
-  
 
 export default DynamicForm;

@@ -1,57 +1,68 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./SignaturePad.css";
-import { Button, Container, Grid} from "@mui/material";
-import ReactSignatureCanvas from "react-signature-canvas";
+import { Button, Container, Grid } from "@mui/material";
+import SignatureCanvas from "react-signature-canvas";
 
 const SignaturePad = (props) => {
-
   const { title, setSignature } = props;
+  const signaturePadRef = useRef(); // referencia para el tamaño del pad
 
-  const ref = useRef(null);
-  const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    setHeight(ref.current.offsetHeight);
-    setWidth(ref.current.offsetWidth);
-    // 👇️ if you need access to parent
-    // of the element on which you set the ref
-    console.log(ref.current.parentElement);
-    console.log(ref.current.parentElement.offsetHeight);
-    console.log(ref.current.parentElement.offsetWidth);
+    setWidth(signaturePadRef.current.offsetWidth * 0.9);
   }, []);
 
   let sigPad = useRef({});
 
-  const save=()=>{
+  const save = () => {
     setSignature(sigPad.current.toDataURL());
-    console.log(sigPad.current.toDataURL())
-  }
+    // console.log(sigPad.current.toDataURL());
+  };
 
-  const clear=()=>{
+  const clear = () => {
     sigPad.current.clear();
-  }
+  };
 
   return (
-    <Container sx={{ marginTop: '2%', marginBottom: '3%' }}>
-      <p>{title}</p>
+    <Container sx={{ marginTop: "3%", marginBottom: "3%" }}>
 
-      <Grid sx={{marginTop: '1%' }} container spacing={2}>
-        <Grid item xs={12} md={12}>
-            <Button sx={{marginRight: '1%' }} variant="outlined" size="small" onClick={clear}>Borrar</Button>
-            <Button  variant="contained" size="small" onClick={save}>Guardar</Button>
+      <Grid container>
+        <Grid item> <p>{title}</p> </Grid>
+      </Grid>
+
+      <Grid container sx={{ marginBottom: "1.5%" }} columnSpacing={1} justifyContent="flex-end">
+        <Grid item>
+          <Button variant="outlined" size="small" onClick={clear}> Borrar </Button>
         </Grid>
 
-        <Grid ref={ref} item xs={12} md={12}>
-          <ReactSignatureCanvas
-            penColor="black"
+        <Grid item>
+          <Button variant="contained" size="small" onClick={save}> Guardar </Button>
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center">
+        <Grid
+          ref={signaturePadRef}
+          item
+          xs={12}
+          md={12}
+          justifyContent="center"
+          align="center"
+        >
+          <SignatureCanvas
             ref={sigPad}
-            canvasProps={{ width: { width }, height: { height }, className: "sigCanvas" }}
+            penColor="black"
+            canvasProps={{
+              width: width,
+              height: width*0.6,
+              className: "sigCanvas",
+            }}
           />
         </Grid>
       </Grid>
     </Container>
-  )
-}
+  );
+};
 
-export default SignaturePad
+export default SignaturePad;
