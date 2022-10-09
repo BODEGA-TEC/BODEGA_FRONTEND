@@ -38,7 +38,7 @@ function Navbar() {
           <nav className='navbar'>
             <div className='navbar-container'>
               <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-                Bodega Web <img class='bodega-logo' src='/logo.png' alt='logo'/>
+                Bodega Web <img className='bodega-logo' src='/logo.png' alt='logo'/>
               </Link>
 
               <div className='menu-icon' onClick={handleClick}>

@@ -4,20 +4,37 @@ import { Button, Container, Grid } from "@mui/material";
 import SignatureCanvas from "react-signature-canvas";
 
 const SignaturePad = (props) => {
-  const { title, setSignature } = props;
-  const signaturePadRef = useRef(); // referencia para el tamaño del pad
 
+  const { title, setSignature } = props;
+
+  const signatureGridRef = useRef(null); // referencia para el tamaño del pad
+  const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
+  // function to set the canvas width of the signature pad.
+  const handleWindowSizeChange = () => {
+    const width = signatureGridRef.current.offsetWidth;
+    let height = width * 0.5;
+    if (width > 600) height = width*0.38 
+    setHeight(height);
+    setWidth(width);
+  };
+
+  // call your useEffect to detect windows resized
   useEffect(() => {
-    setWidth(signaturePadRef.current.offsetWidth * 0.9);
+    handleWindowSizeChange()
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
   }, []);
+
 
   let sigPad = useRef({});
 
   const save = () => {
     setSignature(sigPad.current.toDataURL());
-    // console.log(sigPad.current.toDataURL());
+    clear();
   };
 
   const clear = () => {
@@ -26,7 +43,7 @@ const SignaturePad = (props) => {
 
   return (
     <Container sx={{ marginTop: "3%", marginBottom: "3%" }}>
-
+      <Grid item xs={12} md={12}>
       <Grid container>
         <Grid item> <p>{title}</p> </Grid>
       </Grid>
@@ -43,7 +60,7 @@ const SignaturePad = (props) => {
 
       <Grid container justifyContent="center">
         <Grid
-          ref={signaturePadRef}
+          ref={signatureGridRef}
           item
           xs={12}
           md={12}
@@ -52,15 +69,16 @@ const SignaturePad = (props) => {
         >
           <SignatureCanvas
             ref={sigPad}
-            penColor="black"
+            penColor= "blue"
             canvasProps={{
               width: width,
-              height: width*0.6,
+              height: height,
               className: "sigCanvas",
             }}
           />
         </Grid>
-      </Grid>
+        </Grid>
+        </Grid>
     </Container>
   );
 };

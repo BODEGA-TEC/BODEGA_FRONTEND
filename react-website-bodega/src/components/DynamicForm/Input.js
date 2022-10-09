@@ -4,7 +4,6 @@ import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
  CheckBoxComponent,
  RadioButtonComponent,
- ButtonComponent,
 } from "@syncfusion/ej2-react-buttons";
 import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";

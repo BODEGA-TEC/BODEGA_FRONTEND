@@ -6,6 +6,7 @@ import { studentsForm } from "../utils/formsData";
 import { Button } from "../components/Button/Button";
 import SignaturePad from "../components/SignaturePad/SignaturePad";
 import createPDF from "../utils/studentPDF";
+// import ComponentsList from "../components/ComponentsList/ComponentsList";
 
 const Forms = () => {
   const current = new Date();
@@ -17,9 +18,9 @@ const Forms = () => {
   const [formInput, setFormInput] = useState({}); // informacion del form.
   const [signature, setSignature] = useState(""); // informacion de la firma.
   const [components, setComponents] = useState([
-    { Cantidad: 1, Descripción: "Multimetro" },
-    { Cantidad: 5, Descripción: "Lagartos" },
-    { Cantidad: 12, Descripción: "Jumpers" },
+    { Number: 1, Description: "Multimetro" },
+    { Number: 5, Description: "Lagartos" },
+    { Number: 12, Description: "Jumpers" },
   ]); // informacion de los componentes.
 
   // const handleInputChange = (e) => {
@@ -41,18 +42,32 @@ const Forms = () => {
   }, [formInput]);
 
   const generatePDF = () => {
+
+    if (signature === "") {
+      alert("Se requiere su firma!");
+      return
+    }
+
+    const windowWidth = window.innerWidth
+    // console.log("Width", windowWidth)
+    let scale = 0.45;
+    if (550 < windowWidth) scale = 0.25
+    if (500 < windowWidth) scale = 0.30
+    else if (400 < windowWidth) scale = 0.35
+    
     const x = {
       ...formInput,
       Fecha: date,
       Firma: signature,
       Componentes: components,
+      scale: scale,
     };
     // console.log(x)
     createPDF(x);
   };
 
   const handleSubmit = async () => {
-    submitRef.current.click();
+      submitRef.current.click();
   };
 
   return (
@@ -69,7 +84,12 @@ const Forms = () => {
             />
           </Grid>
 
-          <Grid item xs={12} justifyContent="center">
+          <Grid item xs={12} md={6} justifyContent="center">
+            {/* <ComponentsList/> */}
+            Components
+          </Grid>
+
+          <Grid item xs={12} md={6} justifyContent="center">
             <SignaturePad
               title="Firma del estudiante"
               setSignature={setSignature}
