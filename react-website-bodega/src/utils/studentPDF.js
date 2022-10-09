@@ -1,4 +1,5 @@
 import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import downloadjs from 'downloadjs';
 import url from './boletasTemplate/boleta_estudiantes.pdf';
 
 async function createPDF(props) {
@@ -46,7 +47,7 @@ async function createPDF(props) {
   const pdfBytes = await pdfDoc.save();
 
   // Trigger the browser to download the PDF document
-  download(pdfBytes, "boleta-estudiate-" + PrimerApellido.value + "-" + SegundoApellido.value + "-" + Nombre.value +".pdf", "application/pdf");
+  downloadjs(pdfBytes, "boleta-estudiate-" + PrimerApellido.value + "-" + SegundoApellido.value + "-" + Nombre.value +".pdf", "application/pdf");
 }
 
 export default createPDF;
