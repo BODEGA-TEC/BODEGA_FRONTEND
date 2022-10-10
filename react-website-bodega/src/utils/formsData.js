@@ -6,11 +6,12 @@
 //     'Diseño Lógico'
 //   ];
 
-const maxLength = 30;
+const maxLength = 40;
 const studentsForm = {
-  title : "Solicitud de Componentes y Equipo para Estudiantes",
-  description : "El siguiente formulario está diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica.",
-  form : {
+  title: "Solicitud de Componentes y Equipo para Estudiantes",
+  description:
+    "El siguiente formulario está diseñado con el objetivo de que la comunidad estudiantil pueda generar una solicitud de componentes o equipos al departamento de Bodega de la Escuela de Ingeniería Electrónica.",
+  form: {
     Nombre: {
       placeholder: "Nombre",
       type: "text",
@@ -55,12 +56,50 @@ const studentsForm = {
       htmlAttributes: { maxlength: maxLength },
       defaultValue: "",
       rules: {
-        required: true
+        required: true,
       },
-    }
-  }
+    },
+  },
+};
+
+const professorsForm = {
+  title: "Solicitud de Componentes y Equipo para Profesores",
+  description:
+    "El siguiente formulario está diseñado con el objetivo de que el profesor pueda generar una solicitud para el préstamo de equipo y/o componentes al departamento de Bodega de la Escuela de Ingeniería Electrónica.",
+  form: {
+    Solicitante: {
+      placeholder: "Solicitante",
+      type: "text",
+      defaultValue: "",
+      htmlAttributes: { maxlength: maxLength },
+      rules: {
+        required: true,
+      },
+    },
+
+    AsistenteEntrega: {
+      placeholder: "Asistente que entrega",
+      type: "text",
+      htmlAttributes: { maxlength: maxLength },
+      defaultValue: "",
+      rules: {
+        required: true,
+      },
+    },
+
+    Turno: {
+      placeholder: "Turno",
+      type: "datetime",
+      htmlAttributes: {},
+      defaultValue: "",
+      rules: {
+        required: true,
+      },
+    },
+  },
 };
 
 module.exports = {
-  studentsForm
-}
+  studentsForm,
+  professorsForm
+};

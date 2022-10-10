@@ -1,21 +1,19 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import downloadjs from 'downloadjs';
-import url from './boletasTemplate/boleta_estudiantes.pdf';
+import url from './boletasTemplate/boleta_profesores.pdf';
 
 async function createPDF(props) {
   const {
-    Nombre,
-    PrimerApellido,
-    SegundoApellido,
-    Carnet,
-    Curso,
+    Solicitante,
+    AsistenteEntrega,
+    Turno,
+    Fecha,
     Firma,
     Componentes,
-    Fecha,
     scale
   } = props;
 
-  // console.log(scale, Componentes);
+  console.log(props);
 
   // Fetch an existing PDF document
   const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
@@ -37,12 +35,12 @@ async function createPDF(props) {
 
   // Dibujar
   const specs = {size: 11, font: font, color: rgb(0, 0, 0.8) }
-  page.drawText(PrimerApellido, { x: 55, y: 630, ...specs});
-  page.drawText(SegundoApellido, { x: 220, y: 630, ...specs});
-  page.drawText(Nombre, { x: 388, y: 630, ...specs });
-  page.drawText(String(Carnet), { x: 55, y: 598, ...specs });
-  page.drawText(Curso, { x: 220, y: 598, ...specs });
-  page.drawText(Fecha, { x: 388, y: 598, ...specs });
+  page.drawText(Solicitante, { x: 55, y: 630, ...specs});
+  page.drawText(AsistenteEntrega, { x: 220, y: 630, ...specs});
+  // page.drawText(Nombre, { x: 388, y: 630, ...specs });
+  // page.drawText(String(Carnet), { x: 55, y: 598, ...specs });
+  // page.drawText(Curso, { x: 220, y: 598, ...specs });
+  // page.drawText(Fecha, { x: 388, y: 598, ...specs });
   page.drawImage(pngImage, { x: 187 - (pngDims.width/2), y: 142, width: pngDims.width, height: pngDims.height });
 
   Componentes.forEach(drawComponent);
@@ -58,7 +56,7 @@ async function createPDF(props) {
   const pdfBytes = await pdfDoc.save();
 
   // Trigger the browser to download the PDF document
-  downloadjs(pdfBytes, "boleta-estudiate-" + PrimerApellido + "-" + SegundoApellido + "-" + Nombre +".pdf", "application/pdf");
+  downloadjs(pdfBytes, "boleta-profesor-" + Solicitante.trim() +".pdf", "application/pdf");
 }
 
 export default createPDF;

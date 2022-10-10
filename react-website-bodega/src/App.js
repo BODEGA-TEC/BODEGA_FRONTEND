@@ -16,7 +16,8 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Home/>}/>
           <Route path='/services' element={<Services/>}/>
-          <Route path='/forms' element={<Forms/>}/>
+          <Route path="/forms/estudiante" element={<Forms type={0} />}/>
+          <Route path="/forms/profesor" element={<Forms type={1} />}/>
           <Route path='/log-in' element={<LogIn />} />
           <Route path='/news' element={<News/>}/>
         </Routes>

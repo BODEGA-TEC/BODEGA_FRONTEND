@@ -1,15 +1,22 @@
 import React from "react";
-import { TextBoxComponent, NumericTextBoxComponent } from "@syncfusion/ej2-react-inputs";
+import {
+  TextBoxComponent,
+  NumericTextBoxComponent,
+} from "@syncfusion/ej2-react-inputs";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
- CheckBoxComponent,
- RadioButtonComponent,
+  CheckBoxComponent,
+  RadioButtonComponent,
 } from "@syncfusion/ej2-react-buttons";
+import { DateTimePickerComponent  } from "@syncfusion/ej2-react-calendars";
 import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
-import "../../../node_modules/@syncfusion/ej2-react-dropdowns/styles/material.css";
 import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-react-dropdowns/styles/material.css";
+import "../../../node_modules/@syncfusion/ej2-react-calendars/styles/material.css";
 
+const current = new Date();
 
 const Input = ({ value, onChange, type, ...rest }) => {
   switch (type) {
@@ -31,25 +38,49 @@ const Input = ({ value, onChange, type, ...rest }) => {
           showSpinButton={false}
           showClearButton={true}
           floatLabelType="Auto"
-          format='####'
+          format="####"
           placeholder={rest?.placeholder}
           change={({ value }) => onChange(value)}
           value={value}
         />
       );
-   case "radio":
-     return rest?.options.map((e) => (
-       <RadioButtonComponent
-         key={e}
-         label={e}
-         value={e}
-         onChange={(value) => onChange(value)}
-         checked={value === e}
-       />
-     ));
-   case "dropdown":
+    // case "date":
+    //   return (
+    //     <DatePickerComponent
+    //       id="datepicker"
+    //       minDate={current.getDate()}
+    //       htmlAttributes={rest?.htmlAttributes}
+    //       floatLabelType="Auto"
+    //       placeholder={rest?.placeholder}
+    //       change={({ value }) => onChange(value)}
+    //       value={value}
+    //     />
+    //   );
+      case "datetime":
+        return (
+          <DateTimePickerComponent
+            minDate={current.getDate()}
+            htmlAttributes={rest?.htmlAttributes}
+            floatLabelType="Auto"
+            step={10}
+            placeholder={rest?.placeholder}
+            change={({ value }) => onChange(value)}
+            value={value}
+          />
+        );
+    case "radio":
+      return rest?.options.map((e) => (
+        <RadioButtonComponent
+          key={e}
+          label={e}
+          value={e}
+          onChange={(value) => onChange(value)}
+          checked={value === e}
+        />
+      ));
+    case "dropdown":
       return (
-       <DropDownListComponent
+        <DropDownListComponent
           sortOrder="Ascending"
           placeholder={rest?.placeholder}
           dataSource={rest?.options}
@@ -57,21 +88,21 @@ const Input = ({ value, onChange, type, ...rest }) => {
             onChange(itemData.value);
           }}
           value={value}
-       />
-     );
+        />
+      );
 
-   case "checkbox":
-     return (
-       <CheckBoxComponent
-         label={rest?.checkboxLabel}
-         onChange={(e) => onChange(e.target.checked)}
-         checked={value}
-       />
-     );
+    case "checkbox":
+      return (
+        <CheckBoxComponent
+          label={rest?.checkboxLabel}
+          onChange={(e) => onChange(e.target.checked)}
+          checked={value}
+        />
+      );
 
-   default:
-     return null;
- }
+    default:
+      return null;
+  }
 };
 
 export default Input;
