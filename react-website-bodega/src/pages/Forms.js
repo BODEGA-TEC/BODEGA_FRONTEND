@@ -9,6 +9,7 @@ import createStudentPDF from "../utils/studentPDF";
 import createProfessorPDF from "../utils/professorPDF";
 
 import ComponentsBox from "../components/ComponentsBox/ComponentsBox";
+import ComponentsForm from "../components/ComponentsForm/ComponentsForm";
 
 const Forms = (props) => {
   const { type } = props;
@@ -18,7 +19,9 @@ const Forms = (props) => {
     current.getMonth() + 1
   }/${current.getFullYear()}`;
 
-  const submitRef = useRef(); // referencia para ejecutar el submit del form del componente DynamicForm
+  const submitRef = useRef(null); // referencia para ejecutar el submit del form del componente DynamicForm
+  const submitRef2 = useRef(null);
+  
   const [formInput, setFormInput] = useState({}); // informacion del form.
   const [signature, setSignature] = useState(""); // informacion de la firma.
   const [components, setComponents] = useState([]); // informacion de los componentes.
@@ -62,12 +65,11 @@ const Forms = (props) => {
       };
       createProfessorPDF(x);
     }
-    
   };
-
 
   const handleSubmit = async () => {
     submitRef.current.click();
+    submitRef2.current.click();
   };
 
   return (
@@ -111,8 +113,8 @@ const Forms = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <ComponentsBox setComponents={setComponents} />
+        <Grid item xs={12} md={12}>
+          <ComponentsForm submitRef={submitRef2} setComponents={setComponents} />
         </Grid>
 
         <Grid container justifyContent="space-evenly" align="center">
