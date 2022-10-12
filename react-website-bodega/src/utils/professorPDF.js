@@ -35,8 +35,8 @@ async function createPDF(props) {
 
   // Dibujar
   const specs = {size: 11, font: font, color: rgb(0, 0, 0.8) }
-  page.drawText(Solicitante, { x: 55, y: 630, ...specs});
-  page.drawText(AsistenteEntrega, { x: 220, y: 630, ...specs});
+  page.drawText(Solicitante, { x: 85, y: 605, ...specs});
+  page.drawText(AsistenteEntrega, { x: 85, y: 374, ...specs});
   // page.drawText(Nombre, { x: 388, y: 630, ...specs });
   // page.drawText(String(Carnet), { x: 55, y: 598, ...specs });
   // page.drawText(Curso, { x: 220, y: 598, ...specs });
@@ -47,9 +47,9 @@ async function createPDF(props) {
   function drawComponent(value, index) {
     const { itemName, quantity } = value;
 
-    const y = 553 - (14.5 * index);
-    page.drawText(String(quantity), { x: 58, y: y, ...specs });
-    page.drawText(itemName, { x: 125, y: y, ...specs });
+    const y = 565 - (20 * index);
+    page.drawText(String(quantity), { x: 85, y: y, ...specs });
+    page.drawText(itemName, { x: 135, y: y, ...specs });
   }
 
   // Serialize the PDFDocument to bytes (a Uint8Array)

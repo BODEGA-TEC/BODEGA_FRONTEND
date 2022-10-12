@@ -6,7 +6,7 @@
 //     'Diseño Lógico'
 //   ];
 
-const maxLength = 40;
+const maxLength = 50;
 const studentsForm = {
   title: "Solicitud de Componentes y Equipo para Estudiantes",
   description:
@@ -72,6 +72,16 @@ const professorsForm = {
       type: "text",
       defaultValue: "",
       htmlAttributes: { maxlength: maxLength },
+      rules: {
+        required: true,
+      },
+    },
+
+    Escuela: {
+      placeholder: "Escuela",
+      type: "text",
+      htmlAttributes: { maxlength: maxLength },
+      defaultValue: "",
       rules: {
         required: true,
       },
