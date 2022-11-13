@@ -9,6 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@mui/material": "^5.10.8",
+    "@syncfusion/ej2": "^20.3.56",
     "@syncfusion/ej2-inputs": "^20.3.47",
     "@syncfusion/ej2-react-buttons": "^19.4.38",
     "@syncfusion/ej2-react-calendars": "^20.3.48",
