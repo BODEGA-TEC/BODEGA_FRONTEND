@@ -39,17 +39,17 @@ async function createPDF(props) {
 
   page.drawText(Nombre + " " + PrimerApellido + " " + SegundoApellido, {
     x: 85,
-    y: 605,
+    y: 625,
     ...specs,
   });
-  page.drawText(String(Carnet), { x: 355, y: 605, ...specs });
-  page.drawText(Turno, { x: 355, y: 320, ...specs });
-  page.drawText(Fecha, { x: 445, y: 320, ...specs });
-  page.drawText(AsistenteEntrega, { x: 85, y: 374, ...specs });
+  page.drawText(String(Carnet), { x: 355, y: 625, ...specs });
+  page.drawText(Turno, { x: 355, y: 400, ...specs });
+  page.drawText(Fecha, { x: 445, y: 400, ...specs });
+  page.drawText(AsistenteEntrega, { x: 85, y: 400, ...specs });
 
   page.drawImage(pngImage, {
-    x: 430 - pngDims.width / 2,
-    y: 230,
+    x: 440 - pngDims.width / 2,
+    y: 260,
     width: pngDims.width,
     height: pngDims.height,
   });
@@ -57,11 +57,13 @@ async function createPDF(props) {
   // Dibujar los componentes
   Componentes.forEach(drawComponent);
   function drawComponent(value, index) {
-    const { itemName, quantity } = value;
+    const { Descripcion, Activo, Serie, Cantidad } = value;
 
-    const y = 565 - 20 * index;
-    page.drawText(String(quantity), { x: 85, y: y, ...specs });
-    page.drawText(itemName, { x: 135, y: y, ...specs });
+    const y = 590 - 20 * index;
+    page.drawText(String(Cantidad), { x: 85, y: y, ...specs });
+    page.drawText(Descripcion, { x: 120, y: y, ...specs });
+    page.drawText(String(Activo), { x: 355, y: y, ...specs });
+    page.drawText(String(Serie), { x: 445, y: y, ...specs });
   }
 
   // Serialize the PDFDocument to bytes (a Uint8Array)

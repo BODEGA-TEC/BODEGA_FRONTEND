@@ -26,7 +26,8 @@ const ComponentsForm = (props) => {
   };
 
   const submit = (e) => {
-    console.log(formFields);
+    // console.log(formFields);
+    setComponents(formFields);
   };
 
   return (
@@ -41,11 +42,11 @@ const ComponentsForm = (props) => {
             return (
               <div
                 key={index}
-                // style={
-                //   {
-                //     backgroundColor: "ligthgray",
-                //   }
-                // }
+                style={
+                  {
+                    backgroundColor: "ligthgray",
+                  }
+                }
               >
                 <input
                   name="Descripcion"

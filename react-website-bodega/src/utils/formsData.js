@@ -1,11 +1,3 @@
-// const courses =
-//   ['Laboratorio de Circuitos Eléctricos',
-//     'Laboratorio de Elementos Activos',
-//     'Taller de Diseño Digital',
-//     'Taller de Diseño Analógico',
-//     'Diseño Lógico'
-//   ];
-
 const maxLength = 50;
 const studentsForm = {
   title: "Solicitud de Componentes y Equipo para Estudiantes",
@@ -48,24 +40,7 @@ const studentsForm = {
         required: true,
       },
     },
-    // Curso: {
-    //   placeholder: "Curso",
-    //   type: "text",
-    //   htmlAttributes: { maxlength: maxLength },
-    //   defaultValue: "",
-    //   rules: {
-    //     required: true,
-    //   },
-    // },
-    // Escuela: {
-    //   placeholder: "Escuela",
-    //   type: "text",
-    //   htmlAttributes: { maxlength: maxLength },
-    //   defaultValue: "",
-    //   rules: {
-    //     required: true,
-    //   },
-    // },
+
     AsistenteEntrega: {
       placeholder: "Asistente que entrega",
       type: "text",
@@ -75,40 +50,6 @@ const studentsForm = {
         required: true,
       },
     },
-    // Turno: {
-    //   type: "dropdown",
-    //   options: [
-    //     "LM",
-    //     "LT",
-    //     "LN",
-    //     "KM",
-    //     "KT",
-    //     "KN",
-    //     "MM",
-    //     "MT",
-    //     "MN",
-    //     "JM",
-    //     "JT",
-    //     "JN",
-    //     "VM",
-    //     "VT",
-    //     "VN",
-    //   ],
-    //   htmlAttributes: {},
-    //   defaultValue: "",
-    //   rules: {
-    //     required: true,
-    //   },
-    // },
-    // Fecha: {
-    //   placeholder: "Turno",
-    //   type: "datetime",
-    //   htmlAttributes: {},
-    //   defaultValue: "",
-    //   rules: {
-    //     required: true,
-    //   },
-    // },
   },
 };
 

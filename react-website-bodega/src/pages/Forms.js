@@ -27,15 +27,7 @@ const Forms = (props) => {
   }, [formInput]);
 
   // Days of the week list
-  const weekday = [
-    "D",
-    "L",
-    "K",
-    "M",
-    "J",
-    "V",
-    "S",
-  ];
+  const weekday = ["D", "L", "K", "M", "J", "V", "S"];
 
   // Get actual turno and date from the system date.
   const getTurnoFecha = () => {
@@ -48,10 +40,17 @@ const Forms = (props) => {
 
     // Weekday
     let turno = weekday[current.getDay()];
-    
-    // Manana Tarde o Noche
-    const time = current.getHours();
-    turno = turno + (time < 12 ? "M" : time < 18 ? "T" : "N");
+
+    // 7:30-12md mañana
+    // 12:00-4:30 tarde
+    // 4:30-8:30pm noche
+    const curHr = current.getHours();
+    if (curHr < 12) turno += "M";
+    else if (curHr < 17) turno += "T";
+    else {
+      if (current.getMinutes() < 31) turno += "T";
+      else turno += "N";
+    }
     return { turno, date };
   };
 
@@ -63,19 +62,14 @@ const Forms = (props) => {
     }
 
     const windowWidth = window.innerWidth;
-    let scale = 0.45;
-    if (700 < windowWidth) scale = 0.2;
-    else if (550 < windowWidth) scale = 0.25;
-    else if (500 < windowWidth) scale = 0.3;
-    else if (400 < windowWidth) scale = 0.35;
+    let scale = 0.5;
+    if (700 < windowWidth) scale = 0.3;
+    else if (550 < windowWidth) scale = 0.35;
+    else if (500 < windowWidth) scale = 0.4;
+    else if (400 < windowWidth) scale = 0.45;
 
     if (type === 0) {
-      console.log("Hola");
-      console.log(formInput);
-      console.log(components);
-
       const { turno, date } = getTurnoFecha();
-      console.log(turno, date);
 
       const x = {
         ...formInput,
