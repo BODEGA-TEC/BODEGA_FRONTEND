@@ -6,7 +6,8 @@ import Services from './pages/Services';
 import Forms from './pages/Forms';
 import LogIn from './pages/LogIn';
 import News from './pages/News';
-import Terms from './pages/Terms'
+import Terms from './pages/Terms';
+import CreateAcc from './pages/CreateAcc';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/log-in' element={<LogIn />} />
           <Route path='/news' element={<News/>}/>
           <Route path='/terms' element={<Terms/>}/>
+          <Route path='/create-acc' element={<CreateAcc/>}/>
         </Routes>
       </Router>
     </>

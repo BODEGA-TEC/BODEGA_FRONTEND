@@ -50,34 +50,28 @@ export default function LogIn() {
           className='btns'
           buttonStyle= 'btn--secundary'
           buttonSize = 'btn--large'
-          onClick={boton_trig()}
           >
             Ingresar
         </Button>  
       </Box>
     </div>
-    <div style={{textAlign: 'center', paddingTop: '50px', marginLeft: "20%", marginRight: "20%", marginBottom: "50px"}}>
+    <div style={{textAlign: 'center', paddingTop: '50px', marginLeft: "20%", marginRight: "20%", marginBottom: "150px"}}>
         <Text
           text_style = 'text_title'
           text = '¿No tienes cuenta?'
         />
-        <Button 
-          className='btns'
-          buttonStyle= 'btn--secundary'
-          buttonSize = 'btn--large'
-          onClick={boton_trig()}
-          >
-          Crear Cuenta
-        </Button>  
+        <a href='/create-acc'>
+            <Button 
+            className='btns'
+            buttonStyle= 'btn--secundary'
+            buttonSize = 'btn--large'
+            >
+            Crear Cuenta
+            </Button>  
+        </a> 
     </div>
     
     <Footer/>
     </>
-  );
-}
-
-function boton_trig(){
-  return (
-    window.print()
   );
 }
