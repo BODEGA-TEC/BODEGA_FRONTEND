@@ -3,12 +3,15 @@ import {
   TextBoxComponent,
   NumericTextBoxComponent,
 } from "@syncfusion/ej2-react-inputs";
-import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
   CheckBoxComponent,
   RadioButtonComponent,
 } from "@syncfusion/ej2-react-buttons";
-import { DateTimePickerComponent  } from "@syncfusion/ej2-react-calendars";
+import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
+import {
+  DatePickerComponent,
+  DateTimePickerComponent,
+} from "@syncfusion/ej2-react-calendars";
 import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
 import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
@@ -44,30 +47,30 @@ const Input = ({ value, onChange, type, ...rest }) => {
           value={value}
         />
       );
-    // case "date":
-    //   return (
-    //     <DatePickerComponent
-    //       id="datepicker"
-    //       minDate={current.getDate()}
-    //       htmlAttributes={rest?.htmlAttributes}
-    //       floatLabelType="Auto"
-    //       placeholder={rest?.placeholder}
-    //       change={({ value }) => onChange(value)}
-    //       value={value}
-    //     />
-    //   );
-      case "datetime":
-        return (
-          <DateTimePickerComponent
-            minDate={current.getDate()}
-            htmlAttributes={rest?.htmlAttributes}
-            floatLabelType="Auto"
-            step={10}
-            placeholder={rest?.placeholder}
-            change={({ value }) => onChange(value)}
-            value={value}
-          />
-        );
+    case "date":
+      return (
+        <DatePickerComponent
+          id="datepicker"
+          minDate={current.getDate()}
+          htmlAttributes={rest?.htmlAttributes}
+          floatLabelType="Auto"
+          placeholder={rest?.placeholder}
+          change={({ value }) => onChange(value)}
+          value={value}
+        />
+      );
+    case "datetime":
+      return (
+        <DateTimePickerComponent
+          minDate={current.getDate()}
+          htmlAttributes={rest?.htmlAttributes}
+          floatLabelType="Auto"
+          step={10}
+          placeholder={rest?.placeholder}
+          change={({ value }) => onChange(value)}
+          value={value}
+        />
+      );
     case "radio":
       return rest?.options.map((e) => (
         <RadioButtonComponent

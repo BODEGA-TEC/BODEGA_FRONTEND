@@ -7,21 +7,14 @@ import { Button } from "../components/Button/Button";
 import SignaturePad from "../components/SignaturePad/SignaturePad";
 import createStudentPDF from "../utils/studentPDF";
 import createProfessorPDF from "../utils/professorPDF";
-
-import ComponentsBox from "../components/ComponentsBox/ComponentsBox";
 import ComponentsForm from "../components/ComponentsForm/ComponentsForm";
 
 const Forms = (props) => {
   const { type } = props;
 
-  const current = new Date();
-  const date = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
-
   const submitRef = useRef(null); // referencia para ejecutar el submit del form del componente DynamicForm
   const submitRef2 = useRef(null);
-  
+
   const [formInput, setFormInput] = useState({}); // informacion del form.
   const [signature, setSignature] = useState(""); // informacion de la firma.
   const [components, setComponents] = useState([]); // informacion de los componentes.
@@ -33,6 +26,36 @@ const Forms = (props) => {
     if (!skipFirstRender) generatePDF();
   }, [formInput]);
 
+  // Days of the week list
+  const weekday = [
+    "D",
+    "L",
+    "K",
+    "M",
+    "J",
+    "V",
+    "S",
+  ];
+
+  // Get actual turno and date from the system date.
+  const getTurnoFecha = () => {
+    const current = new Date();
+
+    //Fecha  dd/mm/yyyy
+    const date = `${current.getDate()}/${
+      current.getMonth() + 1
+    }/${current.getFullYear()}`;
+
+    // Weekday
+    let turno = weekday[current.getDay()];
+    
+    // Manana Tarde o Noche
+    const time = current.getHours();
+    turno = turno + (time < 12 ? "M" : time < 18 ? "T" : "N");
+    return { turno, date };
+  };
+
+  // Generate the pdf and set the respective settings
   const generatePDF = () => {
     if (signature === "") {
       alert("Se requiere la firma!");
@@ -47,9 +70,17 @@ const Forms = (props) => {
     else if (400 < windowWidth) scale = 0.35;
 
     if (type === 0) {
+      console.log("Hola");
+      console.log(formInput);
+      console.log(components);
+
+      const { turno, date } = getTurnoFecha();
+      console.log(turno, date);
+
       const x = {
         ...formInput,
-        Fecha: date,
+        Turno2: turno,
+        Fecha2: date,
         Firma: signature,
         Componentes: components,
         scale: scale,
@@ -75,7 +106,7 @@ const Forms = (props) => {
   return (
     <Container sx={{ marginTop: "2%", marginBottom: "2%" }}>
       <Grid container rowSpacing={2} justifyContent="space-between">
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Grid container align="justify">
             <Grid item xs={12} md={12}>
               {type === 0 ? (
@@ -113,8 +144,13 @@ const Forms = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={12}>
-          <ComponentsForm submitRef={submitRef2} setComponents={setComponents} />
+        <Grid item xs={12} md={7}>
+          <Grid container align="justify">
+            <ComponentsForm
+              submitRef={submitRef2}
+              setComponents={setComponents}
+            />
+          </Grid>
         </Grid>
 
         <Grid container justifyContent="space-evenly" align="center">

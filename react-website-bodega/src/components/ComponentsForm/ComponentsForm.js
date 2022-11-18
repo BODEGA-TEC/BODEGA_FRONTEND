@@ -30,60 +30,76 @@ const ComponentsForm = (props) => {
   };
 
   return (
-    <div className="something">
-      <div>
-        <h4>Ingrese los componentes que desea solicitar</h4>
-      </div>
-      <form onSubmit={submit}>
-        {formFields.map((form, index) => {
-          return (
-            <div
-              key={index}
-              // style={
-              //   {
-              //     backgroundColor: "ligthgray",
-              //   }
-              // }
-            >
-              <input
-                name="Descripcion"
-                placeholder="Descripcion"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.Descripcion}
-              />
-              <input
-                name="Activo"
-                placeholder="#Activo"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.Activo}
-              />
-              <input
-                name="Serie"
-                placeholder="#Serie"
-                onChange={(event) => handleFormChange(event, index)}
-                value={form.Serie}
-              />
-              <input
-                type="number"
-                name="Cantidad"
-                placeholder={"Cantidad: 1"}
-                onChange={(event) => handleFormChange(event, index)}
-                min="1"
-                value={form.Cantidad}
-              />
-              <span className="item-remove" onClick={() => removeFields(index)}>
-                <i className="fa fa-eraser"></i>
-              </span>
-            </div>
-          );
-        })}
-      </form>
-      <span className="item-remove" onClick={() => addFields()}>
-        <i className="fa fa-plus"></i>{" "}
-      </span>
-      <br />
-      <button ref={submitRef} type="submit" style={{ display: "none" }} onClick={submit}>Submit</button>
-    </div>
+    <Container sx={{ marginTop: "2%" }}>
+      <Grid item xs={12} md={12} align="justify">
+        <p>Ingrese los componentes que desea solicitar</p>
+      </Grid>
+
+      <Grid item xs={12} md={12} align="justify">
+        <form onSubmit={submit}>
+          {formFields.map((form, index) => {
+            return (
+              <div
+                key={index}
+                // style={
+                //   {
+                //     backgroundColor: "ligthgray",
+                //   }
+                // }
+              >
+                <input
+                  name="Descripcion"
+                  placeholder="Descripcion"
+                  onChange={(event) => handleFormChange(event, index)}
+                  value={form.Descripcion}
+                />
+                <input
+                  name="Activo"
+                  placeholder="#Activo"
+                  onChange={(event) => handleFormChange(event, index)}
+                  style={{ width: "17%" }}
+                  value={form.Activo}
+                />
+                <input
+                  name="Serie"
+                  placeholder="#Serie"
+                  onChange={(event) => handleFormChange(event, index)}
+                  style={{ width: "17%" }}
+                  value={form.Serie}
+                />
+                <input
+                  type="number"
+                  name="Cantidad"
+                  placeholder={"1"}
+                  onChange={(event) => handleFormChange(event, index)}
+                  min="1"
+                  style={{ width: "8%" }}
+                  value={form.Cantidad}
+                />
+                <span
+                  className="item-remove"
+                  onClick={() => removeFields(index)}
+                >
+                  <i className="fa fa-eraser"></i>
+                </span>
+              </div>
+            );
+          })}
+        </form>
+        <span className="item-remove" onClick={() => addFields()}>
+          <i className="fa fa-plus"></i>{" "}
+        </span>
+        <br />
+        <button
+          ref={submitRef}
+          type="submit"
+          style={{ display: "none" }}
+          onClick={submit}
+        >
+          Submit
+        </button>
+      </Grid>
+    </Container>
   );
 };
 

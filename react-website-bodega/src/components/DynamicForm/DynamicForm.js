@@ -54,7 +54,7 @@ const DynamicForm = (props) => {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <Container sx={{ marginTop: "2%" }}>
+    <Container>
       <Grid container rowSpacing={3}>
         <Grid item align="center">
           <h2>{title}</h2>
@@ -70,7 +70,10 @@ const DynamicForm = (props) => {
             {formInputs}
             {/* Invisible button to be able to activate the submit of the form through 
             the reference to the submit button of the parent class. */}
-            <button ref={submitRef} type="submit" style={{ display: "none" }}> child Submit </button>
+            <button ref={submitRef} type="submit" style={{ display: "none" }}>
+              {" "}
+              child Submit{" "}
+            </button>
           </form>
         </Grid>
       </Grid>
