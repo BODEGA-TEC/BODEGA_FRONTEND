@@ -6,6 +6,7 @@ import Services from './pages/Services';
 import Forms from './pages/Forms';
 import LogIn from './pages/LogIn';
 import News from './pages/News';
+import Terms from './pages/Terms'
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route path='/forms' element={<Forms/>}/>
           <Route path='/log-in' element={<LogIn />} />
           <Route path='/news' element={<News/>}/>
-
+          <Route path='/terms' element={<Terms/>}/>
         </Routes>
       </Router>
     </>

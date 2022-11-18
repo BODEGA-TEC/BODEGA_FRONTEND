@@ -1,0 +1,42 @@
+:root{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 100;
+    
+}
+
+.text_normal{
+    font-size: 20px;
+    color: #000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.text_small{
+    font-style: normal;
+    font-size: 10px;
+    color: #000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.text_title{
+    font-weight: bold;
+    font-size: 40px;
+    color: #000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.text__wrapper {
+    position:relative;
+}
+
+.text_container{
+    background-color:  #fff;
+    align-items: center;
+    max-width: 1120px;
+    width: 90%;
+    margin: 100;
+}
+
+
