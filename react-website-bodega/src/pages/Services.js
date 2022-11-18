@@ -2,7 +2,6 @@ import React from 'react';
 import '../App.css';
 import Text from '../components/Text/Text';
 import Footer from '../components/Footer/Footer';
-import {Link, Route} from 'react-router-dom';
 export default function Services() {
   return (
     <>
@@ -75,7 +74,7 @@ export default function Services() {
         />
         <a href='https://www.google.com/maps/place/Escuela+de+Ingenier%C3%ADa+Electr%C3%B3nica.+TEC/@9.8547925,-83.907679,18.75z/data=!4m12!1m6!3m5!1s0x8fa0dff29640d73b:0xc11e19b85da8947f!2sTecnol%C3%B3gico+de+Costa+Rica!8m2!3d9.857247!4d-83.912313!3m4!1s0x0:0xff093cc7301877ce!8m2!3d9.8548824!4d-83.9071411?hl=es-419'>Ver ubicación en Maps</a>
       </div>
-      <div style={{textAlign: 'center', paddingTop: '10px', marginLeft: "20%", marginRight: "20%", marginBottom: "50px"}}>
+      <div style={{textAlign: 'center', paddingTop: '10px', marginLeft: "20%", marginRight: "20%", marginBottom: "150px"}}>
         <Text
           text_style = 'text_title'
           text = 'Contactos'

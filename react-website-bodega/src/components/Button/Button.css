@@ -16,6 +16,13 @@
     color: #242424;
     border: 1px solid var(--primary);
   }
+  .btn--secundary{
+    background-color:rgba(14, 56, 117, 0.637);
+    color: #ffffff;
+    font-weight: bold;
+    border: 2px black;
+    margin-bottom: 10px;
+  }
   
   .btn--outline {
     background-color: transparent;
@@ -41,4 +48,11 @@
     background: #fff;
     color: #242424;
     transition: 250ms;
+  }
+  .btn--secundary:hover {
+    transition: all 0.3s ease-out;
+    background: rgb(23, 31, 97);
+    color: #fffdfd;
+    transition: 250ms;
+    margin-bottom: 10px;
   }
