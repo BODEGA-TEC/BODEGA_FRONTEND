@@ -8,11 +8,11 @@ async function createPDF(props) {
     PrimerApellido,
     SegundoApellido,
     Carnet,
-    Turno2,
+    Turno,
     AsistenteEntrega,
     Firma,
     Componentes,
-    Fecha2,
+    Fecha,
     scale,
   } = props;
 

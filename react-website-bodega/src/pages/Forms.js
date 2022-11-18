@@ -79,8 +79,8 @@ const Forms = (props) => {
 
       const x = {
         ...formInput,
-        Turno2: turno,
-        Fecha2: date,
+        Turno: turno,
+        Fecha: date,
         Firma: signature,
         Componentes: components,
         scale: scale,
