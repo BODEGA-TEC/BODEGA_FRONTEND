@@ -6,8 +6,8 @@ async function createPDF(props) {
   const {
     Solicitante,
     AsistenteEntrega,
-    Turno,
-    Fecha,
+    // Turno,
+    // Fecha,
     Firma,
     Componentes,
     scale

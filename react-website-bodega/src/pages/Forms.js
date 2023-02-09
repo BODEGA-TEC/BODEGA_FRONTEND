@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "../App.css";
 import { Container, Grid } from "@mui/material";
 import DynamicForm from "../components/DynamicForm/DynamicForm";
@@ -18,13 +18,6 @@ const Forms = (props) => {
   const [formInput, setFormInput] = useState({}); // informacion del form.
   const [signature, setSignature] = useState(""); // informacion de la firma.
   const [components, setComponents] = useState([]); // informacion de los componentes.
-
-  // const delay = ms => new Promise(res => setTimeout(res, ms));
-  const [skipFirstRender, setSkipFirstRender] = useState(true);
-  useEffect(() => {
-    if (skipFirstRender) setSkipFirstRender(false);
-    if (!skipFirstRender) generatePDF();
-  }, [formInput]);
 
   // Days of the week list
   const weekday = ["D", "L", "K", "M", "J", "V", "S"];
@@ -47,13 +40,13 @@ const Forms = (props) => {
     const curHr = current.getHours();
     if (curHr < 12) turno += "M";
     else if (curHr < 16) turno += "T";
-    else if (curHr == 16 && current.getMinutes() < 31) turno += "T";
+    else if (curHr === 16 && current.getMinutes() < 31) turno += "T";
     else turno += "N";
     return { turno, date };
   };
 
-  // Generate the pdf and set the respective settings
-  const generatePDF = () => {
+  // Check filled fields and generate the pdf and set the respective settings
+  const checkFields = () => {
     if (signature === "") {
       alert("Se requiere la firma!");
       return;
@@ -93,6 +86,7 @@ const Forms = (props) => {
   const handleSubmit = async () => {
     submitRef.current.click();
     submitRef2.current.click();
+    checkFields();
   };
 
   return (
