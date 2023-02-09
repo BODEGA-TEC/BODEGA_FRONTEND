@@ -1,0 +1,9 @@
+.title {
+  font-family: sans-serif;
+  font-weight: italic;
+  text-align: left;
+}
+
+.sigCanvas {
+  border: 2px solid rgb(204, 201, 201);
+}
