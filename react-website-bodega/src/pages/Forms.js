@@ -46,11 +46,9 @@ const Forms = (props) => {
     // 4:30-8:30pm noche
     const curHr = current.getHours();
     if (curHr < 12) turno += "M";
-    else if (curHr < 17) turno += "T";
-    else {
-      if (current.getMinutes() < 31) turno += "T";
-      else turno += "N";
-    }
+    else if (curHr < 16) turno += "T";
+    else if (curHr == 16 && current.getMinutes() < 31) turno += "T";
+    else turno += "N";
     return { turno, date };
   };
 
