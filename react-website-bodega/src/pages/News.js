@@ -1,5 +1,7 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
+import Text from '../components/Text/Text';
+import Footer from '../components/Footer/Footer';
 // import axios from 'axios';
 
 
@@ -41,11 +43,16 @@ const News = () => {
   };
 
     return (
+        <>
+        <h1 className='news'>Noticias</h1>
         <div>
         <pre dangerouslySetInnerHTML={{
             __html: JSON.stringify(news, null, 2),
         }} />
+        
         </div>
+        <Footer/>
+        </>
       );
     }
 

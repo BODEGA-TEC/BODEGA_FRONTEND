@@ -1,22 +1,36 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
-  font-family: 'PT Sans', sans-serif;
+  padding: 1;
 }
 
 .home,
 .services,
 .forms,
+.terms,
+
 .log-in{
+  font-family: 'PT Sans', sans-serif;
+  margin: 0;
   display: flex;
-  height: 90vh;
+  height: 30vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
 }
 
 .services {
+  font-family: 'PT Sans', sans-serif;
+  background-image: url("/public/images/img-2.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.terms{
+  font-family: 'PT Sans', sans-serif;
   background-image: url("/public/images/img-2.jpg");
   background-position: center;
   background-size: cover;
@@ -26,6 +40,7 @@
 }
 
 .forms{
+  font-family: 'PT Sans', sans-serif;
   background-image: url('/public/images/img-12.jpg');
   background-position: center;
   background-size: cover;
@@ -35,6 +50,27 @@
 }
 
 .log-in{
+  font-family: 'PT Sans', sans-serif;
+  background-image: url('/public/images/img-8.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.create-acc{
+  font-family: 'PT Sans', sans-serif;
+  background-image: url('/public/images/img-8.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.news{
+  font-family: 'PT Sans', sans-serif;
   background-image: url('/public/images/img-8.jpg');
   background-position: center;
   background-size: cover;
