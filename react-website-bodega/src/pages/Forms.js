@@ -24,7 +24,6 @@ const Forms = (props) => {
   useEffect(() => {
     if (skipFirstRender) setSkipFirstRender(false);
     if (!skipFirstRender) generatePDF();
-    // eslint-disable-next-line
   }, [formInput]);
 
   // Days of the week list
@@ -48,7 +47,7 @@ const Forms = (props) => {
     const curHr = current.getHours();
     if (curHr < 12) turno += "M";
     else if (curHr < 16) turno += "T";
-    else if (curHr === 16 && current.getMinutes() < 31) turno += "T";
+    else if (curHr == 16 && current.getMinutes() < 31) turno += "T";
     else turno += "N";
     return { turno, date };
   };

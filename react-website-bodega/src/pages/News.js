@@ -1,6 +1,6 @@
 import '../App.css';
 import React, { useState, useEffect } from 'react';
-// import Text from '../components/Text/Text';
+import Text from '../components/Text/Text';
 import Footer from '../components/Footer/Footer';
 // import axios from 'axios';
 
