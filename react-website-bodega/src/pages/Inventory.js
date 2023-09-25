@@ -1,10 +1,13 @@
 import '../App.css';
 import Footer from '../components/Footer/Footer';
 import Text from '../components/Text/Text';
-import { useState } from "react";
 import {DataGrid} from '@mui/x-data-grid'
-
+import { Button } from '@mui/material';
+import data from './exampleJson.json'
+import { useState } from 'react';
 const Inventory = () => {
+    
+    const [rows, setRowsValues] = useState([]);
 
     const columns = [
         {field: 'id',headerName: 'ID', width: 150,},
@@ -23,25 +26,20 @@ const Inventory = () => {
         return {id, categoria, estado, descrip, num_activo, marca, model, num_Tec, serie, observa};
       }
       
-    const rows = [
-    createData(1,"MULTIMETRO", "DISPONIBLE", "EQUIPO 1", "EQ1", "Marca A", "Modelo X", "000", "12345", "null"),
-    createData(2,"GENERADOR FUNCIONES", "AGOTADO", "EQUIPO 2", "EQ2", "Marca B", "null", "null", "67890", "null")
-    ];
+    
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchFilter, setSearchFilter] = useState("No. Activo")
-
-
-    function onSearch (){
-        window.alert(searchTerm);
-    }
-
-    const handleChangeSearchBar = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleChangeSearchFilter = (event) =>{
-        setSearchFilter(event.target.value);
+    const handleUpdateTable = (event) =>{
+        let rowsAux = []
+        data.data.forEach(
+            (device) =>{
+                rowsAux = Object.assign([], rowsAux);
+                rowsAux.push(
+                    createData(device.id, device.categoria.nombre, device.estado.descripcion, device.descripcion ,device.activoBodega, 
+                        device.marca, device.modelo, device.activoTec, device.serie, device.observaciones)
+                    );
+            }
+        );
+        setRowsValues(rowsAux)
     }
 
     return(
@@ -50,7 +48,7 @@ const Inventory = () => {
             <Text text= "Buscar en inventario" text_style="text_title"/>
             </div>
             
-            <div style={{marginBottom: '100px', marginLeft: '5%' , maxWidth: '90%'}}>
+            <div style={{ marginLeft: '5%' , maxWidth: '90%'}}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -62,6 +60,9 @@ const Inventory = () => {
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
                 />
+            </div>
+            <div style={{marginBottom: '100px', marginTop: '20px', marginLeft: '5%'}}>
+            <Button variant="contained" onClick={handleUpdateTable}>Actualizar</Button>
             </div>
         <div style={{marginBottom: '0%'}}>               
         <Footer/>
