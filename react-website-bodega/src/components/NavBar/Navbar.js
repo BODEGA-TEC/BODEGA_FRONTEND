@@ -59,6 +59,15 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link
+                to="/inventory"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Inventory
+              </Link>
+            </li>
+            <li className="nav-item">
               <div className="dropdown">
                 <button className="dropbtn">Formularios</button>
                 <div className="dropdown-content">
