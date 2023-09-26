@@ -8,7 +8,7 @@ import { useState } from 'react';
 const Inventory = () => {
     
     const [rows, setRowsValues] = useState([]);
-
+    {/*Definición de la estructura de las columnas en el Data Grid */}
     const columns = [
         {field: 'id',headerName: 'ID', width: 150,},
         {field: 'descrip',headerName: 'Descripción', width: 150,},
@@ -27,19 +27,24 @@ const Inventory = () => {
       }
       
     
-
+    {/*Cuando el botón "Actualizar" es clickeado, se recaban todos los datos */}
     const handleUpdateTable = (event) =>{
         let rowsAux = []
-        data.data.forEach(
-            (device) =>{
-                rowsAux = Object.assign([], rowsAux);
-                rowsAux.push(
-                    createData(device.id, device.categoria.nombre, device.estado.descripcion, device.descripcion ,device.activoBodega, 
-                        device.marca, device.modelo, device.activoTec, device.serie, device.observaciones)
-                    );
-            }
-        );
-        setRowsValues(rowsAux)
+        {/*Acá se ha de ingresar la función para recoger los objetos JSON de la
+        base de datos*/}
+        if (data.success === true){
+            data.data.forEach(
+                (device) =>{
+                    rowsAux = Object.assign([], rowsAux);
+                    rowsAux.push(
+                        createData(device.id, device.categoria.nombre, device.estado.descripcion, device.descripcion ,device.activoBodega, 
+                            device.marca, device.modelo, device.activoTec, device.serie, device.observaciones)
+                        );
+                }
+            );
+            setRowsValues(rowsAux)
+        }
+           
     }
 
     return(
@@ -47,7 +52,7 @@ const Inventory = () => {
             <div style={{marginLeft: '5%', marginTop: '50px'}}>
             <Text text= "Buscar en inventario" text_style="text_title"/>
             </div>
-            
+            {/*Data grid. Esencialmente, una tabla especializada.*/}
             <div style={{ marginLeft: '5%' , maxWidth: '90%'}}>
                 <DataGrid
                     rows={rows}
