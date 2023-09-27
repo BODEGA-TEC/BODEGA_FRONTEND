@@ -7,35 +7,36 @@ import TextField from '@mui/material/TextField';
 import { Button } from '../components/Button/Button';
 
 export default function LogIn() {
-  const [token, setToken] = useState(''); // Estado para almacenar el token
+  const [token, setToken] = useState('');
+  const [carnet, setCarnet] = useState('');
+  const [clave, setClave] = useState('');
 
-  // Función para manejar el envío del formulario
   const handleLogin = async () => {
     const apiUrl = 'http://localhost:5145/api/login';
+
     const requestBody = {
-      carne: '0000000001',
-      clave: 'Asistente_1',
+      carne: carnet,
+      clave: clave,
     };
+
+    console.log(JSON.stringify(requestBody))
+    console.log(JSON.stringify(requestBody))
+    console.log(JSON.stringify(requestBody))
 
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {'accept': 'text/plain',
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
-        
         const data = await response.json();
         const { data: tokenData } = data;
 
-
-
-        // Guardar el token en el estado
         setToken(tokenData);
-
         // Redirigir o realizar acciones adicionales según lo necesites
       } else {
         // Manejar errores de autenticación aquí
@@ -70,9 +71,10 @@ export default function LogIn() {
           <div style={{ marginBottom: '10px', marginTop: '10px' }}>
             <TextField
               required
-              id="mail_login"
-              label="Correo"
+              id="carnet_login"
+              label="Carnet"
               defaultValue=""
+              onChange={(e) => setCarnet(e.target.value)}
             />
           </div>
           <div style={{ marginBottom: "25px" }}>
@@ -81,13 +83,14 @@ export default function LogIn() {
               id="pass_login"
               label="Contraseña"
               defaultValue=""
+              onChange={(e) => setClave(e.target.value)}
             />
           </div>
           <Button
             className='btns'
             buttonStyle='btn--secundary'
             buttonSize='btn--large'
-            onClick={handleLogin} // Llama a la función al hacer clic en "Ingresar"
+            onClick={handleLogin}
           >
             Ingresar
           </Button>
