@@ -58,15 +58,29 @@ function Navbar() {
                 Servicios
               </Link>
             </li>
+
             <li className="nav-item">
-              <Link
-                to="/inventory"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                Inventory
-              </Link>
+              <div className="dropdown">
+                <button className="dropbtn">Inventario</button>
+                <div className="dropdown-content">
+                  <Link
+                    to={'/consultInventory'}
+                    className="nav-links"
+                    onClick={closeMobileMenu}
+                  >
+                    Consultar
+                  </Link>
+                  <Link
+                    to="/editInventory"
+                    className="nav-links"
+                    onClick={closeMobileMenu}
+                  >
+                    Actualizar
+                  </Link>
+                </div>
+              </div>
             </li>
+
             <li className="nav-item">
               <div className="dropdown">
                 <button className="dropbtn">Formularios</button>

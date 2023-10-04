@@ -62,7 +62,7 @@ const Inventory = () => {
       <div style={{ marginLeft: '5%', marginTop: '50px' }}>
         <Text text="Buscar en inventario" text_style="text_title" />
       </div>
-      <div style={{ marginLeft: '5%', maxWidth: '90%' }}>
+      <div style={{ marginLeft: '5%', maxWidth: '90%', marginBottom: '10%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
