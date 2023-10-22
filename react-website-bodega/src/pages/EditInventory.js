@@ -52,7 +52,7 @@ const EditInventory = () => {
         // Actualizar el estado de los estados con los datos obtenidos
         const estadosData = data.data.map((estado) => ({
           value: estado.id.toString(),
-          label: estado.descripcion,
+          label: estado.nombre,
         }));
         setEstado(estadosData);
       })

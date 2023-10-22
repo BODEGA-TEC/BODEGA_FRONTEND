@@ -7,11 +7,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 const Inventory = () => {
   const [rows, setRowsValues] = useState([]);
   const columns = [
-    {field: 'id',headerName: 'ID', width: 150,},
+    {field: 'id',headerName: 'ID', width: 80,},
     {field: 'descrip',headerName: 'Descripción', width: 150,},
     {field: 'categoria',headerName: 'Categoría', width: 150,},
-    {field: 'marca',headerName: 'Marca', width: 150,},
-    {field: 'model',headerName: 'Modelo', width: 150,},
+    {field: 'marca',headerName: 'Marca', width: 100,},
+    {field: 'model',headerName: 'Modelo', width: 100,},
     { field: 'serie', headerName: 'Serie', width: 130 },
     {field: 'estado',headerName: 'Estado', width: 150,},
     { field: 'num_activo', headerName: 'No. Activo', width: 130 },
@@ -35,7 +35,7 @@ const Inventory = () => {
           createData(
             device.id,
             device.categoria.nombre,
-            device.estado.descripcion,
+            device.estado.nombre,
             device.descripcion,
             device.activoBodega,
             device.marca,
@@ -59,10 +59,10 @@ const Inventory = () => {
 
   return (
     <>
-      <div style={{ marginLeft: '5%', marginTop: '50px' }}>
-        <Text text="Buscar en inventario" text_style="text_title" />
+      <div style={{ marginLeft: '2%', marginTop: '10px' }}>
+        <Text text="Inventario" text_style="text_title" />
       </div>
-      <div style={{ marginLeft: '5%', maxWidth: '90%', marginBottom: '10%' }}>
+      <div style={{ marginLeft: '2%', marginRight: '2%', maxWidth: '100%', marginBottom: '10%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
