@@ -15,14 +15,15 @@ import {GridActionsCellItem} from '@mui/x-data-grid';
 const Inventory = () => {
   const [rows, setRowsValues] = useState([]);
   const columns = [
-    {field: 'num_activo', headerName: '# Activo', width: 80 },
     {field: 'num_Tec',headerName: '# Activo Tec', width: 100,},
     {field: 'serie', headerName: '# Serie', width: 100 },
+    {field: 'estante', headerName: 'Estante', width: 100 },
+    {field: 'descrip',headerName: 'Descripción', width: 200,},
     {field: 'categoria',headerName: 'Categoría', width: 170,},
     {field: 'marca',headerName: 'Marca', width: 100,},
     {field: 'model',headerName: 'Modelo', width: 100,},
-    {field: 'descrip',headerName: 'Descripción', width: 200,},
     {field: 'estado',headerName: 'Estado', width: 150,},
+    {field: 'fecha',headerName: 'Fecha registro', width: 100,},
     {field: 'observa',headerName: 'Observaciones', width: 250,},
     {
       field: 'actions',
@@ -45,9 +46,18 @@ const Inventory = () => {
     },
   ];
 
-  function createData(id, categoria, estado, descrip, num_activo, marca, model, num_Tec, serie, observa) {
-    return { id, categoria, estado, descrip, num_activo, marca, model, num_Tec, serie, observa };
+  function createData(id, categoria, estado, descrip, marca, model, num_Tec, serie,fecha, observa) {
+    return { id, categoria, estado, descrip, marca, model, num_Tec, serie,fecha, observa };
   }
+
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Se suma 1 al mes porque los meses se indexan desde 0 (0 = enero, 1 = febrero, etc.)
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  
 
   const fetchData = useCallback(async () => {
     try {
@@ -63,11 +73,11 @@ const Inventory = () => {
             device.categoria.nombre,
             device.estado.nombre,
             device.descripcion,
-            device.activoBodega,
             device.marca,
             device.modelo,
             device.activoTec,
             device.serie,
+            formatDate(device.fechaRegistro),
             device.observaciones
           )
         );
@@ -90,11 +100,11 @@ const Inventory = () => {
     categoriaId: "",
     estadoId: "",
     descripcion: "",
-    activoBodega: "",
     marca: "",
     modelo: "",
     activoTec: "",
     serie: "",
+    estante: "",
     observaciones: "",
   });
   const [alertVisible, setAlertVisible] = useState(false);
@@ -156,7 +166,6 @@ const Inventory = () => {
             categoriaId: "",
             estadoId: "",
             descripcion: "",
-            activoBodega: "",
             marca: "",
             modelo: "",
             activoTec: "",
@@ -213,20 +222,6 @@ const Inventory = () => {
               }}
             >
               <TextField
-                id="no_activo_bodega_new"
-                style={{ marginRight: "2%"}}
-                label="No. Activo Bodega"
-                fullWidth
-                value={nuevoActivo.activoBodega}
-                variant="outlined"
-                onChange={(e) =>
-                  setNuevoActivo({
-                    ...nuevoActivo,
-                    activoBodega: e.target.value,
-                  })
-                }
-              />
-              <TextField
                 id="no_activo_tec_new"
                 style={{ marginRight: "2%" }}
                 label="No. Activo Tec"
@@ -241,10 +236,21 @@ const Inventory = () => {
                 id="serie_new"
                 label="Serie"
                 fullWidth
+                style={{ marginRight: "2%" }}
                 value={nuevoActivo.serie}
                 variant="outlined"
                 onChange={(e) =>
                   setNuevoActivo({ ...nuevoActivo, serie: e.target.value })
+                }
+              />
+                <TextField
+                id="estante_new"
+                label="Estante"
+                fullWidth
+                value={nuevoActivo.estante}
+                variant="outlined"
+                onChange={(e) =>
+                  setNuevoActivo({ ...nuevoActivo, estante: e.target.value })
                 }
               />
             </div>
