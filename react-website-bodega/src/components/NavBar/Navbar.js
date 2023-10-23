@@ -68,14 +68,14 @@ function Navbar() {
                     className="nav-links"
                     onClick={closeMobileMenu}
                   >
-                    Consultar
+                    Equipo
                   </Link>
                   <Link
-                    to="/editInventory"
+                    to="/"
                     className="nav-links"
                     onClick={closeMobileMenu}
                   >
-                    Actualizar
+                    Componentes
                   </Link>
                 </div>
               </div>

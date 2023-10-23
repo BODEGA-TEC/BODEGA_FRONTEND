@@ -9,20 +9,40 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import {GridActionsCellItem} from '@mui/x-data-grid';
 
 const Inventory = () => {
   const [rows, setRowsValues] = useState([]);
   const columns = [
-    {field: 'id',headerName: 'ID', width: 50,},
-    {field: 'descrip',headerName: 'Descripción', width: 150,},
-    {field: 'categoria',headerName: 'Categoría', width: 200,},
-    {field: 'marca',headerName: 'Marca', width: 150,},
-    {field: 'model',headerName: 'Modelo', width: 150,},
-    {field: 'serie', headerName: 'Serie', width: 100 },
+    {field: 'num_activo', headerName: '# Activo', width: 80 },
+    {field: 'num_Tec',headerName: '# Activo Tec', width: 100,},
+    {field: 'serie', headerName: '# Serie', width: 100 },
+    {field: 'categoria',headerName: 'Categoría', width: 170,},
+    {field: 'marca',headerName: 'Marca', width: 100,},
+    {field: 'model',headerName: 'Modelo', width: 100,},
+    {field: 'descrip',headerName: 'Descripción', width: 200,},
     {field: 'estado',headerName: 'Estado', width: 150,},
-    {field: 'num_activo', headerName: 'No. Activo', width: 100 },
-    {field: 'num_Tec',headerName: 'No. Activo Tec', width: 100,},
-    {field: 'observa',headerName: 'Observaciones', width: 150,},
+    {field: 'observa',headerName: 'Observaciones', width: 250,},
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: '',
+      width: 50,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        //const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+  
+        return [
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            //onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
   ];
 
   function createData(id, categoria, estado, descrip, num_activo, marca, model, num_Tec, serie, observa) {
@@ -290,23 +310,10 @@ const Inventory = () => {
                 }
               />
               <TextField
-                style={{ marginRight: "2%" }}
-                id="observations_new"
-                fullWidth
-                label="Observaciones"
-                value={nuevoActivo.observaciones}
-                multiline
-                onChange={(e) =>
-                  setNuevoActivo({
-                    ...nuevoActivo,
-                    observaciones: e.target.value,
-                  })
-                }
-              />
-              <TextField
                 id="estatus_new"
                 select
                 fullWidth
+                style={{ marginRight: "2%" }}
                 label="Estado"
                 value={nuevoActivo.estadoId}
                 onChange={(e) =>
@@ -320,6 +327,19 @@ const Inventory = () => {
                   </MenuItem>
                 ))}
               </TextField>
+              <TextField
+                id="observations_new"
+                fullWidth
+                label="Observaciones"
+                value={nuevoActivo.observaciones}
+                multiline
+                onChange={(e) =>
+                  setNuevoActivo({
+                    ...nuevoActivo,
+                    observaciones: e.target.value,
+                  })
+                }
+              />
             </div>
             <div style={{marginBottom: "2%"}}>
               {/* Agregar la alerta aquí */}
@@ -338,12 +358,6 @@ const Inventory = () => {
                 Añadir
               </Button>
             
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            Item Two
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-            Item Three
           </CustomTabPanel>
         </Box>
       </div>

@@ -9,7 +9,6 @@ import News from "./pages/News";
 import Terms from "./pages/Terms";
 import CreateAcc from "./pages/CreateAcc";
 import ConsultInventory from "./pages/ConsultInventory";
-import EditInventory from "./pages/EditInventory";
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/create-acc" element={<CreateAcc />} />
           <Route path="/consultInventory" element={<ConsultInventory/>} />
-          <Route path="/editInventory" element={<EditInventory/>} />
         </Routes>
       </Router>
     </>
