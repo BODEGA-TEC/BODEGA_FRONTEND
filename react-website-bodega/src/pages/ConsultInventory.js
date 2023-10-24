@@ -105,7 +105,6 @@ const Inventory = () => {
     modelo: "",
     activoTec: "",
     serie: "",
-    estante: "",
     observaciones: "",
   });
   const [alertVisible, setAlertVisible] = useState(false);
@@ -180,6 +179,8 @@ const Inventory = () => {
           }, 1000); // Ejemplo: recarga la página después de 1 segundo
         } else {
           // Si hubo un error en el servidor, muestra la alerta de error
+          console.log("Error:");
+          console.log(JSON.stringify(nuevoActivo));
           setAlertMessage("Error al agregar el activo");
           setAlertVisible(true);
         }
@@ -248,11 +249,11 @@ const Inventory = () => {
                 id="estante_new"
                 label="Estante"
                 fullWidth
-                value={nuevoActivo.estante}
+                //value={nuevoActivo.estante}
                 variant="outlined"
-                onChange={(e) =>
-                  setNuevoActivo({ ...nuevoActivo, estante: e.target.value })
-                }
+                //onChange={(e) =>
+                //  setNuevoActivo({ ...nuevoActivo, estante: e.target.value })
+                //}
               />
             </div>
             <div style={{ marginTop: "1%", width: "100%", display: "flex" }}>
