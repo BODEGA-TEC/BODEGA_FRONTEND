@@ -5,7 +5,7 @@ import Text from '../components/Text/Text';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button } from '../components/Button/Button';
-import { web_bodega_host } from '../constants/hosts';
+import { current_host } from '../constants/hosts';
 
 export default function LogIn() {
   const [token, setToken] = useState('');
@@ -13,7 +13,7 @@ export default function LogIn() {
   const [clave, setClave] = useState('');
 
   const handleLogin = async () => {
-    const apiUrl = web_bodega_host+'/login';
+    const apiUrl = current_host+'/login';
 
     const requestBody = {
       carne: carnet,
