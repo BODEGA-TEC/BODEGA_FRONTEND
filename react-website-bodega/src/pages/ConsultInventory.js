@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import {GridActionsCellItem} from '@mui/x-data-grid';
+import { web_bodega_host } from '../constants/hosts';
 
 const Inventory = () => {
   const [rows, setRowsValues] = useState([]);
@@ -61,7 +62,7 @@ const Inventory = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5145/api/equipo');
+      const response = await fetch(web_bodega_host+'/equipo');
       if (!response.ok) {
         throw new Error('Error al obtener los datos');
       }
@@ -112,7 +113,7 @@ const Inventory = () => {
 
   useEffect(() => {
     // Realizar la solicitud GET para obtener las categorías
-    fetch("http://localhost:5145/api/categorias/equipo")
+    fetch(web_bodega_host+"/categorias/equipo")
       .then((response) => response.json())
       .then((data) => {
         // Actualizar el estado de la categoría con los datos obtenidos
@@ -127,7 +128,7 @@ const Inventory = () => {
       });
 
     // Realizar la solicitud GET para obtener los estados
-    fetch("http://localhost:5145/api/estados")
+    fetch(web_bodega_host+"/estados")
       .then((response) => response.json())
       .then((data) => {
         // Actualizar el estado de los estados con los datos obtenidos
@@ -148,7 +149,7 @@ const Inventory = () => {
 
   const agregarNuevoActivo = () => {
     // Realiza la solicitud POST utilizando el objeto nuevoActivo
-    fetch("http://localhost:5145/api/equipo", {
+    fetch(web_bodega_host+"/equipo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

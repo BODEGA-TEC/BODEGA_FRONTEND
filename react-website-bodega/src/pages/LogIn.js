@@ -12,7 +12,7 @@ export default function LogIn() {
   const [clave, setClave] = useState('');
 
   const handleLogin = async () => {
-    const apiUrl = 'http://localhost:5145/api/login';
+    const apiUrl = web_bodega_host+'/login';
 
     const requestBody = {
       carne: carnet,
