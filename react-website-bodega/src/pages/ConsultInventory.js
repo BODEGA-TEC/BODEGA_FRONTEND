@@ -217,6 +217,7 @@ const Inventory = () => {
         } else {
           // Si hubo un error en el servidor, muestra la alerta de error
           console.log(JSON.stringify(nuevoActivo));
+          console.log(data);
           setAlertMessage("Error al agregar el activo");
           setAlertVisible(true);
         }
