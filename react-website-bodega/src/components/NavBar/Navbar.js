@@ -37,19 +37,22 @@ function Navbar() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-            Bodega Web <img className="bodega-logo" src="/logo.png" alt="logo" />
+            Bodega Web{" "}
+            <img className="bodega-logo" src="/logo.png" alt="logo" />
           </Link>
 
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"} />
           </div>
+
           <ul className={click ? "nav-menu active" : "nav-menu"}>
             <li className="nav-item">
               <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                 Inicio
               </Link>
             </li>
-            <li className="nav-item">
+
+            {/* <li className="nav-item">
               <Link
                 to="/services"
                 className="nav-links"
@@ -57,47 +60,21 @@ function Navbar() {
               >
                 Servicios
               </Link>
-            </li>
+            </li> */}
 
             <li className="nav-item">
               <div className="dropdown">
                 <button className="dropbtn">Inventario</button>
                 <div className="dropdown-content">
                   <Link
-                    to={'/consultInventory'}
+                    to={"/consultInventory"}
                     className="nav-links"
                     onClick={closeMobileMenu}
                   >
                     Equipo
                   </Link>
-                  <Link
-                    to="/"
-                    className="nav-links"
-                    onClick={closeMobileMenu}
-                  >
+                  <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                     Componentes
-                  </Link>
-                </div>
-              </div>
-            </li>
-
-            <li className="nav-item">
-              <div className="dropdown">
-                <button className="dropbtn">Formularios</button>
-                <div className="dropdown-content">
-                  <Link
-                    to={'/forms/estudiante'}
-                    className="nav-links"
-                    onClick={closeMobileMenu}
-                  >
-                    Estudiante
-                  </Link>
-                  <Link
-                    to="/forms/profesor"
-                    className="nav-links"
-                    onClick={closeMobileMenu}
-                  >
-                    Profesor
                   </Link>
                 </div>
               </div>
