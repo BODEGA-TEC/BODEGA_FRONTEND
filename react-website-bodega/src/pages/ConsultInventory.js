@@ -1,40 +1,43 @@
-import '../App.css';
-import Footer from '../components/Footer/Footer';
-import Text from '../components/Text/Text';
-import { DataGrid } from '@mui/x-data-grid';
-import React, { useEffect, useState, useCallback } from 'react';
+import "../App.css";
+import Footer from "../components/Footer/Footer";
+import Text from "../components/Text/Text";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect, useState, useCallback } from "react";
 import { CustomTabPanel, a11yProps } from "../components/Tabs/CustomTabs";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import {GridActionsCellItem} from '@mui/x-data-grid';
-import { current_host } from '../constants/hosts';
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { current_host } from "../constants/hosts";
+
+const condiciones = ["Bueno", "Regular", "Dañado"];
 
 const Inventory = () => {
   const [rows, setRowsValues] = useState([]);
   const columns = [
-    {field: 'num_Tec',headerName: '# Activo Tec', width: 100,},
-    {field: 'serie', headerName: '# Serie', width: 100 },
-    {field: 'estante', headerName: 'Estante', width: 100 },
-    {field: 'descrip',headerName: 'Descripción', width: 200,},
-    {field: 'categoria',headerName: 'Categoría', width: 170,},
-    {field: 'marca',headerName: 'Marca', width: 100,},
-    {field: 'model',headerName: 'Modelo', width: 100,},
-    {field: 'estado',headerName: 'Estado', width: 150,},
-    {field: 'fecha',headerName: 'Fecha registro', width: 100,},
-    {field: 'observa',headerName: 'Observaciones', width: 250,},
+    { field: "activoBodega", headerName: "# Activo Bodega", flex: 1 },
+    { field: "activoTec", headerName: "# Activo Tec", flex: 1 },
+    { field: "serie", headerName: "# Serie", flex: 1 },
+    { field: "estante", headerName: "# Estante", flex: 1 },
+    { field: "descrip", headerName: "Descripción",flex: 1 },
+    { field: "categoria", headerName: "Categoría",flex: 1 },
+    { field: "marca", headerName: "Marca", flex: 1},
+    { field: "model", headerName: "Modelo", flex: 1 },
+    { field: "estado", headerName: "Estado", flex: 1 },
+    { field: "condicion", headerName: "Condicion",flex: 1 },
+    { field: "fecha", headerName: "Fecha registro",flex: 1 },
+    { field: "observa", headerName: "Observaciones", flex: 1 },
     {
-      field: 'actions',
-      type: 'actions',
-      headerName: '',
-      width: 50,
-      cellClassName: 'actions',
+      field: "actions",
+      type: "actions",
+      headerName: "",
+      flex: 1,
+      cellClassName: "actions",
       getActions: ({ id }) => {
-        //const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-  
+
         return [
           <GridActionsCellItem
             icon={<DeleteIcon />}
@@ -47,39 +50,69 @@ const Inventory = () => {
     },
   ];
 
-  function createData(id, categoria, estado, descrip, marca, model, num_Tec, serie,fecha, observa) {
-    return { id, categoria, estado, descrip, marca, model, num_Tec, serie,fecha, observa };
+  function createData(
+    id,
+    categoria,
+    estado,
+    descrip,
+    marca,
+    model,
+    activoTec,
+    serie,
+    fecha,
+    observa,
+    estante,
+    condicion,
+    activoBodega
+  ) {
+    return {
+      id,
+      categoria,
+      estado,
+      descrip,
+      marca,
+      model,
+      activoTec,
+      serie,
+      fecha,
+      observa,
+      estante,
+      condicion,
+      activoBodega,
+    };
   }
 
   function formatDate(dateStr) {
     const date = new Date(dateStr);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Se suma 1 al mes porque los meses se indexan desde 0 (0 = enero, 1 = febrero, etc.)
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Se suma 1 al mes porque los meses se indexan desde 0 (0 = enero, 1 = febrero, etc.)
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
-  
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(current_host+'/equipo');
+      const response = await fetch(current_host + "/equipo");
       if (!response.ok) {
-        throw new Error('Error al obtener los datos');
+        throw new Error("Error al obtener los datos");
       }
       const data = await response.json();
       if (data.success === true) {
         const rowsAux = data.data.map((device) =>
           createData(
             device.id,
-            device.categoria.nombre,
-            device.estado.nombre,
+            device.categoria,
+            device.estado,
             device.descripcion,
             device.marca,
             device.modelo,
             device.activoTec,
             device.serie,
             formatDate(device.fechaRegistro),
-            device.observaciones
+            device.observaciones,
+            device.estante,
+            device.condicion,
+            device.activoBodega
           )
         );
         setRowsValues(rowsAux);
@@ -104,15 +137,17 @@ const Inventory = () => {
     marca: "",
     modelo: "",
     activoTec: "",
+    estante: "",
     serie: "",
     observaciones: "",
+    condicion: "",
   });
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     // Realizar la solicitud GET para obtener las categorías
-    fetch(current_host+"/categorias/equipo")
+    fetch(current_host + "/categorias/equipo")
       .then((response) => response.json())
       .then((data) => {
         // Actualizar el estado de la categoría con los datos obtenidos
@@ -127,7 +162,7 @@ const Inventory = () => {
       });
 
     // Realizar la solicitud GET para obtener los estados
-    fetch(current_host+"/estados")
+    fetch(current_host + "/estados")
       .then((response) => response.json())
       .then((data) => {
         // Actualizar el estado de los estados con los datos obtenidos
@@ -148,7 +183,7 @@ const Inventory = () => {
 
   const agregarNuevoActivo = () => {
     // Realiza la solicitud POST utilizando el objeto nuevoActivo
-    fetch(current_host+"/equipo", {
+    fetch(current_host + "/equipo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -169,18 +204,18 @@ const Inventory = () => {
             marca: "",
             modelo: "",
             activoTec: "",
+            estante: "",
             serie: "",
             observaciones: "",
+            condicion: "",
           });
-  
+
           // Recarga la página después de un breve retraso (puedes ajustar el valor de tiempo en milisegundos)
           setTimeout(() => {
             window.location.reload();
           }, 1000); // Ejemplo: recarga la página después de 1 segundo
         } else {
           // Si hubo un error en el servidor, muestra la alerta de error
-          console.log("Error:");
-          console.log(data);
           console.log(JSON.stringify(nuevoActivo));
           setAlertMessage("Error al agregar el activo");
           setAlertVisible(true);
@@ -190,34 +225,33 @@ const Inventory = () => {
         console.error("Error al agregar el activo:", error);
       });
   };
-  
 
   return (
     <>
-      <div style={{ marginLeft: '2%', marginTop: '10px' }}>
-        <Text text="Inventario de equipo" text_style="text_title"/>
+      <div style={{ marginLeft: "2%", marginTop: "10px" }}>
+        <Text text="Inventario de equipo" text_style="text_title" />
       </div>
-      <div style={{ marginLeft: '2%', marginRight: '2%', maxWidth: '100%'}}>
+      <div style={{ marginLeft: "2%", marginRight: "2%", maxWidth: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          style={{ fontSize: '12px' }}
+          style={{ fontSize: "12px" }}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
+          autoHeight
           pageSizeOptions={[5, 10]}
-          checkboxSelection
         />
       </div>
 
-      <div style={{ marginLeft: "2%", marginRight: "2%"  }}>
+      <div style={{ marginLeft: "2%", marginRight: "2%" }}>
         <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Text text="Agregar equipo" text_style="text_title"/>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Text text="Agregar equipo" text_style="text_title" />
           </Box>
-          <CustomTabPanel value={value} index={0}>  
+          <CustomTabPanel value={value} index={0}>
             <div
               style={{
                 width: "100%",
@@ -227,7 +261,7 @@ const Inventory = () => {
               <TextField
                 id="no_activo_tec_new"
                 style={{ marginRight: "2%" }}
-                label="No. Activo Tec"
+                label="# Activo Tec"
                 fullWidth
                 value={nuevoActivo.activoTec}
                 variant="outlined"
@@ -237,7 +271,7 @@ const Inventory = () => {
               />
               <TextField
                 id="serie_new"
-                label="Serie"
+                label="# Serie"
                 fullWidth
                 style={{ marginRight: "2%" }}
                 value={nuevoActivo.serie}
@@ -246,19 +280,18 @@ const Inventory = () => {
                   setNuevoActivo({ ...nuevoActivo, serie: e.target.value })
                 }
               />
-                <TextField
+              <TextField
                 id="estante_new"
-                label="Estante"
+                label="# Estante"
                 fullWidth
-                //value={nuevoActivo.estante}
+                value={nuevoActivo.estante}
                 variant="outlined"
-                //onChange={(e) =>
-                //  setNuevoActivo({ ...nuevoActivo, estante: e.target.value })
-                //}
+                onChange={(e) =>
+                  setNuevoActivo({ ...nuevoActivo, estante: e.target.value })
+                }
               />
             </div>
             <div style={{ marginTop: "1%", width: "100%", display: "flex" }}>
-
               <TextField
                 id="category_new"
                 select
@@ -281,12 +314,11 @@ const Inventory = () => {
                 ))}
               </TextField>
               <TextField
-                style={{ marginRight: "2%"}}
+                style={{ marginRight: "2%" }}
                 id="brand_new"
                 fullWidth
                 label="Marca"
                 value={nuevoActivo.marca}
-                variant="filled"
                 onChange={(e) =>
                   setNuevoActivo({ ...nuevoActivo, marca: e.target.value })
                 }
@@ -296,21 +328,18 @@ const Inventory = () => {
                 fullWidth
                 label="Modelo"
                 value={nuevoActivo.modelo}
-                variant="filled"
                 onChange={(e) =>
                   setNuevoActivo({ ...nuevoActivo, modelo: e.target.value })
                 }
               />
             </div>
             <div style={{ marginTop: "1%", width: "100%", display: "flex" }}>
-            <TextField
-                required
+              <TextField
                 style={{ marginRight: "2%" }}
                 id="descrip_new"
                 fullWidth
                 label="Descripción"
                 value={nuevoActivo.descripcion}
-                variant="filled"
                 onChange={(e) =>
                   setNuevoActivo({
                     ...nuevoActivo,
@@ -337,6 +366,27 @@ const Inventory = () => {
                 ))}
               </TextField>
               <TextField
+                id="condicion_new"
+                select
+                fullWidth
+                label="Condicion"
+                value={nuevoActivo.condicion}
+                onChange={(e) =>
+                  setNuevoActivo({
+                    ...nuevoActivo,
+                    condicion: e.target.value,
+                  })
+                }
+              >
+                {condiciones.map((opcion) => (
+                  <MenuItem key={opcion} value={opcion}>
+                    {opcion}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div style={{ marginTop: "1%", width: "100%", display: "flex" }}>
+              <TextField
                 id="observations_new"
                 fullWidth
                 label="Observaciones"
@@ -350,7 +400,7 @@ const Inventory = () => {
                 }
               />
             </div>
-            <div style={{marginBottom: "2%"}}>
+            <div style={{ marginBottom: "2%" }}>
               {/* Agregar la alerta aquí */}
               {alertVisible && (
                 <Alert
@@ -362,16 +412,15 @@ const Inventory = () => {
                   {alertMessage}
                 </Alert>
               )}
-              </div>
-              <Button variant="contained" onClick={agregarNuevoActivo}>
-                Añadir
-              </Button>
-            
+            </div>
+            <Button variant="contained" onClick={agregarNuevoActivo}>
+              Añadir
+            </Button>
           </CustomTabPanel>
         </Box>
       </div>
-      
-      <div style={{ marginBottom: '0%' }}>
+
+      <div style={{ marginBottom: "0%" }}>
         <Footer />
       </div>
     </>
