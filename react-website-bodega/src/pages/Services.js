@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import '../App/App.css';
 import Text from '../components/Text/Text';
 import Footer from '../components/Footer/Footer';
 export default function Services() {

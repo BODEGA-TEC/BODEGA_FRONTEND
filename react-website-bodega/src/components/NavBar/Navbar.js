@@ -67,7 +67,7 @@ function Navbar() {
                 <button className="dropbtn">Inventario</button>
                 <div className="dropdown-content">
                   <Link
-                    to={"/consultInventory"}
+                    to={"/inventario"}
                     className="nav-links"
                     onClick={closeMobileMenu}
                   >

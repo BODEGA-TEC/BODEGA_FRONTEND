@@ -1,20 +1,8 @@
 import React from "react";
-import { Button } from "../Button/Button";
-import "../../App.css";
+import "../../App/App.css";
 import "./HeroSection.css";
-import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
-  const navigate = useNavigate();
-
-  const navigateToLocation = () => {
-    navigate("/location");
-  };
-
-  const navigateToNews = () => {
-    navigate("/news");
-  };
-
   return (
     <div className="hero-container">
       {/* To change from video to image background go to HeroSection.css

@@ -1,5 +1,5 @@
 
-import '../App.css';
+import '../App/App.css';
 // import axios from 'axios';
 import Footer from '../components/Footer/Footer';
 import HeroSection from '../components/HeroSection/HeroSection';
