@@ -4,7 +4,7 @@ import {
   FormControlLabel,
   Checkbox as MuiCheckbox,
 } from "@mui/material/";
-import { theme } from "../../config";
+import { defaultPalette } from "../../config";
 
 export default function Checkbox(props) {
   const { name, label, value, color, onChange } = props;
@@ -22,7 +22,7 @@ export default function Checkbox(props) {
         control={
           <MuiCheckbox
             name={name}
-            color={color || theme}
+            color={color || defaultPalette}
             size="medium"
             checked={value}
             onChange={(e) =>

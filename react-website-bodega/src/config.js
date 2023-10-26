@@ -8,6 +8,6 @@ const hosts = {
 
 const host = hosts.HOST.local;
 
-const theme = "primary";
+const defaultPalette = "primary";
 
-export { host, theme };
+export { host, defaultPalette };

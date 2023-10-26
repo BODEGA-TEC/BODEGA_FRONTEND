@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Alert } from "@mui/material";
-import Controls from "../../components/controls/Controls";
-import { useForm, Form } from "../../components/useForm";
-import * as EquipoService from "../../services/EquipoService";
-import { condicionItems } from "../../utils/constants";
-
+import Controls from "../../../components/controls/Controls";
+import { useForm, Form } from "../../../components/useForm";
+import * as EquipoService from "../../../services/EquipoService";
+import { condicionItems } from "../../../utils/constants";
 
 const initialFValues = {
   id: 0,

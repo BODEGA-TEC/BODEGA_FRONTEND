@@ -22,13 +22,14 @@ const PopupTitle = styled(DialogTitle)(
     background: `linear-gradient(to top, ${gradientcolor1 || "#fff"}, ${
       gradientcolor2 || "#fff"
     })`,
-    paddingRight: "0px",
+    paddingRight: "5px",
     color: textcolor || "text.primary",
   })
 );
 
 const Popup = ({
   title,
+  width,
   children,
   openPopup,
   setOpenPopup,
@@ -37,14 +38,18 @@ const Popup = ({
   gradientcolor2,
 }) => {
   return (
-    <Dialog open={openPopup} maxWidth="md" sx={styles.dialogWrapper}>
+    <Dialog open={openPopup} maxWidth={width || "md"} sx={styles.dialogWrapper}>
       <PopupTitle
         textcolor={textcolor}
         gradientcolor1={gradientcolor1}
         gradientcolor2={gradientcolor2}
       >
         <div style={{ display: "flex" }}>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
+          >
             {title}
           </Typography>
           <IconButton color="inherit" onClick={() => setOpenPopup(false)}>
