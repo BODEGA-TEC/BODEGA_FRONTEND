@@ -34,7 +34,7 @@ export async function postEquipo(equipo) {
   try {
     return await post("equipo", equipo);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     throw error;
   }
 }

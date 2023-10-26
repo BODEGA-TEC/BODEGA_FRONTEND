@@ -1,6 +1,7 @@
 import React from "react";
 import { RadioGroup as MuiRadioGroup, Radio, Tooltip } from "@mui/material";
 import { FormControl, FormLabel, FormControlLabel } from "@mui/material";
+import { theme } from "../../config";
 
 export default function RadioGroup(props) {
   const {
@@ -34,7 +35,7 @@ export default function RadioGroup(props) {
               <Tooltip title={item.description}>
                 <Radio
                   variant={variant || "outlined"}
-                  color={color || "secondary"}
+                  color={color || theme}
                   size={size || "medium"}
                   {...other}
                 />

@@ -35,9 +35,9 @@ export async function post(endpoint, data) {
     if (!serviceResponse.success) {
       throw new Error(`${serviceResponse.message}`);
     }
-    return serviceResponse.data;
+    return serviceResponse;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     throw error;
   }
 }

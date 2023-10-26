@@ -1,6 +1,7 @@
 import React from "react";
 import { Button as MuiButton } from "@mui/material/";
 import { styled } from "@mui/system";
+import { theme } from "../../config";
 
 // https://mui.com/material-ui/react-button/
 // https://mui.com/material-ui/api/button/
@@ -17,7 +18,7 @@ export default function Button(props) {
     <StyledButton
       variant={variant || "contained"}
       size={size || "large"}
-      color={color || "secondary"}
+      color={color || theme}
       onClick={onClick}
       {...other}
     >

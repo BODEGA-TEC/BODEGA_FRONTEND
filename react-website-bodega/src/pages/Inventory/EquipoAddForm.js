@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Alert } from "@mui/material";
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from "../../components/useForm";
 import * as EquipoService from "../../services/EquipoService";
 import { condicionItems } from "../../utils/constants";
+
 
 const initialFValues = {
   id: 0,
@@ -19,18 +20,17 @@ const initialFValues = {
   observaciones: "",
 };
 
-export default function EquipoForm(props) {
+export default function EquipoForm() {
   const [categorias, setCategorias] = useState([]);
   const [estados, setEstados] = useState([]);
   const [estado, setEstado] = useState("");
   const [categoria, setCategoria] = useState("");
-
+  const [errorFlag, setErrorFlag] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-
     // Validar categoriaId
     if ("categoriaId" in fieldValues)
       temp.categoriaId = fieldValues.categoriaId
@@ -69,11 +69,8 @@ export default function EquipoForm(props) {
     return Object.values(temp).every((x) => x === "");
   };
 
-  const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
-    initialFValues,
-    true,
-    validate
-  );
+  const { values, errors, setValues, setErrors, handleInputChange, resetForm } =
+    useForm(initialFValues, true, validate);
 
   useEffect(() => {
     // Recuperar las categorías
@@ -90,15 +87,21 @@ export default function EquipoForm(props) {
       .then((estadosData) => {
         setEstados(estadosData);
         setEstado(estadosData[0].label); // Establecer valor por defecto
+        // Actualizar estadoId en values
+        setValues((prevValues) => ({
+          ...prevValues,
+          estadoId: estadosData[0].id,
+        }));
       })
       .catch((error) => {
         console.error("Error al parsear estados:", error);
       });
-  }, []);
+  }, [setValues]);
 
   // Evento de finalizar el formulario
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(values);
     if (validate()) {
       postEquipo(values);
     }
@@ -108,58 +111,50 @@ export default function EquipoForm(props) {
   const resetStateValues = () => {
     setEstado(estados[0].label);
     setCategoria("");
+    // Actualizar estadoId en values
+    setValues((prevValues) => ({
+      ...prevValues,
+      estadoId: estados[0].id,
+    }));
   };
 
   // Envia el equipo al api
   const postEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
     EquipoService.postEquipo(equipo)
-      .then((data) => {
-        if (data.success) {
-          // Si la solicitud fue exitosa, muestra la alerta de éxito
-          setAlertMessage("Activo añadido correctamente");
-          setAlertVisible(true);
+      .then(({ message }) => {
+        // Muestra la alerta de éxito
+        setErrorFlag(false);
+        setAlertMessage(message);
+        setAlertVisible(true);
 
-          // Recarga la página después de un breve retraso (valor de tiempo en milisegundos)
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        } else {
-          // Si hubo un error en el servidor, muestra la alerta de error
-          // console.log(JSON.stringify(equipo));
-          // console.log(data);
-          setAlertMessage("Error al agregar el activo");
-          setAlertVisible(true);
-        }
+        // Recarga la página después de un breve retraso (valor de tiempo en milisegundos)
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       })
       .catch((error) => {
-        console.error("Error al agregar el activo:", error);
+        // Muestra la alerta de éxito
+        setAlertMessage(error.message);
+        setAlertVisible(true);
       });
   };
 
   // Manejador de evento para select
   const handleSelectChange = (setter, options) => (e) => {
     const { name, value } = e.target;
-
-    // Settear elemento seleccionado
     const selectedItem = options.find((item) => item.label === value);
     setter(selectedItem ? selectedItem.label : "");
 
-    // Crea un evento sintético con el id correcto
-    const syntheticEvent = {
-      target: {
-        name: name,
-        value: selectedItem ? selectedItem.id : "",
-      },
-    };
-
-    // Llama al manejador de eventos original con el evento sintético
-    handleInputChange(syntheticEvent);
+    // Llama a handleInputChange con el valor seleccionado
+    handleInputChange({
+      target: { name: `${name}Id`, value: selectedItem ? selectedItem.id : "" },
+    });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Grid container justifyContent="center" alignItems="center" spacing={1.5}>
+      <Grid container alignItems="center" spacing={"1.5%"}>
         {/* Descripción y Estante*/}
         <Grid item xs={12} sm={9}>
           <Controls.Input
@@ -264,6 +259,17 @@ export default function EquipoForm(props) {
             multiline
             rows={5}
           />
+        </Grid>
+
+        <Grid item xs={12} sm={12} justifyContent="center">
+          {alertVisible && (
+            <Alert
+              severity={errorFlag ? "error" : "success"}
+              onClose={() => setAlertVisible(false)}
+            >
+              {alertMessage}
+            </Alert>
+          )}
         </Grid>
 
         <Grid container item xs={12} sm={12} justifyContent="flex-end">

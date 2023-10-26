@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { Button } from "../Button/Button";
+import Controls from "../controls/Controls";
 
 function Navbar() {
   const [click, setClick] = useState(false);
@@ -12,7 +12,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const navigateToLogIn = () => {
-    navigate("/log-in");
+    navigate("/");
   };
 
   // Funtion that displays the button in mobile screens
@@ -52,16 +52,6 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* <li className="nav-item">
-              <Link
-                to="/services"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                Servicios
-              </Link>
-            </li> */}
-
             <li className="nav-item">
               <div className="dropdown">
                 <button className="dropbtn">Inventario</button>
@@ -82,7 +72,7 @@ function Navbar() {
 
             <li>
               <Link
-                to="/log-in"
+                to="/"
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
@@ -91,9 +81,12 @@ function Navbar() {
             </li>
           </ul>
           {button && (
-            <Button buttonStyle="btn--outline" onClick={navigateToLogIn}>
-              Iniciar sesión{" "}
-            </Button>
+            <Controls.Button
+              text="Iniciar sesión"
+              variant="outlined"
+              color="primary"
+              onClick={navigateToLogIn}
+            />
           )}
         </div>
       </nav>

@@ -4,9 +4,10 @@ import {
   FormControlLabel,
   Checkbox as MuiCheckbox,
 } from "@mui/material/";
+import { theme } from "../../config";
 
 export default function Checkbox(props) {
-  const { name, label, value, onChange } = props;
+  const { name, label, value, color, onChange } = props;
 
   const convertToDefEventPara = (name, value) => ({
     target: {
@@ -21,7 +22,7 @@ export default function Checkbox(props) {
         control={
           <MuiCheckbox
             name={name}
-            color="primary"
+            color={color || theme}
             size="medium"
             checked={value}
             onChange={(e) =>

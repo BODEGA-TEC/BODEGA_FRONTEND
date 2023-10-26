@@ -1,11 +1,10 @@
-import Footer from "../../components/Footer/Footer";
-import Text from "../../components/Text/Text";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState, useCallback } from "react";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { getEquipo } from "../../services/EquipoService"; // Asegúrate de importar desde la ubicación correcta
 import "./inventory.css";
+import { Grid } from "@mui/material/";
 
 const Inventory = () => {
   const [rows, setRows] = useState([]);
@@ -19,18 +18,18 @@ const Inventory = () => {
     { field: "activoTec", headerName: "# Activo Tec", flex: 1, hideable: true },
     { field: "serie", headerName: "# Serie", flex: 1, hideable: true },
     { field: "estante", headerName: "Estante", flex: 1, hideable: true },
-    {
-      field: "descripcion",
-      headerName: "Descripción",
-      flex: 1,
-      hideable: false,
-    },
-    { field: "categoria", headerName: "Categoría", flex: 1, hideable: true },
-    { field: "marca", headerName: "Marca", flex: 1, hideable: true },
-    { field: "model", headerName: "Modelo", flex: 1, hideable: true },
-    { field: "estado", headerName: "Estado", flex: 1, hideable: true },
-    { field: "condicion", headerName: "Condición", flex: 1, hideable: true },
-    { field: "fecha", headerName: "Fecha Registro", flex: 1, hideable: true },
+    // {
+    //   field: "descripcion",
+    //   headerName: "Descripción",
+    //   flex: 1,
+    //   hideable: false,
+    // },
+    // { field: "categoria", headerName: "Categoría", flex: 1, hideable: true },
+    // { field: "marca", headerName: "Marca", flex: 1, hideable: true },
+    // { field: "model", headerName: "Modelo", flex: 1, hideable: true },
+    // { field: "estado", headerName: "Estado", flex: 1, hideable: true },
+    // { field: "condicion", headerName: "Condición", flex: 1, hideable: true },
+    // { field: "fecha", headerName: "Fecha Registro", flex: 1, hideable: true },
     {
       field: "observaciones",
       headerName: "Observaciones",
@@ -71,20 +70,21 @@ const Inventory = () => {
   }, [fetchData]);
 
   return (
-    <>
-      <div className="datagrid-container">
+    <Grid container style={{ marginTop: "1.5%" }}>
+      <Grid item xs={12}>
         <DataGrid
           rows={rows}
           columns={columns}
+          style={{ minHeight: "400px" }}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 20 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
-          pageSizeOptions={[5, 20, 40]}
+          pageSizeOptions={[10, 25, 50]}
         />
-      </div>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

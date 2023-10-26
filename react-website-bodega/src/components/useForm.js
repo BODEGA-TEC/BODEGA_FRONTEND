@@ -7,7 +7,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
     setValues({
       ...values,
       [name]: value,
@@ -32,11 +32,10 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
   };
 }
 
-const FormRoot = styled("form")(({ theme }) => ({
+const FormRoot = styled("form")(() => ({
   "& .MuiFormControl-root": {
     width: "100%",
-    //margin: "0 auto",
-    margin: theme.spacing(1),
+    margin: "1.2% auto",
   },
 }));
 

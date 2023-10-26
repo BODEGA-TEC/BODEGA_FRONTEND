@@ -1,5 +1,5 @@
 import React from "react";
-import { Select as MuiSelect, TextField, Tooltip } from "@mui/material";
+import { Select as MuiSelect, Tooltip } from "@mui/material";
 import {
   FormControl,
   InputLabel,
@@ -28,7 +28,6 @@ export default function Select(props) {
         onChange={onChange}
         renderValue={(selected) => selected}
       >
-        <MenuItem value="">None</MenuItem>
         {options.map((item) => (
           <MenuItem key={item.id} value={item.label}>
             <Tooltip title={item.description}>
