@@ -15,7 +15,7 @@ export async function get(endpoint) {
 
     return serviceResponse.data;
   } catch (error) {
-    console.error(error);
+    // Maneja errores
     throw error;
   }
 }
@@ -37,7 +37,29 @@ export async function post(endpoint, data) {
     }
     return serviceResponse;
   } catch (error) {
-    // console.error(error);
+    // Maneja errores
+    throw error;
+  }
+}
+
+// Función genérica para realizar una solicitud PUT a la API
+export async function put(endpoint, data) {
+  try {
+    const response = await fetch(`${host}/${endpoint}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const serviceResponse = await response.json();
+    if (!serviceResponse.success) {
+      throw new Error(`${serviceResponse.message}`);
+    }
+    return serviceResponse;
+  } catch (error) {
+    // Maneja errores
     throw error;
   }
 }

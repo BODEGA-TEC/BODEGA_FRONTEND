@@ -5,109 +5,47 @@ import { useForm, Form } from "../../../components/useForm";
 import * as EquipoService from "../../../services/EquipoService";
 import { condicionItems } from "../../../utils/constants";
 
-export default function EquipoForm({ record, setRecord, setOpenPopup }) {
-  const [categorias, setCategorias] = useState([]);
-  const [estados, setEstados] = useState([]);
+export default function EquipoForm(props) {
+  // Informacion
+  const { record } = props;
+
+  // Select
+  const { categorias, estados } = props.options;
   const [estado, setEstado] = useState("");
   const [categoria, setCategoria] = useState("");
+
+  // Edit button
+  const [editButtonDisable, setEditButtonDisable] = useState(true);
+  const unchangedRecord = record;
+
+  // Alertas
   const [errorFlag, setErrorFlag] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [unchanged, setUnchanged] = useState(record);
 
+  // Funcion de validacion
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    // Validar categoriaId
-    if ("categoriaId" in fieldValues)
-      temp.categoriaId = fieldValues.categoriaId
-        ? ""
-        : "La categoría es requerida.";
-
-    // Validar estadoId
-    if ("estadoId" in fieldValues)
-      temp.estadoId = fieldValues.estadoId ? "" : "El estado es requerido.";
-
-    // Validar condicion
-    if ("condicion" in fieldValues)
-      temp.condicion = fieldValues.condicion
-        ? ""
-        : "La condición es requerida.";
-
-    // Validar descripcion
-    if ("descripcion" in fieldValues)
-      temp.descripcion = fieldValues.descripcion
-        ? ""
-        : "La descripción es requerida.";
-
-    // Validar activoTec
-    if ("activoTec" in fieldValues)
-      temp.activoTec = fieldValues.activoTec
-        ? ""
-        : "El activo TEC es requerido.";
-
-    // Validar estante
-    if ("estante" in fieldValues)
-      temp.estante = fieldValues.estante ? "" : "El estante es requerido.";
-
     setErrors({ ...temp });
 
     // Comprobar si todos los errores están vacíos
     return Object.values(temp).every((x) => x === "");
   };
 
-  const { values, errors, setValues, setErrors, handleInputChange, resetForm } =
-    useForm(unchanged, true, validate);
-
-  useEffect(() => {
-    // Recuperar las categorías
-    EquipoService.getCategoriasEquipo()
-      .then((categoriasData) => {
-        setCategorias(categoriasData);
-      })
-      .catch((error) => {
-        console.error("Error al parsear categorías:", error);
-      });
-
-    // Recuperar los estados
-    EquipoService.getEstados()
-      .then((estadosData) => {
-        setEstados(estadosData);
-        setEstado(estadosData[0].label); // Establecer valor por defecto
-        // Actualizar estadoId en values
-        setValues((prevValues) => ({
-          ...prevValues,
-          estadoId: estadosData[0].id,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error al parsear estados:", error);
-      });
-  }, [setValues]);
-
-  // Evento de finalizar el formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(values);
-    if (validate()) {
-      postEquipo(values);
-    }
-  };
-
-  // Función para restablecer los valores
+  // Función para restablecer los valores sin cambios
   const resetStateValues = () => {
-    setEstado(estados[0].label);
-    setCategoria("");
-    // Actualizar estadoId en values
-    setValues((prevValues) => ({
-      ...prevValues,
-      estadoId: estados[0].id,
-    }));
+    setEstado(unchangedRecord.estado);
+    setCategoria(unchangedRecord.categoria);
   };
 
-  // Envia el equipo al api
-  const postEquipo = (equipo) => {
+  // Props del form
+  const { values, errors, setErrors, handleInputChange, resetForm } =
+    useForm(unchangedRecord, true, validate);
+
+  // Update equipo
+  const putEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    EquipoService.postEquipo(equipo)
+    EquipoService.putEquipo(equipo.id, equipo)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);
@@ -126,7 +64,20 @@ export default function EquipoForm({ record, setRecord, setOpenPopup }) {
       });
   };
 
-  // Manejador de evento para select
+  // Establecer en el valor respectivo con la informacion
+  useEffect(() => {
+    setCategoria(record.categoria);
+    setEstado(record.estado);
+  }, [record.categoria, record.estado]);
+
+  useEffect(() => {
+    // Verifica si los valores son iguales y habilita o deshabilita el botón de edición
+    const valuesAreEqual =
+      JSON.stringify(values) === JSON.stringify(unchangedRecord);
+    setEditButtonDisable(valuesAreEqual);
+  }, [values, unchangedRecord]);
+
+  // Evento de seleccionar
   const handleSelectChange = (setter, options) => (e) => {
     const { name, value } = e.target;
     const selectedItem = options.find((item) => item.label === value);
@@ -136,6 +87,15 @@ export default function EquipoForm({ record, setRecord, setOpenPopup }) {
     handleInputChange({
       target: { name: `${name}Id`, value: selectedItem ? selectedItem.id : "" },
     });
+  };
+
+  // Evento de finalizar el formulario
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
+    if (validate()) {
+      putEquipo(values);
+    }
   };
 
   return (
@@ -259,9 +219,13 @@ export default function EquipoForm({ record, setRecord, setOpenPopup }) {
         </Grid>
 
         <Grid container item xs={12} sm={12} justifyContent="flex-end">
-          <Controls.Button type="submit" text="Agregar" />
           <Controls.Button
-            text="Borrar"
+            type="submit"
+            text="Aplicar"
+            disabled={editButtonDisable}
+          />
+          <Controls.Button
+            text="Descartar"
             color="inherit"
             onClick={() => {
               resetForm();

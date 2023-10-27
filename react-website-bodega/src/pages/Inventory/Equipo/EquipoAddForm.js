@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
@@ -19,15 +19,18 @@ const initialFValues = {
   observaciones: "",
 };
 
-export default function EquipoForm() {
-  const [categorias, setCategorias] = useState([]);
-  const [estados, setEstados] = useState([]);
+export default function EquipoForm(props) {
+  // Select
+  const { categorias, estados } = props.options;
   const [estado, setEstado] = useState("");
   const [categoria, setCategoria] = useState("");
+
+  // Alertas
   const [errorFlag, setErrorFlag] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
+  // Funcion de validacion
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     // Validar categoriaId
@@ -68,44 +71,6 @@ export default function EquipoForm() {
     return Object.values(temp).every((x) => x === "");
   };
 
-  const { values, errors, setValues, setErrors, handleInputChange, resetForm } =
-    useForm(initialFValues, true, validate);
-
-  useEffect(() => {
-    // Recuperar las categorías
-    EquipoService.getCategoriasEquipo()
-      .then((categoriasData) => {
-        setCategorias(categoriasData);
-      })
-      .catch((error) => {
-        console.error("Error al parsear categorías:", error);
-      });
-
-    // Recuperar los estados
-    EquipoService.getEstados()
-      .then((estadosData) => {
-        setEstados(estadosData);
-        setEstado(estadosData[0].label); // Establecer valor por defecto
-        // Actualizar estadoId en values
-        setValues((prevValues) => ({
-          ...prevValues,
-          estadoId: estadosData[0].id,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error al parsear estados:", error);
-      });
-  }, [setValues]);
-
-  // Evento de finalizar el formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(values);
-    if (validate()) {
-      postEquipo(values);
-    }
-  };
-
   // Función para restablecer los valores
   const resetStateValues = () => {
     setEstado(estados[0].label);
@@ -117,7 +82,11 @@ export default function EquipoForm() {
     }));
   };
 
-  // Envia el equipo al api
+  // Props del form
+  const { values, errors, setValues, setErrors, handleInputChange, resetForm } =
+    useForm(initialFValues, true, validate);
+
+  // Crear equipo
   const postEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
     EquipoService.postEquipo(equipo)
@@ -149,6 +118,15 @@ export default function EquipoForm() {
     handleInputChange({
       target: { name: `${name}Id`, value: selectedItem ? selectedItem.id : "" },
     });
+  };
+
+  // Evento de finalizar el formulario
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
+    if (validate()) {
+      postEquipo(values);
+    }
   };
 
   return (

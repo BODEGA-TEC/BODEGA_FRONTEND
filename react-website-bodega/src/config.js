@@ -8,6 +8,7 @@ const hosts = {
 
 const host = hosts.HOST.local;
 
-const defaultPalette = "primary";
+const palettes = ["primary", "secondary"];
+const defaultPalette = palettes[0];
 
 export { host, defaultPalette };

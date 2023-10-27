@@ -17,15 +17,13 @@ const styles = {
   },
 };
 
-const PopupTitle = styled(DialogTitle)(
-  ({ textcolor, gradientcolor1, gradientcolor2 }) => ({
-    background: `linear-gradient(to top, ${gradientcolor1 || "#fff"}, ${
-      gradientcolor2 || "#fff"
-    })`,
-    paddingRight: "5px",
-    color: textcolor || "text.primary",
-  })
-);
+const PopupTitle = styled(DialogTitle)(({ palette }) => ({
+  background: `linear-gradient(to top, ${palette.start || "#fff"}, ${
+    palette.end || "#fff"
+  })`,
+  paddingRight: "5px",
+  color: palette.textcolor || "text.primary",
+}));
 
 const Popup = ({
   title,
@@ -33,17 +31,11 @@ const Popup = ({
   children,
   openPopup,
   setOpenPopup,
-  textcolor,
-  gradientcolor1,
-  gradientcolor2,
+  palette,
 }) => {
   return (
     <Dialog open={openPopup} maxWidth={width || "md"} sx={styles.dialogWrapper}>
-      <PopupTitle
-        textcolor={textcolor}
-        gradientcolor1={gradientcolor1}
-        gradientcolor2={gradientcolor2}
-      >
+      <PopupTitle palette={palette}>
         <div style={{ display: "flex" }}>
           <Typography
             variant="h6"
