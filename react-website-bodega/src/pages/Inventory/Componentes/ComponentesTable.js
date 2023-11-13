@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "../inventory.css";
-import { getEquipo, deleteEquipo } from "../../../services/EquipoService";
+import {
+  getComponente,
+  deleteComponente,
+} from "../../../services/ComponentesService";
 import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
 import { generateBarcode } from "../../../utils/barcode"; // Asegúrate de importar la función correcta
@@ -21,7 +24,7 @@ import { Box, ListItemIcon, MenuItem, lighten } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Info, Delete, Download } from "@mui/icons-material";
 
-const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
+const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   const [records, setRecords] = useState([]);
 
   const columns = useMemo(
@@ -34,21 +37,13 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         enableGrouping: false,
         enableColumnOrdering: false,
       },
-      {
-        accessorKey: "activoTec",
-        header: "ACTIVO TEC",
-        size: 195,
-        enableResizing: false,
-        enableGrouping: false,
-      },
-      {
-        accessorKey: "serie",
-        header: "# SERIE",
-        minSize: 170,
-        size: 170,
-        enableResizing: false,
-        enableGrouping: false,
-      },
+      // {
+      //   accessorKey: "activoTec",
+      //   header: "ACTIVO TEC",
+      //   size: 195,
+      //   enableResizing: false,
+      //   enableGrouping: false,
+      // },
       {
         accessorKey: "descripcion",
         header: "DESCRIPCIÓN",
@@ -56,7 +51,13 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         size: 400,
         enableGrouping: false,
       },
-
+      {
+        accessorKey: "cantidad",
+        header: "CANTIDAD",
+        minSize: 170,
+        size: 170,
+        enableGrouping: false,
+      },
       {
         accessorKey: "categoria",
         header: "CATEGORÍA",
@@ -100,12 +101,6 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
             {cell.getValue()}
           </Box>
         ),
-      },
-      {
-        accessorKey: "marca",
-        header: "MARCA",
-        minSize: 170,
-        size: 170,
       },
       {
         accessorKey: "modelo",
@@ -167,7 +162,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
 
   const fetchData = async () => {
     try {
-      const data = await getEquipo();
+      const data = await getComponente();
       setRecords(data);
     } catch (error) {
       console.error(error);
@@ -184,9 +179,9 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   };
 
   // Eliminar equipo
-  const handleDeleteButton = (equipoId) => {
+  const handleDeleteButton = (componenteId) => {
     // Llama a la función del servicio para eliminar un activo
-    deleteEquipo(equipoId)
+    deleteComponente(componenteId)
       .then(() => {
         // Recarga la página después de un breve retraso
         setTimeout(() => {
@@ -311,4 +306,4 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   );
 };
 
-export default EquipoTable;
+export default ComponenteTable;

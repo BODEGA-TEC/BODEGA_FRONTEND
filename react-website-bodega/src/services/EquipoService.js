@@ -7,8 +7,13 @@ import {
   getEstados as UtilsGetEstados,
 } from "./UtilsService";
 
+// Función para obtener estados y mapearlos
+export async function getEstados() {
+  return UtilsGetEstados("equipo");
+}
+
 // Función para obtener categorías de equipo y mapearlas
-export async function getCategoriasEquipo() {
+export async function getCategorias() {
   const data = await getRequest("categorias/equipo");
   return data.map((categoria) => ({
     id: categoria.id.toString(),
@@ -67,9 +72,4 @@ export async function deleteEquipo(equipoId) {
     // console.error(error);
     throw error;
   }
-}
-
-// Función para obtener estados y mapearlos
-export async function getEstados() {
-  return UtilsGetEstados("equipo");
 }

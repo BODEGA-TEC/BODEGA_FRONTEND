@@ -7,8 +7,13 @@ import {
   getEstados as UtilsGetEstados,
 } from "./UtilsService";
 
+// Función para obtener estados y mapearlos
+export async function getEstados() {
+  return UtilsGetEstados("componentes");
+}
+
 // Función para obtener categorías de componente y mapearlas
-export async function getCategoriasComponente() {
+export async function getCategorias() {
   const data = await getRequest("categorias/componentes");
   return data.map((categoria) => ({
     id: categoria.id.toString(),
@@ -42,7 +47,7 @@ export async function postComponente(componente) {
   try {
     return await postRequest("componentes", componente);
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     throw error;
   }
 }
@@ -67,9 +72,4 @@ export async function deleteComponente(componenteId) {
     // console.error(error);
     throw error;
   }
-}
-
-// Función para obtener estados y mapearlos
-export async function getEstados() {
-  return UtilsGetEstados("componentes");
 }

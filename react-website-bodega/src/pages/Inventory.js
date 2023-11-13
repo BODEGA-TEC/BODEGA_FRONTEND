@@ -5,15 +5,13 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Grid } from "@mui/material/";
 import EquipoTab from "./Inventory/Equipo/EquipoTab";
+import ComponentesTab from "./Inventory/Componentes/ComponentesTab";
+
 import { defaultPalette } from "../config";
 
 /* Pagina del inventario */
 const Inventory = (props) => {
   const { tab, setTab } = props;
-
-  const ComponentesTab = () => {
-    return <div>Item Two</div>;
-  };
 
   // Gestionar cambio tab
   const handleTabChange = (_, newValue) => {
