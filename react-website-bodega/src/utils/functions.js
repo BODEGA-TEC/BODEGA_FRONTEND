@@ -1,5 +1,13 @@
 import JsBarcode from "jsbarcode";
 
+// Función para manejar la entrada de teclas, asegurándose de que solo sean números
+export const handleNumericKeyPress = (e) => {
+  const keyCode = e.keyCode || e.which;
+  const keyValue = String.fromCharCode(keyCode);
+  if (!/^\d*$/.test(keyValue)) e.preventDefault();
+};
+
+// Función para generar y descargar una imagen de codigo de barras
 export const generateBarcode = (code) => {
   try {
     // Crear un elemento canvas para el código de barras

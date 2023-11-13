@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
-import * as EquipoService from "../../../services/EquipoService";
+import * as ComponentesService from "../../../services/ComponentesService";
 import { condicionItems } from "../../../utils/constants";
+import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
-export default function EquipoForm(props) {
+export default function ComponenteForm(props) {
   // Informacion
   const { record } = props;
 
@@ -23,7 +24,7 @@ export default function EquipoForm(props) {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  // Funcion de validacion
+  // Funcion de validacion - por si mas adelante ha de validarse algo
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     setErrors({ ...temp });
@@ -45,10 +46,10 @@ export default function EquipoForm(props) {
     validate
   );
 
-  // Update equipo
-  const putEquipo = (equipo) => {
+  // Update componente
+  const putComponente = (componente) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    EquipoService.putEquipo(equipo.id, equipo)
+    ComponentesService.putComponente(componente.id, componente)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);
@@ -97,7 +98,7 @@ export default function EquipoForm(props) {
     e.preventDefault();
     console.log(values);
     if (validate()) {
-      putEquipo(values);
+      putComponente(values);
     }
   };
 
@@ -137,14 +138,7 @@ export default function EquipoForm(props) {
             options={categorias}
             error={errors.categoriaId}
           />
-          {/* Marca */}
-          <Controls.Input
-            name="marca"
-            label="Marca"
-            value={values.marca}
-            onChange={handleInputChange}
-            error={errors.marca}
-          />
+
           {/* Modelo */}
           <Controls.Input
             name="modelo"
@@ -166,22 +160,15 @@ export default function EquipoForm(props) {
             error={errors.estadoId}
           />
 
-          {/* Activo TEC */}
           <Controls.Input
-            name="activoTec"
-            label="# Activo TEC"
-            value={values.activoTec}
+            name="cantidad"
+            label="Cantidad"
+            type="number"
+            value={values.cantidad}
             onChange={handleInputChange}
-            error={errors.activoTec}
-          />
-
-          {/* Serie */}
-          <Controls.Input
-            name="serie"
-            label="# Serie"
-            value={values.serie}
-            onChange={handleInputChange}
-            error={errors.serie}
+            onKeyPress={handleNumericKeyPress}
+            error={errors.cantidad}
+            inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
           />
         </Grid>
 

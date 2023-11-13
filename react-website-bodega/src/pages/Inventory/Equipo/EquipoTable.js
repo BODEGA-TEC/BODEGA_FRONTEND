@@ -3,7 +3,7 @@ import "../inventory.css";
 import { getEquipo, deleteEquipo } from "../../../services/EquipoService";
 import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
-import { generateBarcode } from "../../../utils/barcode"; // Asegúrate de importar la función correcta
+import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
 //MRT Imports
 import {

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../components/useForm";
 import * as ComponentesService from "../../../services/ComponentesService";
 import { condicionItems } from "../../../utils/constants";
+import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
 const initialFValues = {
   id: 0,
@@ -114,13 +115,6 @@ export default function ComponentesForm(props) {
     handleInputChange({
       target: { name: `${name}Id`, value: selectedItem ? selectedItem.id : "" },
     });
-  };
-
-  // Función para manejar la entrada de teclas, asegurándose de que solo sean números
-  const handleNumericKeyPress = (e) => {
-    const keyCode = e.keyCode || e.which;
-    const keyValue = String.fromCharCode(keyCode);
-    if (!/^\d*$/.test(keyValue)) e.preventDefault();
   };
 
   // Evento de finalizar el formulario

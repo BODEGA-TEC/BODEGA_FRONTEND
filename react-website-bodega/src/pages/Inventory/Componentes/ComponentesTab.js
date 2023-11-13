@@ -1,4 +1,4 @@
-// EquipoTab.js
+// ComponentesTab.js
 import React, { useState, useEffect } from "react";
 import { Paper } from "@mui/material";
 import ComponentesTable from "./ComponentesTable";
@@ -23,7 +23,7 @@ const ComponentesTab = () => {
 
   const [openAddPopup, setOpenAddPopup] = useState(false);
   const [openEditPopup, setOpenEditPopup] = useState(false);
-  const [record, setRecord] = useState(null); // equipo a editar
+  const [record, setRecord] = useState(null); // componente a editar
 
   // Obtener color
   const theme = useTheme();

@@ -23,7 +23,7 @@ export default function EquipoForm(props) {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  // Funcion de validacion
+  // Funcion de validacion - por si mas adelante ha de validarse algo
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     setErrors({ ...temp });

@@ -6,7 +6,7 @@ import {
 } from "../../../services/ComponentesService";
 import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
-import { generateBarcode } from "../../../utils/barcode"; // Asegúrate de importar la función correcta
+import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
 //MRT Imports
 import {
@@ -52,12 +52,12 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         enableGrouping: false,
       },
       {
-        accessorKey: "cantidad",
-        header: "CANTIDAD",
+        accessorKey: "modelo",
+        header: "MODELO",
         minSize: 170,
         size: 170,
-        enableGrouping: false,
       },
+
       {
         accessorKey: "categoria",
         header: "CATEGORÍA",
@@ -103,10 +103,11 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         ),
       },
       {
-        accessorKey: "modelo",
-        header: "MODELO",
-        minSize: 170,
-        size: 170,
+        accessorKey: "cantidad",
+        header: "CANTIDAD",
+        minSize: 180,
+        size: 180,
+        enableGrouping: false,
       },
       {
         accessorKey: "condicion",
@@ -174,11 +175,12 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   }, []);
 
   const handleEditButton = (data) => {
+    console.log("records", data);
     setRecord(data);
     setOpenEditPopup(true);
   };
 
-  // Eliminar equipo
+  // Eliminar componente
   const handleDeleteButton = (componenteId) => {
     // Llama a la función del servicio para eliminar un activo
     deleteComponente(componenteId)
@@ -229,6 +231,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       <MenuItem
         key={0}
         onClick={() => {
+          console.log(row.original);
           handleEditButton(row.original);
           closeMenu();
         }}

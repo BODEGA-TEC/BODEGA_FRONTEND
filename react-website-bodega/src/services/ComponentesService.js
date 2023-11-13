@@ -27,18 +27,17 @@ export async function getComponente() {
   // Debe mpearse igual al json recibido
   return data.map((componente) => ({
     id: componente.id,
+    activoBodega: componente.activoBodega,
+    //activoTec: componente.activoTec,
+    descripcion: componente.descripcion,
+    modelo: componente.modelo,
     categoria: componente.categoria,
     estado: componente.estado,
-    descripcion: componente.descripcion,
-    marca: componente.marca,
-    modelo: componente.modelo,
-    activoTec: componente.activoTec,
-    serie: componente.serie,
-    fecha: formatDate(componente.fechaRegistro),
-    observaciones: componente.observaciones,
-    estante: componente.estante,
+    cantidad: componente.cantidad,
     condicion: componente.condicion,
-    activoBodega: componente.activoBodega,
+    estante: componente.estante,
+    observaciones: componente.observaciones,
+    fecha: formatDate(componente.fechaRegistro),
   }));
 }
 
