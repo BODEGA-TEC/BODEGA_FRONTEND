@@ -63,7 +63,7 @@ function Navbar({ handleTabChange }) {
                 />
                 <div className="dropdown-content">
                   <Link
-                    to={"/inventario"}
+                    to={"/inventario/equipo"}
                     className="nav-links"
                     onClick={() => {
                       closeMobileMenu();
@@ -73,7 +73,7 @@ function Navbar({ handleTabChange }) {
                     Equipo
                   </Link>
                   <Link
-                    to={"/inventario"}
+                    to={"/inventario/componentes"}
                     className="nav-links"
                     onClick={() => {
                       closeMobileMenu();

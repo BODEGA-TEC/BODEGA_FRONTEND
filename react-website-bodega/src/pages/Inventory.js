@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { TabPanel, a11yProps } from "../components/TabPanel";
 import Tabs from "@mui/material/Tabs";
@@ -34,8 +35,18 @@ const Inventory = (props) => {
               indicatorColor={defaultPalette}
               aria-label="basic tabs"
             >
-              <Tab label="equipo" {...a11yProps(0)} />
-              <Tab label="componentes" {...a11yProps(1)} />
+              <Tab
+                component={Link}
+                to="/inventario/equipo"
+                label="Equipo"
+                {...a11yProps(0)}
+              />
+              <Tab
+                component={Link}
+                to="/inventario/componentes"
+                label="Componentes"
+                {...a11yProps(1)}
+              />
             </Tabs>
           </Box>
 
