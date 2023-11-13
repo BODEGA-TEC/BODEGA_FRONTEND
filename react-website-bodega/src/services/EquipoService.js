@@ -1,8 +1,15 @@
-import { get, post, put, formatDate } from "./UtilsService";
+import {
+  getRequest,
+  postRequest,
+  putRequest,
+  deleteRequest,
+  formatDate,
+  getEstados as UtilsGetEstados,
+} from "./UtilsService";
 
 // Función para obtener categorías de equipo y mapearlas
 export async function getCategoriasEquipo() {
-  const data = await get("categorias/equipo");
+  const data = await getRequest("categorias/equipo");
   return data.map((categoria) => ({
     id: categoria.id.toString(),
     label: categoria.nombre,
@@ -11,7 +18,7 @@ export async function getCategoriasEquipo() {
 
 // Función para obtener los datos del equipo
 export async function getEquipo() {
-  const data = await get("equipo");
+  const data = await getRequest("equipo");
   // Debe mpearse igual al json recibido
   return data.map((equipo) => ({
     id: equipo.id,
@@ -33,7 +40,7 @@ export async function getEquipo() {
 // Función para agregar un nuevo equipo
 export async function postEquipo(equipo) {
   try {
-    return await post("equipo", equipo);
+    return await postRequest("equipo", equipo);
   } catch (error) {
     // console.error(error);
     throw error;
@@ -43,7 +50,7 @@ export async function postEquipo(equipo) {
 // Función para actualizar un equipo utilizando PUT
 export async function putEquipo(equipoId, equipo) {
   try {
-    return await put(`equipo/${equipoId}`, equipo);
+    return await putRequest(`equipo/${equipoId}`, equipo);
   } catch (error) {
     // Maneja errores
     // console.error(error);
@@ -51,5 +58,18 @@ export async function putEquipo(equipoId, equipo) {
   }
 }
 
-// Reexporta getEstados desde UtilsService
-export { getEstados } from "./UtilsService";
+// Función para eliminar un equipo utilizando DELETE
+export async function deleteEquipo(equipoId) {
+  try {
+    return await deleteRequest(`equipo/${equipoId}`);
+  } catch (error) {
+    // Maneja errores
+    // console.error(error);
+    throw error;
+  }
+}
+
+// Función para obtener estados y mapearlos
+export async function getEstados() {
+  return UtilsGetEstados("equipo");
+}

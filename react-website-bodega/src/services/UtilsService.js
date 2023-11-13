@@ -1,7 +1,7 @@
 import { host } from "../config";
 
 // Función genérica para hacer solicitudes GET a la API
-export async function get(endpoint) {
+export async function getRequest(endpoint) {
   try {
     const response = await fetch(`${host}/${endpoint}`);
     if (!response.ok) {
@@ -21,7 +21,7 @@ export async function get(endpoint) {
 }
 
 // Función genérica para realizar una solicitud POST a la API
-export async function post(endpoint, data) {
+export async function postRequest(endpoint, data) {
   try {
     const response = await fetch(`${host}/${endpoint}`, {
       method: "POST",
@@ -43,7 +43,7 @@ export async function post(endpoint, data) {
 }
 
 // Función genérica para realizar una solicitud PUT a la API
-export async function put(endpoint, data) {
+export async function putRequest(endpoint, data) {
   try {
     const response = await fetch(`${host}/${endpoint}`, {
       method: "PUT",
@@ -64,9 +64,30 @@ export async function put(endpoint, data) {
   }
 }
 
+// Función genérica para realizar una solicitud DELETE a la API
+export async function deleteRequest(endpoint) {
+  try {
+    const response = await fetch(`${host}/${endpoint}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const serviceResponse = await response.json();
+    if (!serviceResponse.success) {
+      throw new Error(`${serviceResponse.message}`);
+    }
+    return serviceResponse;
+  } catch (error) {
+    // Maneja errores
+    throw error;
+  }
+}
+
 // Función para obtener estados y mapearlos
-export async function getEstados() {
-  const data = await get("estados");
+export async function getEstados(tipoActivo) {
+  const data = await getRequest("estados/"+tipoActivo);
   return data.map((estado) => ({
     id: estado.id.toString(),
     label: estado.nombre,

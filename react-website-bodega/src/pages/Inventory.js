@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import { TabPanel, a11yProps } from "../components/TabPanel";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Grid, Paper } from "@mui/material/";
+import { Grid } from "@mui/material/";
 import EquipoTab from "./Inventory/Equipo/EquipoTab";
+import { defaultPalette } from "../config";
 
 /* Pagina del inventario */
 const Inventory = (props) => {
-  const { tab: startTab } = props;
-  const [tab, setTab] = useState(startTab);
+  const { tab, setTab } = props;
 
   const ComponentesTab = () => {
     return <div>Item Two</div>;
   };
 
   // Gestionar cambio tab
-  const handleTabChange = (_, newTab) => {
-    setTab(newTab);
+  const handleTabChange = (_, newValue) => {
+    setTab(newValue);
   };
 
   return (
@@ -32,7 +32,9 @@ const Inventory = (props) => {
             <Tabs
               value={tab}
               onChange={handleTabChange}
-              //aria-label="basic tabs example"
+              textColor={defaultPalette}
+              indicatorColor={defaultPalette}
+              aria-label="basic tabs"
             >
               <Tab label="equipo" {...a11yProps(0)} />
               <Tab label="componentes" {...a11yProps(1)} />

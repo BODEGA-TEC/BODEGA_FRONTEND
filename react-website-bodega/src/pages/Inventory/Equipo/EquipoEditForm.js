@@ -39,8 +39,11 @@ export default function EquipoForm(props) {
   };
 
   // Props del form
-  const { values, errors, setErrors, handleInputChange, resetForm } =
-    useForm(unchangedRecord, true, validate);
+  const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
+    unchangedRecord,
+    true,
+    validate
+  );
 
   // Update equipo
   const putEquipo = (equipo) => {

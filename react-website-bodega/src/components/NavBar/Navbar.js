@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import Controls from "../controls/Controls";
 
-function Navbar() {
+function Navbar({ handleTabChange }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
 
@@ -54,16 +54,32 @@ function Navbar() {
 
             <li className="nav-item">
               <div className="dropdown">
-                <button className="dropbtn">Inventario</button>
+                <Controls.Button
+                  className="dropbtn"
+                  text="Inventario"
+                  variant="outlined"
+                  style={{ color: "#FFF", borderColor: "#FFF" }}
+                  onClick={navigateToLogIn}
+                />
                 <div className="dropdown-content">
                   <Link
                     to={"/inventario"}
                     className="nav-links"
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      closeMobileMenu();
+                      handleTabChange(null, 0);
+                    }}
                   >
                     Equipo
                   </Link>
-                  <Link to="/" className="nav-links" onClick={closeMobileMenu}>
+                  <Link
+                    to={"/inventario"}
+                    className="nav-links"
+                    onClick={() => {
+                      closeMobileMenu();
+                      handleTabChange(null, 1);
+                    }}
+                  >
                     Componentes
                   </Link>
                 </div>
@@ -84,7 +100,7 @@ function Navbar() {
             <Controls.Button
               text="Iniciar sesión"
               variant="outlined"
-              color="primary"
+              style={{ color: "#FFF", borderColor: "#FFF" }}
               onClick={navigateToLogIn}
             />
           )}
