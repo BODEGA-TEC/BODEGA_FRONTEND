@@ -6,7 +6,7 @@ const hosts = {
   },
 };
 
-const host = hosts.HOST.local;
+const host = hosts.HOST.staging;
 
 const palettes = ["primary", "secondary"];
 const defaultPalette = palettes[0];
