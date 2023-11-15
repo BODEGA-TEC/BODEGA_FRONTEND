@@ -116,7 +116,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       {
         accessorKey: "condicion",
         header: "CONDICIÓN",
-        size: 186,
+        size: 190,
         enableResizing: false,
         Cell: ({ cell }) => (
           <Box
@@ -153,7 +153,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         accessorKey: "observaciones",
         header: "OBSERVACIONES",
         minSize: 240,
-        size: 240,
+        size: 600,
         enableGrouping: false,
       },
       {
@@ -225,7 +225,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     },
     muiPaginationProps: {
       color: defaultPalette,
-      rowsPerPageOptions: [10, 20, 30],
+      rowsPerPageOptions: [10, 25, 50],
       shape: "rounded",
       variant: "outlined",
     },
