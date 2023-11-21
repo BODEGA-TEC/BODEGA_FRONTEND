@@ -170,7 +170,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       const data = await getEquipo();
       setRecords(data);
     } catch (error) {
-      console.error(error);
+        if (error !== null) console.error("Error al recuperar equipo:", error);
     }
   };
 

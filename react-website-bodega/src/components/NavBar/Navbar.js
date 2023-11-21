@@ -19,7 +19,7 @@ function Navbar({ handleTabChange }) {
   const [openLogInPopup, setOpenLogInPopup] = useState(false);
 
   const navigateToLogIn = () => {
-    navigate("/");
+    navigate("/login");
   };
   
   const theme = useTheme();
@@ -83,7 +83,6 @@ function Navbar({ handleTabChange }) {
                   text="Inventario"
                   variant="outlined"
                   style={{ color: "#FFF", borderColor: "#FFF" }}
-                  onClick={navigateToLogIn}
                 />
                 <div className="dropdown-content">
                   <Link

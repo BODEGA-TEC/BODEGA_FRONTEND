@@ -1,12 +1,22 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "../components/NavBar/Navbar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "../components/Layout";
+import RequireAuth from "../components/RequireAuth";
 import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Unauthorized from "../pages/Unauthorized";
 import Services from "../pages/Services";
-// import LogIn from "../pages/LogIn";
 import Terms from "../pages/Terms";
 import Inventory from "../pages/Inventory";
+
+const ROLES = {
+  'ADMINISTRADOR': 1,
+  'PROFESOR': 2,
+  'ASISTENTE': 3
+}
+
 
 function App() {
   // Recuperar el estado del tab al cargar la aplicación
@@ -28,23 +38,37 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Navbar handleTabChange={handleInventoryTabChange} />
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          {/* <Route path="/log-in" element={<LogIn />} /> */}
-          <Route path="/terms" element={<Terms />} />
-          <Route
-            path="/inventario/equipo"
-            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
-          />
-          <Route
-            path="/inventario/componentes"
-            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
-          />
-        </Routes>
-      </Router>
+      <Navbar handleTabChange={handleInventoryTabChange} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* PUBLIC ROUTES */}
+          <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="services" element={<Services />} />
+          <Route path="terms" element={<Terms />} />
+
+          {/* PROTECTED ROUTES */}
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]}/>}>
+            <Route
+              path="inventario/equipo"
+              element={
+                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
+              }
+            />
+          </Route>
+
+          <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]}/>}>
+            <Route
+              path="inventario/componentes"
+              element={
+                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
+              }
+            />
+          </Route>
+        </Route>
+      </Routes>
     </>
   );
 }

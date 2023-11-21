@@ -1,9 +1,9 @@
+import { formatDate } from "../utils/functions";
 import {
   getRequest,
   postRequest,
   putRequest,
   deleteRequest,
-  formatDate,
   getEstados as UtilsGetEstados,
 } from "./UtilsService";
 
@@ -15,31 +15,34 @@ export async function getEstados() {
 // Función para obtener categorías de equipo y mapearlas
 export async function getCategorias() {
   const data = await getRequest("categorias/equipo");
-  return data.map((categoria) => ({
-    id: categoria.id.toString(),
-    label: categoria.nombre,
-  }));
+  return (
+    data?.map((categoria) => ({
+      id: categoria.id.toString(),
+      label: categoria.nombre,
+    })) ?? []
+  );
 }
 
 // Función para obtener los datos del equipo
 export async function getEquipo() {
   const data = await getRequest("equipo");
-  // Debe mpearse igual al json recibido
-  return data.map((equipo) => ({
-    id: equipo.id,
-    categoria: equipo.categoria,
-    estado: equipo.estado,
-    descripcion: equipo.descripcion,
-    marca: equipo.marca,
-    modelo: equipo.modelo,
-    activoTec: equipo.activoTec,
-    serie: equipo.serie,
-    fecha: formatDate(equipo.fechaRegistro),
-    observaciones: equipo.observaciones,
-    estante: equipo.estante,
-    condicion: equipo.condicion,
-    activoBodega: equipo.activoBodega,
-  }));
+  return (
+    data?.map((equipo) => ({
+      id: equipo.id,
+      categoria: equipo.categoria,
+      estado: equipo.estado,
+      descripcion: equipo.descripcion,
+      marca: equipo.marca,
+      modelo: equipo.modelo,
+      activoTec: equipo.activoTec,
+      serie: equipo.serie,
+      fecha: formatDate(equipo.fechaRegistro),
+      observaciones: equipo.observaciones,
+      estante: equipo.estante,
+      condicion: equipo.condicion,
+      activoBodega: equipo.activoBodega,
+    })) ?? []
+  );
 }
 
 // Función para agregar un nuevo equipo
@@ -47,6 +50,7 @@ export async function postEquipo(equipo) {
   try {
     return await postRequest("equipo", equipo);
   } catch (error) {
+    // Maneja errores
     // console.error(error);
     throw error;
   }

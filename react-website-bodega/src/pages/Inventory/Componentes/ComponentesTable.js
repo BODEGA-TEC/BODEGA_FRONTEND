@@ -166,7 +166,8 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       const data = await getComponente();
       setRecords(data);
     } catch (error) {
-      console.error(error);
+      if (error !== null)
+        console.error("Error al recuperar componentes:", error);
     }
   };
 

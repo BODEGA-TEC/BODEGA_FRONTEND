@@ -1,9 +1,9 @@
+import { formatDate } from "../utils/functions";
 import {
   getRequest,
   postRequest,
   putRequest,
   deleteRequest,
-  formatDate,
   getEstados as UtilsGetEstados,
 } from "./UtilsService";
 
@@ -15,30 +15,32 @@ export async function getEstados() {
 // Función para obtener categorías de componente y mapearlas
 export async function getCategorias() {
   const data = await getRequest("categorias/componentes");
-  return data.map((categoria) => ({
-    id: categoria.id.toString(),
-    label: categoria.nombre,
-  }));
+  return (
+    data?.map((categoria) => ({
+      id: categoria.id.toString(),
+      label: categoria.nombre,
+    })) ?? []
+  );
 }
 
 // Función para obtener los datos del componente
 export async function getComponente() {
   const data = await getRequest("componentes");
-  // Debe mpearse igual al json recibido
-  return data.map((componente) => ({
-    id: componente.id,
-    activoBodega: componente.activoBodega,
-    //activoTec: componente.activoTec,
-    descripcion: componente.descripcion,
-    modelo: componente.modelo,
-    categoria: componente.categoria,
-    estado: componente.estado,
-    cantidad: componente.cantidad,
-    condicion: componente.condicion,
-    estante: componente.estante,
-    observaciones: componente.observaciones,
-    fecha: formatDate(componente.fechaRegistro),
-  }));
+  return (
+    data?.map((componente) => ({
+      id: componente.id,
+      activoBodega: componente.activoBodega,
+      descripcion: componente.descripcion,
+      modelo: componente.modelo,
+      categoria: componente.categoria,
+      estado: componente.estado,
+      cantidad: componente.cantidad,
+      condicion: componente.condicion,
+      estante: componente.estante,
+      observaciones: componente.observaciones,
+      fecha: formatDate(componente.fechaRegistro),
+    })) ?? []
+  );
 }
 
 // Función para agregar un nuevo componente
