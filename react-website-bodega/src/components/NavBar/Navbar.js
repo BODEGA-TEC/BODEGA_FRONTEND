@@ -12,7 +12,7 @@ function Navbar({ handleTabChange }) {
   const navigate = useNavigate();
 
   const navigateToLogIn = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   // Funtion that displays the button in mobile screens
@@ -59,7 +59,6 @@ function Navbar({ handleTabChange }) {
                   text="Inventario"
                   variant="outlined"
                   style={{ color: "#FFF", borderColor: "#FFF" }}
-                  onClick={navigateToLogIn}
                 />
                 <div className="dropdown-content">
                   <Link

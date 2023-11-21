@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
-import { useForm, Form } from "../../../components/useForm";
+import { useForm, Form } from "../../../hooks/useForm";
 import * as ComponentesService from "../../../services/ComponentesService";
 import { condicionItems } from "../../../utils/constants";
 import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta

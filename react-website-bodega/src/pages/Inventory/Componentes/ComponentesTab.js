@@ -45,7 +45,7 @@ const ComponentesTab = () => {
         setCategorias(data);
       })
       .catch((error) => {
-        console.error("Error al parsear categorías:", error);
+        if (error !== null) console.error("Error al parsear categorías:", error);
       });
   }, []);
 
@@ -56,7 +56,7 @@ const ComponentesTab = () => {
         setEstados(data);
       })
       .catch((error) => {
-        console.error("Error al parsear estados:", error);
+        if (error !== null) console.error("Error al parsear estados:", error);
       });
   }, []);
 
