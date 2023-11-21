@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import Controls from "../controls/Controls";
+import Popup from "../Popup";
+import { useTheme } from "@mui/material/styles";
+import { defaultPalette } from "../../config";
+import LogInBox from "./LogInBox";
+
 
 function Navbar({ handleTabChange }) {
   const [click, setClick] = useState(false);
@@ -11,8 +16,27 @@ function Navbar({ handleTabChange }) {
   const closeMobileMenu = () => setClick(false);
   const navigate = useNavigate();
 
+  const [openLogInPopup, setOpenLogInPopup] = useState(false);
+
   const navigateToLogIn = () => {
     navigate("/");
+  };
+  
+  const theme = useTheme();
+
+  const color =
+    "primary" === defaultPalette
+      ? theme.palette.primary
+      : theme.palette.secondary;
+
+  const palette = {
+    textcolor: color.contrastText,
+    start: color.main,
+    end: color.dark,
+  };
+
+  const openLogIn = () =>{
+    setOpenLogInPopup(true);
   };
 
   // Funtion that displays the button in mobile screens
@@ -101,10 +125,18 @@ function Navbar({ handleTabChange }) {
               text="Iniciar sesión"
               variant="outlined"
               style={{ color: "#FFF", borderColor: "#FFF" }}
-              onClick={navigateToLogIn}
+              onClick={openLogIn}
             />
           )}
         </div>
+        <Popup
+          title="Iniciar Sesión"
+          openPopup={openLogInPopup}
+          setOpenPopup={setOpenLogInPopup}
+          palette={palette}
+        >
+          <LogInBox/>
+        </Popup>
       </nav>
     </>
   );
