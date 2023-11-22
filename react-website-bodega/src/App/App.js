@@ -5,7 +5,6 @@ import Navbar from "../components/NavBar/Navbar";
 import Layout from "../components/Layout";
 import RequireAuth from "../components/RequireAuth";
 import Home from "../pages/Home";
-import Login from "../pages/LogIn";
 import Unauthorized from "../pages/Unauthorized";
 import Services from "../pages/Services";
 import Terms from "../pages/Terms";
@@ -37,7 +36,6 @@ function App() {
           {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
           //
-          <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="services" element={<Services />} />
           <Route path="terms" element={<Terms />} />

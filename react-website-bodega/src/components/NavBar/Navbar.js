@@ -16,28 +16,7 @@ function Navbar({ handleTabChange }) {
   const closeMobileMenu = () => setClick(false);
   const navigate = useNavigate();
 
-  const [openLogInPopup, setOpenLogInPopup] = useState(false);
-
-  const navigateToLogIn = () => {
-    navigate("/login");
-  };
   
-  const theme = useTheme();
-
-  const color =
-    "primary" === defaultPalette
-      ? theme.palette.primary
-      : theme.palette.secondary;
-
-  const palette = {
-    textcolor: color.contrastText,
-    start: color.main,
-    end: color.dark,
-  };
-
-  const openLogIn = () =>{
-    setOpenLogInPopup(true);
-  };
 
   // Funtion that displays the button in mobile screens
   // when its required.
@@ -119,23 +98,9 @@ function Navbar({ handleTabChange }) {
               </Link>
             </li>
           </ul>
-          {button && (
-            <Controls.Button
-              text="Iniciar sesión"
-              variant="outlined"
-              style={{ color: "#FFF", borderColor: "#FFF" }}
-              onClick={openLogIn}
-            />
-          )}
+          <LogInBox button={button}/>
         </div>
-        <Popup
-          title="Iniciar Sesión"
-          openPopup={openLogInPopup}
-          setOpenPopup={setOpenLogInPopup}
-          palette={palette}
-        >
-          <LogInBox/>
-        </Popup>
+        
       </nav>
     </>
   );

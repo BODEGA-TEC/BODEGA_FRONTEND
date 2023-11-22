@@ -5,8 +5,16 @@ import Alert from '@mui/material/Alert';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import Text from "../Text/Text";
+import Popup from "../Popup";
+import {useTheme} from "@mui/material/styles";
+import { defaultPalette } from "../../config";
+import Controls from "../controls/Controls";
 
-const LogInBox = () =>{
+const LogInBox = (
+    {
+        button,
+    }
+    ) =>{
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
@@ -15,6 +23,12 @@ const LogInBox = () =>{
 
     const [alertPasswordVisible, setAlertPasswordVisible] = useState(false);
     const [alertPasswordMessage, setAlertPasswordMessage] = useState("");
+    
+    const [openLogInPopup, setOpenLogInPopup] = useState(false);
+
+    const openLogIn = () =>{
+        setOpenLogInPopup(true);
+    };
     
     
     const { setAuth } = useAuth();
@@ -30,6 +44,20 @@ const LogInBox = () =>{
         setPassword(event.target.value);
     }
     
+    const theme = useTheme();
+
+    const color =
+        "primary" === defaultPalette
+        ? theme.palette.primary
+        : theme.palette.secondary;
+
+    const palette = {
+        textcolor: color.contrastText,
+        start: color.main,
+        end: color.dark,
+    };
+
+
     const checkInfo = (event) =>{
         if(userName === "" || password === ""){
             if(userName === ""){
@@ -55,8 +83,8 @@ const LogInBox = () =>{
     
           if (user) {
             setAuth({ user, roles, token });
-            navigate(from, { replace: true });
-            
+            //navigate(from, { replace: true });
+            setOpenLogInPopup(false);
           } else {
             setAlertPasswordMessage("Información incorrecta.");
             setAlertPasswordVisible(true);
@@ -67,9 +95,26 @@ const LogInBox = () =>{
         }
       };
 
+
+    
+
     return(
         <>
-        <div style={{marginTop: '5%'}}>
+        {button && (
+            <Controls.Button
+              text="Iniciar sesión"
+              variant="outlined"
+              style={{ color: "#FFF", borderColor: "#FFF" }}
+              onClick={openLogIn}
+            />
+          )}
+        <Popup
+          title="Iniciar Sesión"
+          openPopup={openLogInPopup}
+          setOpenPopup={setOpenLogInPopup}
+          palette={palette}
+        >
+          <div style={{marginTop: '5%'}}>
             <Box
             sx ={{
                 width: '300px'
@@ -134,8 +179,22 @@ const LogInBox = () =>{
                 </div>
             </Box>
         </div>
+        </Popup>
+        
         </>
     );
 }
 
 export default LogInBox;
+
+/**
+ * 
+ * <Popup
+          title="Iniciar Sesión"
+          openPopup={openLogInPopup}
+          setOpenPopup={setOpenLogInPopup}
+          palette={palette}
+        >
+          <LogInBox/>
+        </Popup>
+*/
