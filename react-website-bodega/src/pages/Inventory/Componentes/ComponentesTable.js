@@ -30,6 +30,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
+
   const columns = useMemo(
     () =>
       [
@@ -42,7 +43,6 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           enableGrouping: false,
           enableColumnOrdering: false,
         },
-
         {
           accessorKey: "descripcion",
           header: "DESCRIPCIÓN",
@@ -52,9 +52,9 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
         },
         {
           accessorKey: "modelo",
-          header: "MODELO",
-          minSize: 190,
-          size: 190,
+          header: "NO. PARTE",
+          minSize: 200,
+          size: 200,
         },
 
         {
@@ -152,7 +152,8 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           size: 600,
           enableGrouping: false,
         },
-        {
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
           accessorKey: "fecha",
           header: "CREADO",
           size: 170,
@@ -217,6 +218,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
 
     // Sin log no se muestran acciones, y si es profesor tampoco.
     enableRowActions: isLoggedIn() && !hasRole(ROLES.PROFESOR),
+
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "top",
     muiSearchTextFieldProps: {
@@ -300,12 +302,15 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
             <MRTToggleDensePaddingButton table={table} />
             <MRTToggleFullScreenButton table={table} />
           </Box>
-          <PopupButton
-            sx={{ display: "flex" }}
-            text="Agregar"
-            setOpenPopup={setOpenAddPopup}
-            icon={<AddIcon />}
-          />
+          {isLoggedIn() &&
+          (hasRole(ROLES.ADMINISTRADOR) || hasRole(ROLES.ASISTENTE)) ? (
+            <PopupButton
+              sx={{ display: "flex" }}
+              text="Agregar"
+              setOpenPopup={setOpenAddPopup}
+              icon={<AddIcon />}
+            />
+          ) : null}
         </Box>
       );
     },

@@ -4,6 +4,8 @@ import { getEquipo, deleteEquipo } from "../../../services/EquipoService";
 import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
 import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
+import useAuth from "../../../hooks/useAuth";
+import { ROLES } from "../../../utils/constants";
 
 //MRT Imports
 import {
@@ -24,145 +26,152 @@ import { Info, Delete, Download } from "@mui/icons-material";
 const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   const [records, setRecords] = useState([]);
 
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: "activoBodega",
-        header: "ID",
-        size: 100,
-        enableResizing: false,
-        enableGrouping: false,
-        enableColumnOrdering: false,
-      },
-      {
-        accessorKey: "activoTec",
-        header: "ACTIVO TEC",
-        size: 195,
-        enableResizing: false,
-        enableGrouping: false,
-      },
-      {
-        accessorKey: "serie",
-        header: "# SERIE",
-        minSize: 170,
-        size: 170,
-        enableResizing: false,
-        enableGrouping: false,
-      },
-      {
-        accessorKey: "descripcion",
-        header: "DESCRIPCIÓN",
-        minSize: 300,
-        size: 400,
-        enableGrouping: false,
-      },
+  const { hasRole, isLoggedIn } = useAuth();
 
-      {
-        accessorKey: "categoria",
-        header: "CATEGORÍA",
-        minSize: 195,
-        size: 195,
-      },
-      {
-        accessorKey: "estado",
-        header: "ESTADO",
-        size: 190,
-        enableResizing: false,
-        Cell: ({ cell }) => (
-          <Box
-            component="span"
-            sx={() => ({
-              backgroundColor:
-                cell.getValue() === "DISPONIBLE"
-                  ? "#2196F3" // Azul
-                  : cell.getValue() === "PRESTADO"
-                  ? "#808080" // Gris
-                  : cell.getValue() === "AGOTADO"
-                  ? "#808080" // Gris
-                  : cell.getValue() === "DAÑADO"
-                  ? "#d32f2f" // Rojo
-                  : cell.getValue() === "EN REPARACION"
-                  ? "#ff8800" // Naranja
-                  : cell.getValue() === "RETIRADO"
-                  ? "#8B4513" // Café
-                  : cell.getValue() === "APARTADO"
-                  ? "#29b4dc" // Celeste
-                  : "transparent", // Puedes agregar un color de fondo predeterminado si es necesario
-              borderRadius: "0.25rem",
-              color: "#fff",
-              width: "19ch",
-              p: "0.25rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            })}
-          >
-            {cell.getValue()}
-          </Box>
-        ),
-      },
-      {
-        accessorKey: "marca",
-        header: "MARCA",
-        minSize: 170,
-        size: 170,
-      },
-      {
-        accessorKey: "modelo",
-        header: "MODELO",
-        minSize: 170,
-        size: 170,
-      },
-      {
-        accessorKey: "condicion",
-        header: "CONDICIÓN",
-        size: 190,
-        enableResizing: false,
-        Cell: ({ cell }) => (
-          <Box
-            component="span"
-            sx={() => ({
-              backgroundColor:
-                cell.getValue() === "BUENO"
-                  ? "#388e3c" // Azul
-                  : cell.getValue() === "DAÑADO"
-                  ? "#d32f2f" // Rojo
-                  : cell.getValue() === "REGULAR"
-                  ? "#ffbf00" // Amarillo
-                  : "transparent", // Puedes agregar un color de fondo predeterminado si es necesario
-              borderRadius: "0.25rem",
-              color: "#fff",
-              width: "11ch",
-              p: "0.25rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            })}
-          >
-            {cell.getValue()}
-          </Box>
-        ),
-      },
-      {
-        accessorKey: "estante",
-        header: "ESTANTE",
-        minSize: 170,
-        size: 170,
-      },
-      {
-        accessorKey: "observaciones",
-        header: "OBSERVACIONES",
-        minSize: 240,
-        size: 600,
-        enableGrouping: false,
-      },
-      {
-        accessorKey: "fecha",
-        header: "CREADO",
-        size: 170,
-      },
-    ],
-    []
+  const columns = useMemo(
+    () =>
+      [
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "activoBodega",
+          header: "ID",
+          size: 100,
+          enableResizing: false,
+          enableGrouping: false,
+          enableColumnOrdering: false,
+        },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "activoTec",
+          header: "ACTIVO TEC",
+          size: 195,
+          enableResizing: false,
+          enableGrouping: false,
+        },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "serie",
+          header: "# SERIE",
+          minSize: 170,
+          size: 170,
+          enableResizing: false,
+          enableGrouping: false,
+        },
+        {
+          accessorKey: "descripcion",
+          header: "DESCRIPCIÓN",
+          minSize: 300,
+          size: 400,
+          enableGrouping: false,
+        },
+        {
+          accessorKey: "marca",
+          header: "MARCA",
+          minSize: 170,
+          size: 170,
+        },
+        {
+          accessorKey: "modelo",
+          header: "MODELO",
+          minSize: 170,
+          size: 170,
+        },
+        {
+          accessorKey: "categoria",
+          header: "CATEGORÍA",
+          minSize: 195,
+          size: 195,
+        },
+        {
+          accessorKey: "estado",
+          header: "ESTADO",
+          size: 190,
+          enableResizing: false,
+          Cell: ({ cell }) => (
+            <Box
+              component="span"
+              sx={() => ({
+                backgroundColor:
+                  cell.getValue() === "DISPONIBLE"
+                    ? "#2196F3" // Azul
+                    : cell.getValue() === "PRESTADO"
+                    ? "#808080" // Gris
+                    : cell.getValue() === "AGOTADO"
+                    ? "#808080" // Gris
+                    : cell.getValue() === "DAÑADO"
+                    ? "#d32f2f" // Rojo
+                    : cell.getValue() === "EN REPARACION"
+                    ? "#ff8800" // Naranja
+                    : cell.getValue() === "RETIRADO"
+                    ? "#8B4513" // Café
+                    : cell.getValue() === "APARTADO"
+                    ? "#29b4dc" // Celeste
+                    : "transparent", // Puedes agregar un color de fondo predeterminado si es necesario
+                borderRadius: "0.25rem",
+                color: "#fff",
+                width: "19ch",
+                p: "0.25rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              })}
+            >
+              {cell.getValue()}
+            </Box>
+          ),
+        },
+        {
+          accessorKey: "condicion",
+          header: "CONDICIÓN",
+          size: 190,
+          enableResizing: false,
+          Cell: ({ cell }) => (
+            <Box
+              component="span"
+              sx={() => ({
+                backgroundColor:
+                  cell.getValue() === "BUENO"
+                    ? "#388e3c" // Azul
+                    : cell.getValue() === "DAÑADO"
+                    ? "#d32f2f" // Rojo
+                    : cell.getValue() === "REGULAR"
+                    ? "#ffbf00" // Amarillo
+                    : "transparent", // Puedes agregar un color de fondo predeterminado si es necesario
+                borderRadius: "0.25rem",
+                color: "#fff",
+                width: "11ch",
+                p: "0.25rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              })}
+            >
+              {cell.getValue()}
+            </Box>
+          ),
+        },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "estante",
+          header: "ESTANTE",
+          minSize: 170,
+          size: 170,
+        },
+        {
+          accessorKey: "observaciones",
+          header: "OBSERVACIONES",
+          minSize: 240,
+          size: 750,
+          enableGrouping: false,
+        },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "fecha",
+          header: "CREADO",
+          size: 170,
+        },
+      ].filter(Boolean), // Filtrar elementos falsos (columnas que no deben mostrarse)
+    [isLoggedIn()] // Asegúrate de incluir cualquier dependencia que puedas necesitar
   );
 
   const fetchData = async () => {
@@ -170,7 +179,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       const data = await getEquipo();
       setRecords(data);
     } catch (error) {
-        if (error !== null) console.error("Error al recuperar equipo:", error);
+      if (error !== null) console.error("Error al recuperar equipo:", error);
     }
   };
 
@@ -206,7 +215,12 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     columns,
     data: records,
     initialState: {
-      columnVisibility: { serie: false, fecha: false },
+      columnVisibility: {
+        marca: false,
+        modelo: false,
+        serie: false,
+        fecha: false,
+      },
       showGlobalFilter: true,
     },
     enableColumnResizing: true,
@@ -216,7 +230,10 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     enableGrouping: true,
     enableFacetedValues: true,
     enableStickyHeader: true,
-    enableRowActions: true,
+
+    // Sin log no se muestran acciones, y si es profesor tampoco.
+    enableRowActions: isLoggedIn() && !hasRole(ROLES.PROFESOR),
+
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "top",
     muiSearchTextFieldProps: {
@@ -230,28 +247,28 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       variant: "outlined",
     },
 
+    muiTableBodyRowProps: ({ row }) => ({
+      onClick: (event) => {
+        console.info(event, row.id);
+        handleEditButton(row.original);
+      },
+      sx: {
+        cursor: "pointer",
+      },
+    }),
+
     renderRowActionMenuItems: ({ row, closeMenu }) => [
       <MenuItem
         key={0}
-        onClick={() => {
-          handleEditButton(row.original);
-          closeMenu();
-        }}
-        sx={{ m: 0 }}
-      >
-        <ListItemIcon>
-          <Info />
-        </ListItemIcon>
-        Ver
-      </MenuItem>,
-
-      <MenuItem
-        key={1}
         onClick={() => {
           handleDeleteButton(row.original.id);
           closeMenu();
         }}
         sx={{ m: 0 }}
+        // Mostrar la opción solo si el usuario es administrador
+        style={{
+          display: hasRole(ROLES.ADMINISTRADOR) ? "block" : "none",
+        }}
       >
         <ListItemIcon>
           <Delete />
@@ -260,12 +277,19 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
       </MenuItem>,
 
       <MenuItem
-        key={2}
+        key={1}
         onClick={() => {
           handleBarcodeClick(row.original.activoBodega);
           closeMenu();
         }}
         sx={{ m: 0 }}
+        // Mostrar la opción solo si el usuario es administrador o asistente
+        style={{
+          display:
+            hasRole(ROLES.ADMINISTRADOR) || hasRole(ROLES.ASISTENTE)
+              ? "block"
+              : "none",
+        }}
       >
         <ListItemIcon>
           <Download />
@@ -293,12 +317,15 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
             <MRTToggleDensePaddingButton table={table} />
             <MRTToggleFullScreenButton table={table} />
           </Box>
-          <PopupButton
-            sx={{ display: "flex" }}
-            text="Agregar"
-            setOpenPopup={setOpenAddPopup}
-            icon={<AddIcon />}
-          />
+          {isLoggedIn() &&
+          (hasRole(ROLES.ADMINISTRADOR) || hasRole(ROLES.ASISTENTE)) ? (
+            <PopupButton
+              sx={{ display: "flex" }}
+              text="Agregar"
+              setOpenPopup={setOpenAddPopup}
+              icon={<AddIcon />}
+            />
+          ) : null}
         </Box>
       );
     },
