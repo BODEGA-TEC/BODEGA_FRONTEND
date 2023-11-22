@@ -35,7 +35,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
-          //
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="services" element={<Services />} />
           <Route path="terms" element={<Terms />} />
