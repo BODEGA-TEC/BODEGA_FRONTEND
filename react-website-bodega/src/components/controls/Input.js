@@ -11,6 +11,7 @@ export default function Input(props) {
     placeholder,
     required,
     error = null,
+    readOnly = false,
     ...other
   } = props;
 
@@ -23,6 +24,7 @@ export default function Input(props) {
       onChange={onChange}
       placeholder={placeholder || ""}
       required={required || false}
+      InputProps={{ readOnly }}
       {...other}
       error={error ? true : false}
       helperText={error || ""}

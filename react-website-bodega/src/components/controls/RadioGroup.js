@@ -8,11 +8,11 @@ export default function RadioGroup(props) {
     name,
     label,
     value,
-    onChange,
     variant,
     color,
     size,
     items,
+    disabled = false,
     ...other
   } = props;
 
@@ -24,7 +24,7 @@ export default function RadioGroup(props) {
         row
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={props.onChange}
         sx={{ marginLeft: "1.5%" }}
       >
         {items.map((item) => (
@@ -37,6 +37,7 @@ export default function RadioGroup(props) {
                   variant={variant || "outlined"}
                   color={color || defaultPalette}
                   size={size || "medium"}
+                  disabled={disabled}
                   {...other}
                 />
               </Tooltip>

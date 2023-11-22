@@ -1,14 +1,14 @@
-// EquipoTab.js
+// ComponentesTab.js
 import React, { useState, useEffect } from "react";
 import { Paper } from "@mui/material";
-import EquipoTable from "./EquipoTable";
+import ComponentesTable from "./ComponentesTable";
 import Popup from "../../../components/Popup";
-import EquipoAddForm from "./EquipoAddForm";
-import EquipoEditForm from "./EquipoEditForm";
+import ComponentesAddForm from "./ComponentesAddForm";
+import ComponentesEditForm from "./ComponentesEditForm";
 import { defaultPalette } from "../../../config";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
-import * as EquipoService from "../../../services/EquipoService";
+import * as ComponentesService from "../../../services/ComponentesService";
 
 /* Styles */
 const PageContent = styled(Paper)(({ theme }) => ({
@@ -16,14 +16,14 @@ const PageContent = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
 }));
 
-const EquipoTab = () => {
+const ComponentesTab = () => {
   // Para informacion importante
   const [categorias, setCategorias] = useState([]);
   const [estados, setEstados] = useState([]);
 
   const [openAddPopup, setOpenAddPopup] = useState(false);
   const [openEditPopup, setOpenEditPopup] = useState(false);
-  const [record, setRecord] = useState(null); // equipo a editar
+  const [record, setRecord] = useState(null); // componente a editar
 
   // Obtener color
   const theme = useTheme();
@@ -40,18 +40,19 @@ const EquipoTab = () => {
 
   // Recuperar las categorías
   useEffect(() => {
-    EquipoService.getCategorias()
+    ComponentesService.getCategorias()
       .then((data) => {
         setCategorias(data);
       })
       .catch((error) => {
-        if (error !== null) console.error("Error al parsear categorías:", error);
+        if (error !== null)
+          console.error("Error al parsear categorías:", error);
       });
   }, []);
 
   // Recuperar los estados
   useEffect(() => {
-    EquipoService.getEstados()
+    ComponentesService.getEstados()
       .then((data) => {
         setEstados(data);
       })
@@ -63,7 +64,7 @@ const EquipoTab = () => {
   return (
     <>
       <PageContent>
-        <EquipoTable
+        <ComponentesTable
           setRecord={setRecord}
           setOpenAddPopup={setOpenAddPopup}
           setOpenEditPopup={setOpenEditPopup}
@@ -71,24 +72,29 @@ const EquipoTab = () => {
       </PageContent>
 
       <Popup
-        title="Agregar Equipo"
+        title="Agregar Componente"
         openPopup={openAddPopup}
         setOpenPopup={setOpenAddPopup}
         palette={palette}
       >
-        <EquipoAddForm options={{ categorias, estados }} />
+        <ComponentesAddForm options={{ categorias, estados }} />
       </Popup>
 
       <Popup
-        title="Detalles"
+        title={`${
+          record && record.activoBodega !== null ? `${record.activoBodega}` : ""
+        }`}
         openPopup={openEditPopup}
         setOpenPopup={setOpenEditPopup}
         palette={palette}
       >
-        <EquipoEditForm record={record} options={{ categorias, estados }} />
+        <ComponentesEditForm
+          record={record}
+          options={{ categorias, estados }}
+        />
       </Popup>
     </>
   );
 };
 
-export default EquipoTab;
+export default ComponentesTab;

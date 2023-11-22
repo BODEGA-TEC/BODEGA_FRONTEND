@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import "../inventory.css";
-import {
-  getComponente,
-  deleteComponente,
-} from "../../../services/ComponentesService";
+import { getEquipo, deleteEquipo } from "../../../services/EquipoService";
 import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
 import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
@@ -24,9 +20,9 @@ import {
 //Material UI Imports
 import { Box, ListItemIcon, MenuItem, lighten } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
-import { Info, Delete, Download } from "@mui/icons-material";
+import { Delete, Download } from "@mui/icons-material";
 
-const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
+const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
@@ -43,6 +39,23 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           enableGrouping: false,
           enableColumnOrdering: false,
         },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "activoTec",
+          header: "ACTIVO TEC",
+          size: 195,
+          enableResizing: false,
+          enableGrouping: false,
+        },
+        // Condición para mostrar esta columna solo si el usuario está logueado
+        isLoggedIn() && {
+          accessorKey: "serie",
+          header: "# SERIE",
+          minSize: 170,
+          size: 170,
+          enableResizing: false,
+          enableGrouping: false,
+        },
         {
           accessorKey: "descripcion",
           header: "DESCRIPCIÓN",
@@ -51,12 +64,17 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           enableGrouping: false,
         },
         {
-          accessorKey: "modelo",
-          header: "NO. PARTE",
-          minSize: 200,
-          size: 200,
+          accessorKey: "marca",
+          header: "MARCA",
+          minSize: 170,
+          size: 170,
         },
-
+        {
+          accessorKey: "modelo",
+          header: "MODELO",
+          minSize: 170,
+          size: 170,
+        },
         {
           accessorKey: "categoria",
           header: "CATEGORÍA",
@@ -102,13 +120,6 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           ),
         },
         {
-          accessorKey: "cantidad",
-          header: "CANTIDAD",
-          minSize: 180,
-          size: 180,
-          enableGrouping: false,
-        },
-        {
           accessorKey: "condicion",
           header: "CONDICIÓN",
           size: 190,
@@ -149,7 +160,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           accessorKey: "observaciones",
           header: "OBSERVACIONES",
           minSize: 240,
-          size: 600,
+          size: 750,
           enableGrouping: false,
         },
         // Condición para mostrar esta columna solo si el usuario está logueado
@@ -159,16 +170,15 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           size: 170,
         },
       ].filter(Boolean), // Filtrar elementos falsos (columnas que no deben mostrarse)
-    [isLoggedIn()] // Asegúrate de incluir cualquier dependencia que puedas necesitar
+    [isLoggedIn] // Asegúrate de incluir cualquier dependencia que puedas necesitar
   );
 
   const fetchData = async () => {
     try {
-      const data = await getComponente();
+      const data = await getEquipo();
       setRecords(data);
     } catch (error) {
-      if (error !== null)
-        console.error("Error al recuperar componentes:", error);
+      if (error !== null) console.error("Error al recuperar equipo:", error);
     }
   };
 
@@ -181,10 +191,10 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     setOpenEditPopup(true);
   };
 
-  // Eliminar componente
-  const handleDeleteButton = (componenteId) => {
+  // Eliminar equipo
+  const handleDeleteButton = (equipoId) => {
     // Llama a la función del servicio para eliminar un activo
-    deleteComponente(componenteId)
+    deleteEquipo(equipoId)
       .then(() => {
         // Recarga la página después de un breve retraso
         setTimeout(() => {
@@ -204,7 +214,13 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     columns,
     data: records,
     initialState: {
-      columnVisibility: { serie: false, fecha: false },
+      pageSize: 20,
+      columnVisibility: {
+        marca: false,
+        modelo: false,
+        serie: false,
+        fecha: false,
+      },
       showGlobalFilter: true,
     },
     enableColumnResizing: true,
@@ -226,8 +242,8 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     },
     muiPaginationProps: {
       color: defaultPalette,
-      rowsPerPageOptions: [10, 25, 50],
-      shape: "rounded",
+      //rowsPerPageOptions: [10, 25, 50],
+      //shape: "rounded",
       variant: "outlined",
     },
 
@@ -321,4 +337,4 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   );
 };
 
-export default ComponenteTable;
+export default EquipoTable;
