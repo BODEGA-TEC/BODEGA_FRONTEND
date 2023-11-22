@@ -11,6 +11,7 @@ export default function EquipoForm(props) {
 
   // Select
   const { categorias, estados } = props.options;
+  console.log(categorias);
   const [estado, setEstado] = useState("");
   const [categoria, setCategoria] = useState("");
 
@@ -95,7 +96,6 @@ export default function EquipoForm(props) {
   // Evento de finalizar el formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
     if (validate()) {
       putEquipo(values);
     }

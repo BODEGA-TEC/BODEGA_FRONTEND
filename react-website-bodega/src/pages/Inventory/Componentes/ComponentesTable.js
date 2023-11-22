@@ -177,7 +177,6 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
   }, []);
 
   const handleEditButton = (data) => {
-    console.log("records", data);
     setRecord(data);
     setOpenEditPopup(true);
   };
@@ -233,8 +232,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     },
 
     muiTableBodyRowProps: ({ row }) => ({
-      onClick: (event) => {
-        console.info(event, row.id);
+      onClick: (_) => {
         handleEditButton(row.original);
       },
       sx: {

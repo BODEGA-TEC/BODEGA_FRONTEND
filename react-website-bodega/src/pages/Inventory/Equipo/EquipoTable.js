@@ -248,8 +248,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     },
 
     muiTableBodyRowProps: ({ row }) => ({
-      onClick: (event) => {
-        console.info(event, row.id);
+      onClick: (_) => {
         handleEditButton(row.original);
       },
       sx: {
