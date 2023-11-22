@@ -1,4 +1,5 @@
 import JsBarcode from "jsbarcode";
+import useAuth from "../hooks/useAuth";
 
 // Función para manejar la entrada de teclas, asegurándose de que solo sean números
 export const handleNumericKeyPress = (e) => {

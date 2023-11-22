@@ -1,5 +1,4 @@
-
-const condicionItems = [
+const CONDICIONITEMS = [
   {
     id: 1,
     label: "BUENO",
@@ -18,4 +17,10 @@ const condicionItems = [
   },
 ];
 
-export { condicionItems };
+const ROLES = {
+  ADMINISTRADOR: 1,
+  PROFESOR: 2,
+  ASISTENTE: 3,
+};
+
+export { CONDICIONITEMS, ROLES };

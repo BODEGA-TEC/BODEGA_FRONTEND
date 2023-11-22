@@ -11,13 +11,6 @@ import Services from "../pages/Services";
 import Terms from "../pages/Terms";
 import Inventory from "../pages/Inventory";
 
-const ROLES = {
-  'ADMINISTRADOR': 1,
-  'PROFESOR': 2,
-  'ASISTENTE': 3
-}
-
-
 function App() {
   // Recuperar el estado del tab al cargar la aplicación
   const [inventoryTab, setInventoryTab] = useState(() => {
@@ -43,30 +36,20 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
-          //<Route path="login" element={<Login />} />
+          //
+          <Route path="login" element={<Login />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="services" element={<Services />} />
           <Route path="terms" element={<Terms />} />
-
           {/* PROTECTED ROUTES */}
-
-          <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]}/>}>
-            <Route
-              path="inventario/equipo"
-              element={
-                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
-              }
-            />
-          </Route>
-
-          <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]}/>}>
-            <Route
-              path="inventario/componentes"
-              element={
-                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
-              }
-            />
-          </Route>
+          <Route
+            path="inventario/equipo"
+            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
+          />
+          <Route
+            path="inventario/componentes"
+            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
+          />
         </Route>
       </Routes>
     </>

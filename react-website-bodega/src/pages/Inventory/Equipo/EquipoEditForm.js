@@ -3,7 +3,7 @@ import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
 import * as EquipoService from "../../../services/EquipoService";
-import { condicionItems } from "../../../utils/constants";
+import { CONDICIONITEMS } from "../../../utils/constants";
 
 export default function EquipoForm(props) {
   // Informacion
@@ -193,7 +193,7 @@ export default function EquipoForm(props) {
             size="small"
             value={values.condicion}
             onChange={handleInputChange}
-            items={condicionItems}
+            items={CONDICIONITEMS}
           />
         </Grid>
 

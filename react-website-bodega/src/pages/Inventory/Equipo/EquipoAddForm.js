@@ -3,13 +3,13 @@ import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
 import * as EquipoService from "../../../services/EquipoService";
-import { condicionItems } from "../../../utils/constants";
+import { CONDICIONITEMS } from "../../../utils/constants";
 
 const initialFValues = {
   id: 0,
   categoriaId: "",
   estadoId: "",
-  condicion: condicionItems[0].label,
+  condicion: CONDICIONITEMS[0].label,
   descripcion: "",
   activoTec: "",
   marca: "",
@@ -221,7 +221,7 @@ export default function EquipoForm(props) {
             size="small"
             value={values.condicion}
             onChange={handleInputChange}
-            items={condicionItems}
+            items={CONDICIONITEMS}
           />
         </Grid>
 

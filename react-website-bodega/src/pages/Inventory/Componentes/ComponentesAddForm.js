@@ -3,14 +3,14 @@ import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
 import * as ComponentesService from "../../../services/ComponentesService";
-import { condicionItems } from "../../../utils/constants";
+import { CONDICIONITEMS } from "../../../utils/constants";
 import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
 const initialFValues = {
   id: 0,
   categoriaId: "",
   estadoId: "",
-  condicion: condicionItems[0].label,
+  condicion: CONDICIONITEMS[0].label,
   descripcion: "",
   cantidad: "",
   modelo: "",
@@ -216,7 +216,7 @@ export default function ComponentesForm(props) {
             size="small"
             value={values.condicion}
             onChange={handleInputChange}
-            items={condicionItems}
+            items={CONDICIONITEMS}
           />
         </Grid>
 

@@ -3,7 +3,7 @@ import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
 import * as ComponentesService from "../../../services/ComponentesService";
-import { condicionItems } from "../../../utils/constants";
+import { CONDICIONITEMS } from "../../../utils/constants";
 import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 
 export default function ComponenteForm(props) {
@@ -180,7 +180,7 @@ export default function ComponenteForm(props) {
             size="small"
             value={values.condicion}
             onChange={handleInputChange}
-            items={condicionItems}
+            items={CONDICIONITEMS}
           />
         </Grid>
 
