@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
 import { Box, TextField, Button} from "@mui/material";
 import Alert from '@mui/material/Alert';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { login } from "../../services/AuthService";
+import Text from "../Text/Text";
 
 const LogInBox = () =>{
     const [userName, setUserName] = useState("");
@@ -12,6 +16,11 @@ const LogInBox = () =>{
     const [alertPasswordVisible, setAlertPasswordVisible] = useState(false);
     const [alertPasswordMessage, setAlertPasswordMessage] = useState("");
     
+    
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const TFUserName = (event) =>{
         setUserName(event.target.value);
@@ -21,7 +30,7 @@ const LogInBox = () =>{
         setPassword(event.target.value);
     }
     
-    const checkInfo = () =>{
+    const checkInfo = (event) =>{
         if(userName === "" || password === ""){
             if(userName === ""){
                 setAlertUserMessage("Campo de nombre vacío.");
@@ -31,8 +40,32 @@ const LogInBox = () =>{
                 setAlertPasswordMessage("Campo de contraseña vacía.");
                 setAlertPasswordVisible(true);
             }
+        }else{
+            handleSubmit(event);
         }
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const { user, roles, token } = await login({
+            carne: userName,
+            clave: password,
+          });
+    
+          if (user) {
+            setAuth({ user, roles, token });
+            navigate(from, { replace: true });
+            
+          } else {
+            setAlertPasswordMessage("Información incorrecta.");
+            setAlertPasswordVisible(true);
+          }
+        } catch (err) {
+          setAlertPasswordMessage(err);
+          setAlertPasswordVisible(true);
+        }
+      };
 
     return(
         <>
@@ -44,7 +77,10 @@ const LogInBox = () =>{
             >   
                 <div style={{textAlign: 'center'}}>
                     <div>
-                    Ingresar nombre de usuario:
+                    <Text
+                        text_style = 'text_title'
+                        text = 'Nombre de usuario:'
+                    />
                     </div>
                     <div style={{marginTop:'5%', marginBottom: '15%'}}>
                         <TextField
@@ -67,7 +103,10 @@ const LogInBox = () =>{
                         )}
                     </div>
                     <div>
-                    Ingresar contraseña:
+                    <Text
+                        text_style = 'text_title'
+                        text = 'Contraseña:'
+                    />
                     </div>
                     <div style={{marginTop:'5%', marginBottom: '10%'}}>
                         <TextField
@@ -79,9 +118,6 @@ const LogInBox = () =>{
                             onChange={TFPassword}
                         />
                     </div>
-                    <div style={{marginBottom: '15%'}}>
-                    <Button variant="contained" onClick={checkInfo}>Ingresar</Button>
-                    </div>
                     <div>
                     {alertPasswordVisible && (
                             <Alert
@@ -91,6 +127,9 @@ const LogInBox = () =>{
                             {alertPasswordMessage}
                             </Alert>
                         )}
+                    </div>
+                    <div style={{marginBottom: '15%', marginTop: '10%'}}>
+                    <Button variant="contained" onClick={(event)=>{checkInfo(event)}}>Ingresar</Button>
                     </div>
                 </div>
             </Box>
