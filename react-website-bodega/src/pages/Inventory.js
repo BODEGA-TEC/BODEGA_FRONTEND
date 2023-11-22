@@ -5,9 +5,8 @@ import { TabPanel, a11yProps } from "../components/TabPanel";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Grid } from "@mui/material/";
-import EquipoTab from "./Inventory/Equipo/EquipoTab";
-import ComponentesTab from "./Inventory/Componentes/ComponentesTab";
-import Footer from "../components/Footer/Footer";
+import EquipoTab from "../components/Inventory/Equipo/EquipoTab";
+import ComponentesTab from "../components/Inventory/Componentes/ComponentesTab";
 import { defaultPalette } from "../config";
 
 /* Pagina del inventario */

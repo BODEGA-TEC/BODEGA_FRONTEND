@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
-import * as ComponentesService from "../../../services/ComponentesService";
-import { CONDICIONITEMS } from "../../../utils/constants";
-import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
+import * as EquipoService from "../../../services/EquipoService";
+import useAuth from "../../../hooks/useAuth";
+import { CONDICIONITEMS, ROLES } from "../../../utils/constants";
+import { Edit } from "@mui/icons-material";
 
-export default function ComponenteForm(props) {
+export default function EquipoForm(props) {
   // Informacion
   const { record } = props;
+
+  // Auth
+  const { hasRole, isLoggedIn } = useAuth();
 
   // Select
   const { categorias, estados } = props.options;
@@ -16,8 +20,9 @@ export default function ComponenteForm(props) {
   const [categoria, setCategoria] = useState("");
 
   // Edit button
-  const [editButtonDisable, setEditButtonDisable] = useState(true);
-  const unchangedRecord = record;
+  const [editMode, setEditMode] = useState(false); // Activar modo edicion
+  const [applyButtonDisable, setApplyButtonDisable] = useState(true); //Desabilitar boton aplicar
+  const unchangedRecord = record; // Datos sin cambios
 
   // Alertas
   const [errorFlag, setErrorFlag] = useState(true);
@@ -34,9 +39,15 @@ export default function ComponenteForm(props) {
   };
 
   // Función para restablecer los valores sin cambios
-  const resetStateValues = () => {
+  const handleCancelEditMode = () => {
     setEstado(unchangedRecord.estado);
     setCategoria(unchangedRecord.categoria);
+    setEditMode(false);
+  };
+
+  // Habilita el modo editar
+  const handleEnableEditMode = () => {
+    setEditMode(true);
   };
 
   // Props del form
@@ -46,10 +57,10 @@ export default function ComponenteForm(props) {
     validate
   );
 
-  // Update componente
-  const putComponente = (componente) => {
+  // Update equipo
+  const putEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    ComponentesService.putComponente(componente.id, componente)
+    EquipoService.putEquipo(equipo.id, equipo)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);
@@ -78,7 +89,7 @@ export default function ComponenteForm(props) {
     // Verifica si los valores son iguales y habilita o deshabilita el botón de edición
     const valuesAreEqual =
       JSON.stringify(values) === JSON.stringify(unchangedRecord);
-    setEditButtonDisable(valuesAreEqual);
+    setApplyButtonDisable(valuesAreEqual);
   }, [values, unchangedRecord]);
 
   // Evento de seleccionar
@@ -95,35 +106,47 @@ export default function ComponenteForm(props) {
 
   // Evento de finalizar el formulario
   const handleSubmit = (e) => {
+    console.log("here");
     e.preventDefault();
-    console.log(values);
     if (validate()) {
-      putComponente(values);
+      putEquipo(values);
     }
+  };
+
+  // Verificar si el usuario puede editar (está logeado y es administrador)
+  const hasEditRights = () => {
+    return isLoggedIn() && hasRole(ROLES.ADMINISTRADOR);
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container alignItems="center" spacing={"1.5%"}>
-        {/* Descripción y Estante*/}
-        <Grid item xs={12} sm={9}>
+        {/* Descripción */}
+        <Grid item xs={12} sm={isLoggedIn() ? 9 : 12}>
           <Controls.Input
             name="descripcion"
             label="Descripción"
             value={values.descripcion}
             onChange={handleInputChange}
             error={errors.descripcion}
+            readOnly={!editMode}
           />
         </Grid>
 
         {/* Estante */}
-        <Grid item xs={12} sm={3}>
+        <Grid
+          item
+          xs={12}
+          sm={3}
+          style={{ display: isLoggedIn() ? "block" : "none" }}
+        >
           <Controls.Input
             name="estante"
             label="Estante"
             value={values.estante}
             onChange={handleInputChange}
             error={errors.estante}
+            readOnly={!editMode}
           />
         </Grid>
 
@@ -137,8 +160,17 @@ export default function ComponenteForm(props) {
             onChange={handleSelectChange(setCategoria, categorias)}
             options={categorias}
             error={errors.categoriaId}
+            readOnly={!editMode}
           />
-
+          {/* Marca */}
+          <Controls.Input
+            name="marca"
+            label="Marca"
+            value={values.marca}
+            onChange={handleInputChange}
+            error={errors.marca}
+            readOnly={!editMode}
+          />
           {/* Modelo */}
           <Controls.Input
             name="modelo"
@@ -146,6 +178,7 @@ export default function ComponenteForm(props) {
             value={values.modelo}
             onChange={handleInputChange}
             error={errors.modelo}
+            readOnly={!editMode}
           />
         </Grid>
 
@@ -158,17 +191,27 @@ export default function ComponenteForm(props) {
             onChange={handleSelectChange(setEstado, estados)}
             options={estados}
             error={errors.estadoId}
+            readOnly={!editMode}
           />
 
+          {/* Activo TEC */}
           <Controls.Input
-            name="cantidad"
-            label="Cantidad"
-            type="number"
-            value={values.cantidad}
+            name="activoTec"
+            label="# Activo TEC"
+            value={values.activoTec}
             onChange={handleInputChange}
-            onKeyPress={handleNumericKeyPress}
-            error={errors.cantidad}
-            inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
+            error={errors.activoTec}
+            readOnly={!editMode}
+          />
+
+          {/* Serie */}
+          <Controls.Input
+            name="serie"
+            label="# Serie"
+            value={values.serie}
+            onChange={handleInputChange}
+            error={errors.serie}
+            readOnly={!editMode}
           />
         </Grid>
 
@@ -181,6 +224,7 @@ export default function ComponenteForm(props) {
             value={values.condicion}
             onChange={handleInputChange}
             items={CONDICIONITEMS}
+            disabled={!editMode}
           />
         </Grid>
 
@@ -194,6 +238,7 @@ export default function ComponenteForm(props) {
             error={errors.observaciones}
             multiline
             rows={5}
+            readOnly={!editMode}
           />
         </Grid>
 
@@ -209,18 +254,31 @@ export default function ComponenteForm(props) {
         </Grid>
 
         <Grid container item xs={12} sm={12} justifyContent="flex-end">
+          {/* Botón de Aplicar */}
           <Controls.Button
             type="submit"
             text="Aplicar"
-            disabled={editButtonDisable}
+            disabled={applyButtonDisable}
+            style={{ display: editMode ? "flex" : "none" }}
           />
+
+          {/* Botón de Cancelar */}
           <Controls.Button
-            text="Descartar"
+            text="Cancelar"
             color="inherit"
             onClick={() => {
               resetForm();
-              resetStateValues();
+              handleCancelEditMode();
             }}
+            style={{ display: editMode ? "flex" : "none" }}
+          />
+
+          {/* Botón de Editar */}
+          <Controls.Button
+            text="Editar"
+            onClick={handleEnableEditMode}
+            style={{ display: !editMode && hasEditRights() ? "flex" : "none" }}
+            endIcon={<Edit />}
           />
         </Grid>
       </Grid>

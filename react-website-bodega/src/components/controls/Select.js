@@ -16,7 +16,18 @@ export default function Select(props) {
     error = null,
     onChange,
     options,
+    readOnly = false,
   } = props;
+
+  const inputProps = {
+    ...props.inputProps,
+    readOnly,
+  };
+
+  // Ajusta IconComponent solo cuando readOnly es true
+  if (readOnly) {
+    inputProps.IconComponent = () => null;
+  }
 
   return (
     <FormControl variant={variant || "outlined"} error={Boolean(error)}>
@@ -27,6 +38,7 @@ export default function Select(props) {
         value={value}
         onChange={onChange}
         renderValue={(selected) => selected}
+        inputProps={inputProps}
       >
         {options.map((item) => (
           <MenuItem key={item.id} value={item.label}>

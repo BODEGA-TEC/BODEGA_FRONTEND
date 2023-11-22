@@ -28,10 +28,7 @@ export async function register(userInfo) {
 export async function login(credentials) {
   try {
     const { data } = await postRequest(LOGIN_ENDPOINT, credentials);
-    const { user, roles, token } = data;
-    console.log(data);
-
-    return { user, roles, token };
+    return data;
   } catch (error) {
     throw handleError(error);
   }
