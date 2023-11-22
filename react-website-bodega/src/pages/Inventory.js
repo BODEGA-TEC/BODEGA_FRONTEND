@@ -7,7 +7,7 @@ import Tab from "@mui/material/Tab";
 import { Grid } from "@mui/material/";
 import EquipoTab from "./Inventory/Equipo/EquipoTab";
 import ComponentesTab from "./Inventory/Componentes/ComponentesTab";
-
+import Footer from "../components/Footer/Footer";
 import { defaultPalette } from "../config";
 
 /* Pagina del inventario */
@@ -59,6 +59,9 @@ const Inventory = (props) => {
           </TabPanel>
         </Box>
       </Grid>
+      <div style={{position: 'fixed', bottom: '0', width: '100%'}}>
+      <Footer/>
+      </div>
     </>
   );
 };

@@ -3,8 +3,9 @@ import LogInBox from "../components/NavBar/LogInBox";
 import Popup from "../components/Popup";
 import { useTheme } from "@mui/material/styles";
 import { defaultPalette } from "../config";
+import { Link, useNavigate } from "react-router-dom";
+
 const Login = () => {
-  const [openLogInPopup, setOpenLogInPopup] = useState(true);
 
   const theme = useTheme();
   
@@ -19,16 +20,22 @@ const Login = () => {
     end: color.dark,
   };
 
-  const openLogIn = () =>{
-    setOpenLogInPopup(true);
+  const navigate = useNavigate();
+  const navigateToLogIn = () => {
+    navigate("/");
   };
+
+  const goBack = () =>{
+    navigateToLogIn();
+  };
+
   return (
     <>
     
     <Popup
           title="Iniciar Sesión"
           openPopup={true}
-          setOpenPopup={openLogIn}
+          setOpenPopup={goBack}
           palette={palette}
         >
           <LogInBox/>
