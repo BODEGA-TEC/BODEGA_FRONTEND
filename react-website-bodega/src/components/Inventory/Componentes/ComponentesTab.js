@@ -65,6 +65,8 @@ const ComponentesTab = () => {
     <>
       <PageContent>
         <ComponentesTable
+          categorias={categorias}
+          estados={estados}
           setRecord={setRecord}
           setOpenAddPopup={setOpenAddPopup}
           setOpenEditPopup={setOpenEditPopup}

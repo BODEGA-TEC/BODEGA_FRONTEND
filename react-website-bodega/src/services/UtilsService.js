@@ -9,12 +9,12 @@ const API = axios.create({
   },
 });
 
-export function handleError(err) {
-  if (!err?.response) {
+export function handleError(error) {
+  if (!error?.response) {
     console.error("Sin respuesta del servidor");
     return null;
   } else {
-    throw err;
+    throw error.response;
   }
 }
 
@@ -40,6 +40,7 @@ export async function postRequest(endpoint, data) {
   try {
     const response = await API.post(endpoint, data);
     const serviceResponse = response.data;
+    console.log("Respuesta POST ", serviceResponse);
 
     if (!serviceResponse.success) {
       throw new Error(`${serviceResponse.message}`);

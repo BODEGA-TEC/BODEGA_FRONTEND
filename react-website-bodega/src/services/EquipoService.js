@@ -51,8 +51,8 @@ export async function postEquipo(equipo) {
     return await postRequest("equipo", equipo);
   } catch (error) {
     // Maneja errores
-    // console.error(error);
-    throw error;
+    console.error("Servidor desconectado");
+    //throw error;
   }
 }
 
@@ -62,8 +62,8 @@ export async function putEquipo(equipoId, equipo) {
     return await putRequest(`equipo/${equipoId}`, equipo);
   } catch (error) {
     // Maneja errores
-    // console.error(error);
-    throw error;
+    console.error("Servidor desconectado");
+    //throw error;
   }
 }
 
@@ -73,7 +73,7 @@ export async function deleteEquipo(equipoId) {
     return await deleteRequest(`equipo/${equipoId}`);
   } catch (error) {
     // Maneja errores
-    // console.error(error);
-    throw error;
+    console.error("Servidor desconectado");
+    //throw error;
   }
 }

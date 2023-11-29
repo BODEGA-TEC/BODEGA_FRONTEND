@@ -22,7 +22,13 @@ import { Box, ListItemIcon, MenuItem, lighten } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Delete, Download } from "@mui/icons-material";
 
-const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
+const EquipoTable = ({
+  categorias,
+  estados,
+  setRecord,
+  setOpenAddPopup,
+  setOpenEditPopup,
+}) => {
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
@@ -80,12 +86,18 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           header: "CATEGORÍA",
           minSize: 195,
           size: 195,
+          filterFn: "equals",
+          filterSelectOptions: categorias,
+          filterVariant: "select",
         },
         {
           accessorKey: "estado",
           header: "ESTADO",
           size: 190,
           enableResizing: false,
+          filterFn: "equals",
+          filterSelectOptions: estados,
+          filterVariant: "select",
           Cell: ({ cell }) => (
             <Box
               component="span"
@@ -124,6 +136,9 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           header: "CONDICIÓN",
           size: 190,
           enableResizing: false,
+          filterFn: "equals",
+          filterSelectOptions: ["BUENO", "DAÑADO", "REGULAR"],
+          filterVariant: "select",
           Cell: ({ cell }) => (
             <Box
               component="span"
@@ -170,7 +185,7 @@ const EquipoTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           size: 170,
         },
       ].filter(Boolean), // Filtrar elementos falsos (columnas que no deben mostrarse)
-    [isLoggedIn] // Asegúrate de incluir cualquier dependencia que puedas necesitar
+    [isLoggedIn, categorias, estados] // Asegúrate de incluir cualquier dependencia que puedas necesitar
   );
 
   const fetchData = async () => {

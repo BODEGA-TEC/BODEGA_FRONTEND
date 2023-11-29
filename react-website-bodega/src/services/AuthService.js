@@ -20,7 +20,7 @@ export async function register(userInfo) {
       throw new Error(message || "Registration failed");
     }
   } catch (error) {
-    throw handleError(error);
+    throw error;
   }
 }
 
@@ -29,19 +29,10 @@ export async function login(credentials) {
   try {
     const { data } = await postRequest(LOGIN_ENDPOINT, credentials);
     return data;
-  } catch (error) {
-    throw handleError(error);
-  }
-}
-
-function handleError(err) {
-  if (!err?.response) {
-    return "Sin respuesta del servidor";
-  } else if (err.response?.status === 403) {
-    return "Acción prohibida";
-  } else if (err.response?.status === 401) {
-    return "Acción no autorizada";
-  } else {
-    return "Error de inicio de sesión/registro";
+  } catch (response) {
+    if (!response?.data) {
+      console.log(response);
+      throw response.data.message;
+    }
   }
 }

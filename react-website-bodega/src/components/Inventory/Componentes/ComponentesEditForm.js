@@ -33,6 +33,47 @@ export default function ComponenteForm(props) {
   // Funcion de validacion - por si mas adelante ha de validarse algo
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
+
+    // Validar categoriaId
+    if ("categoriaId" in fieldValues)
+      temp.categoriaId = fieldValues.categoriaId
+        ? ""
+        : "La categoría es requerida.";
+
+    // Validar estadoId
+    if ("estadoId" in fieldValues)
+      temp.estadoId = fieldValues.estadoId ? "" : "El estado es requerido.";
+
+    // Validar condicion
+    if ("condicion" in fieldValues)
+      temp.condicion = fieldValues.condicion
+        ? ""
+        : "La condición es requerida.";
+
+    // Validar descripcion
+    if ("cantidadTotal" in fieldValues)
+      temp.cantidadTotal = fieldValues.cantidadTotal
+        ? ""
+        : "La cantidad total es requerida.";
+
+    if ("cantidadDisponible" in fieldValues) {
+      // Validate the condition
+      if (fieldValues.cantidadDisponible > fieldValues.cantidadTotal) {
+        // If the condition is not met, set an error message
+        temp.cantidadDisponible =
+          "La cantidad disponible debe ser menor o igual a la cantidad total.";
+      }
+    }
+    // Validar descripcion
+    if ("descripcion" in fieldValues)
+      temp.descripcion = fieldValues.descripcion
+        ? ""
+        : "La descripción es requerida.";
+
+    // Validar estante
+    if ("estante" in fieldValues)
+      temp.estante = fieldValues.estante ? "" : "El estante es requerido.";
+
     setErrors({ ...temp });
 
     // Comprobar si todos los errores están vacíos
@@ -52,11 +93,8 @@ export default function ComponenteForm(props) {
   };
 
   // Props del form
-  const { values, errors, setErrors, handleInputChange, resetForm } = useForm(
-    unchangedRecord,
-    true,
-    validate
-  );
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
+    useForm(unchangedRecord, true, validate);
 
   // Update componente
   const putComponente = (componente) => {
@@ -93,6 +131,24 @@ export default function ComponenteForm(props) {
     setApplyButtonDisable(valuesAreEqual);
   }, [values, unchangedRecord]);
 
+  useEffect(() => {
+    // Al modificar cantidadTotal, asigna automáticamente ese valor a cantidadDisponible
+    setValues((prevValues) => ({
+      ...prevValues,
+      cantidadDisponible: values.cantidadTotal,
+    }));
+  }, [values.cantidadTotal]);
+
+  useEffect(() => {
+    // Si cantidadDisponible es "", toma el valor de cantidadTotal siempre y cuando cantidadTotal no sea ""
+    if (values.cantidadDisponible === "" && values.cantidadTotal !== "") {
+      setValues((prevValues) => ({
+        ...prevValues,
+        cantidadDisponible: values.cantidadTotal,
+      }));
+    }
+  }, [values.cantidadTotal, values.cantidadDisponible]);
+
   // Evento de seleccionar
   const handleSelectChange = (setter, options) => (e) => {
     const { name, value } = e.target;
@@ -121,7 +177,7 @@ export default function ComponenteForm(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Grid container alignItems="center" spacing={"1.5%"}>
+      <Grid container alignItems="flex-start" spacing={"1.5%"}>
         {/* Descripción y Estante*/}
         <Grid item xs={12} sm={isLoggedIn() ? 9 : 12}>
           <Controls.Input
@@ -166,11 +222,11 @@ export default function ComponenteForm(props) {
 
           {/* Modelo */}
           <Controls.Input
-            name="modelo"
-            label="Modelo"
-            value={values.modelo}
+            name="noParte"
+            label="No. Parte"
+            value={values.noParte}
             onChange={handleInputChange}
-            error={errors.modelo}
+            error={errors.noParte}
             readOnly={!editMode}
           />
         </Grid>
@@ -187,14 +243,28 @@ export default function ComponenteForm(props) {
             readOnly={!editMode}
           />
 
+          {isLoggedIn() && (
+            <Controls.Input
+              name="cantidadTotal"
+              label="Cantidad Total"
+              type="number"
+              value={values.cantidadTotal}
+              onChange={handleInputChange}
+              onKeyPress={handleNumericKeyPress}
+              error={errors.cantidadTotal}
+              inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
+              readOnly={!editMode}
+            />
+          )}
+
           <Controls.Input
-            name="cantidad"
-            label="Cantidad"
+            name="cantidadDisponible"
+            label="Cantidad Disponible"
             type="number"
-            value={values.cantidad}
+            value={values.cantidadDisponible}
             onChange={handleInputChange}
             onKeyPress={handleNumericKeyPress}
-            error={errors.cantidad}
+            error={errors.cantidadDisponible}
             inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
             readOnly={!editMode}
           />

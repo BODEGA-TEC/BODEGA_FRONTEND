@@ -65,6 +65,8 @@ const EquipoTab = () => {
     <>
       <PageContent>
         <EquipoTable
+          categorias={categorias}
+          estados={estados}
           setRecord={setRecord}
           setOpenAddPopup={setOpenAddPopup}
           setOpenEditPopup={setOpenEditPopup}

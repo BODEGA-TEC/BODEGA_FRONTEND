@@ -25,7 +25,13 @@ import { Box, ListItemIcon, MenuItem, lighten } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import { Delete, Download } from "@mui/icons-material";
 
-const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
+const ComponenteTable = ({
+  categorias,
+  estados,
+  setRecord,
+  setOpenAddPopup,
+  setOpenEditPopup,
+}) => {
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
@@ -50,7 +56,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           enableGrouping: false,
         },
         {
-          accessorKey: "modelo",
+          accessorKey: "noParte",
           header: "NO. PARTE",
           minSize: 200,
           size: 200,
@@ -61,12 +67,18 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           header: "CATEGORÍA",
           minSize: 195,
           size: 195,
+          filterFn: "equals",
+          filterSelectOptions: categorias,
+          filterVariant: "select",
         },
         {
           accessorKey: "estado",
           header: "ESTADO",
           size: 190,
           enableResizing: false,
+          filterFn: "equals",
+          filterSelectOptions: estados,
+          filterVariant: "select",
           Cell: ({ cell }) => (
             <Box
               component="span"
@@ -101,17 +113,30 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           ),
         },
         {
-          accessorKey: "cantidad",
-          header: "CANTIDAD",
-          minSize: 180,
-          size: 180,
+          accessorKey: "cantidadTotal",
+          header: "CANTIDAD TOTAL",
+          minSize: 226,
+          size: 226,
           enableGrouping: false,
+          cellStyle: { textAlign: "center" },
         },
+        {
+          accessorKey: "cantidadDisponible",
+          header: "CANTIDAD DISPONIBLE",
+          minSize: 273,
+          size: 273,
+          enableGrouping: false,
+          cellStyle: { textAlign: "center" },
+        },
+
         {
           accessorKey: "condicion",
           header: "CONDICIÓN",
           size: 190,
           enableResizing: false,
+          filterFn: "equals",
+          filterSelectOptions: ["BUENO", "DAÑADO", "REGULAR"],
+          filterVariant: "select",
           Cell: ({ cell }) => (
             <Box
               component="span"
@@ -158,7 +183,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
           size: 170,
         },
       ].filter(Boolean), // Filtrar elementos falsos (columnas que no deben mostrarse)
-    [isLoggedIn] // Asegúrate de incluir cualquier dependencia que puedas necesitar
+    [isLoggedIn, categorias, estados] // Asegúrate de incluir cualquier dependencia que puedas necesitar
   );
 
   const fetchData = async () => {
@@ -203,7 +228,7 @@ const ComponenteTable = ({ setRecord, setOpenAddPopup, setOpenEditPopup }) => {
     columns,
     data: records,
     initialState: {
-      columnVisibility: { serie: false, fecha: false },
+      columnVisibility: { cantidadTotal: false, serie: false, fecha: false },
       showGlobalFilter: true,
     },
     enableColumnResizing: true,

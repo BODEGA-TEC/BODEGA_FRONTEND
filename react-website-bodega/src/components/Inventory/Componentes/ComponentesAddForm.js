@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Alert } from "@mui/material";
 import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
@@ -12,8 +12,9 @@ const initialFValues = {
   estadoId: "",
   condicion: CONDICIONITEMS[0].label,
   descripcion: "",
-  cantidad: "",
-  modelo: "",
+  cantidadTotal: "",
+  cantidadDisponible: "",
+  noParte: "",
   estante: "",
   observaciones: "",
 };
@@ -49,9 +50,19 @@ export default function ComponentesForm(props) {
         : "La condición es requerida.";
 
     // Validar descripcion
-    if ("cantidad" in fieldValues)
-      temp.cantidad = fieldValues.cantidad ? "" : "La cantidad es requerida.";
+    if ("cantidadTotal" in fieldValues)
+      temp.cantidadTotal = fieldValues.cantidadTotal
+        ? ""
+        : "La cantidad total es requerida.";
 
+    if ("cantidadDisponible" in fieldValues) {
+      // Validate the condition
+      if (fieldValues.cantidadDisponible > fieldValues.cantidadTotal) {
+        // If the condition is not met, set an error message
+        temp.cantidadDisponible =
+          "La cantidad disponible debe ser menor o igual a la cantidad total.";
+      }
+    }
     // Validar descripcion
     if ("descripcion" in fieldValues)
       temp.descripcion = fieldValues.descripcion
@@ -117,6 +128,24 @@ export default function ComponentesForm(props) {
     });
   };
 
+  useEffect(() => {
+    // Al modificar cantidadTotal, asigna automáticamente ese valor a cantidadDisponible
+    setValues((prevValues) => ({
+      ...prevValues,
+      cantidadDisponible: values.cantidadTotal,
+    }));
+  }, [values.cantidadTotal]);
+
+  useEffect(() => {
+    // Si cantidadDisponible es "", toma el valor de cantidadTotal siempre y cuando cantidadTotal no sea ""
+    if (values.cantidadDisponible === "" && values.cantidadTotal !== "") {
+      setValues((prevValues) => ({
+        ...prevValues,
+        cantidadDisponible: values.cantidadTotal,
+      }));
+    }
+  }, [values.cantidadTotal, values.cantidadDisponible]);
+
   // Evento de finalizar el formulario
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -125,18 +154,6 @@ export default function ComponentesForm(props) {
       postComponente(values);
     }
   };
-
-  // useEffect(() => {
-  //   // Analiza cambios en la cantidad
-  //   if (estado === "AGOTADO" && values.cantidad !== 0) {
-  //     // Si el estado es 'AGOTADO', actualiza la cantidad a 0
-  //     setValues((prevValues) => ({
-  //       ...prevValues,
-  //       cantidad: 0,
-  //     }));
-  //   }
-  //   // Puedes agregar más condiciones según sea necesario
-  // }, [values.cantidad, estado]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -177,33 +194,35 @@ export default function ComponentesForm(props) {
 
           {/* Modelo */}
           <Controls.Input
-            name="modelo"
-            label="Modelo"
-            value={values.modelo}
+            name="noParte"
+            label="No. Parte"
+            value={values.noParte}
             onChange={handleInputChange}
-            error={errors.modelo}
+            error={errors.noParte}
           />
         </Grid>
 
         {/* Estado */}
         <Grid item xs={12} sm={6}>
-          <Controls.Select
-            name="estado"
-            label="Estado"
-            value={estado}
-            onChange={handleSelectChange(setEstado, estados)}
-            options={estados}
-            error={errors.estadoId}
+          <Controls.Input
+            name="cantidadTotal"
+            label="Cantidad Total"
+            type="number"
+            value={values.cantidadTotal}
+            onChange={handleInputChange}
+            onKeyPress={handleNumericKeyPress}
+            error={errors.cantidadTotal}
+            inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
           />
 
           <Controls.Input
-            name="cantidad"
-            label="Cantidad"
+            name="cantidadDisponible"
+            label="Cantidad Disponible"
             type="number"
-            value={values.cantidad}
+            value={values.cantidadDisponible}
             onChange={handleInputChange}
             onKeyPress={handleNumericKeyPress}
-            error={errors.cantidad}
+            error={errors.cantidadDisponible}
             inputProps={{ min: 0, inputMode: "numeric", pattern: "[0-9]" }}
           />
         </Grid>
