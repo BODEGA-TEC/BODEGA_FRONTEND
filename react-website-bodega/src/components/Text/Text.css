@@ -27,6 +27,24 @@
     margin-bottom: 10px;
 }
 
+.text_title2{
+    font-weight: bold;
+    font-size: 75px;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: start;
+}
+
+.subtitle{
+    font-weight: semi-bold;
+    width: 400px;
+    font-size: 40px;
+    color: #EADF0E;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .text__wrapper {
     position:relative;
 }
