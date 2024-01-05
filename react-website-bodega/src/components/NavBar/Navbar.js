@@ -40,7 +40,7 @@ function Navbar({ handleTabChange }) {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-            Bodega Web{" "}
+            {" "}
             <img className="bodega-logo" src="/logo.png" alt="logo" />
           </Link>
 
@@ -88,7 +88,7 @@ function Navbar({ handleTabChange }) {
               </div>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to="/"
                 className="nav-links-mobile"
@@ -96,9 +96,9 @@ function Navbar({ handleTabChange }) {
               >
                 Iniciar sesión
               </Link>
-            </li>
+            </li> */}
           </ul>
-          <LogInBox button={button}/>
+          {/* <LogInBox button={button}/> */}
         </div>
         
       </nav>
