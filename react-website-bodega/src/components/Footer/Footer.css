@@ -1,22 +1,24 @@
 body{ 
   font-size: 15px;
-  
+  /* background-image: url(./wallpaperflare.com_wallpaper.jpg); */
+  background-size: 100% auto;
 }
 
 .footer-container {
-  background-color: #242424;
+  background-color: #383D38;
+  opacity: 0.8;
   padding: 4rem 0 2rem 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
 }
 
 .footer-links {
   width: 100%;
   max-width: 1000px;
-  /* display: flex; */
-  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: start;
   box-sizing: border-box;
   align-items: center;
 }
@@ -29,7 +31,7 @@ body{
 .footer-link-items {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: start;
   margin: 16px;
   text-align: left;
   width: 250px;
@@ -42,20 +44,19 @@ body{
 
 .footer-link-items > h2 {
   color: #fff;
-  font-size: 130%;
-  font-weight: bolder;
+  font-size: 18px;
 }
 
 .footer-link-items > P {
   color: #fff;
-  font-size: 70%;
+  font-size: 18px
 }
 
 .footer-link-items a {
   color: #fff;
   text-decoration: none;
   margin-bottom: 0.5rem;
-  font-size: 70%;
+  font-size: 18px;
 }
 
 .footer-link-items a:hover {
@@ -83,6 +84,7 @@ body{
 .social-icon-link {
   color: #fff;
   font-size: 24px;
+  margin-right: 17px;
 }
 
 .social-media {
@@ -101,9 +103,8 @@ body{
 
 .social-icons {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 130px;
+  justify-content: start;
+  width: 210px;
 }
 
 .social-logo {
@@ -127,8 +128,7 @@ body{
 .p-italic {
   text-indent: 17px;
   padding-bottom: 10px;
-  font-size: 30%;
-  font-style: oblique;
+  font-size: 18px;
 }
 
 
@@ -158,7 +158,3 @@ body{
     display:grid;
   }
 }
-
-
-
-
