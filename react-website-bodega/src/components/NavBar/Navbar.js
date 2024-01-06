@@ -88,7 +88,7 @@ function Navbar({ handleTabChange }) {
               </div>
             </li>
 
-            {/* <li>
+            <li>
               <Link
                 to="/"
                 className="nav-links-mobile"
@@ -96,9 +96,9 @@ function Navbar({ handleTabChange }) {
               >
                 Iniciar sesión
               </Link>
-            </li> */}
+            </li>
           </ul>
-          {/* <LogInBox button={button}/> */}
+          <LogInBox button={button}/>
         </div>
         
       </nav>
