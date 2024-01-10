@@ -3,6 +3,40 @@
   margin: 0;
   padding: 1;
 }
+
+.card-container {
+  display: flex;
+  align-items: center;
+  width: 700px;
+  height: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 50px;
+  margin-top: 65px;
+  margin-bottom: 65px;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 30px;
+  font-weight: bold;
+  border-right: 2px solid black;
+  cursor: pointer;
+}
+
+.card-information {
+  flex: 1;
+  padding: 30px;
+  display: flex; /* Añadir flex para centrar contenido */
+  flex-direction: column;
+  justify-content: center; /* Centrar verticalmente el contenido */
+  align-items: center; /* Centrar horizontalmente el contenido */
+}
+
 /* 
 .home,
 .services,
