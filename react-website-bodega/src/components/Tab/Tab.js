@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Tab = ({ tabName, activeTab, handleTabClick }) => (
-  <p onClick={() => handleTabClick(tabName)} className={activeTab === tabName ? 'active' : ''}>
+  <p onClick={() => handleTabClick(tabName)} className={activeTab === tabName ? 'active' : ''} style={{marginBottom: '10px'}}>
     {tabName}
   </p>
 );
