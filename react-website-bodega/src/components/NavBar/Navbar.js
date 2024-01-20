@@ -87,18 +87,7 @@ function Navbar({ handleTabChange }) {
                 </div>
               </div>
             </li>
-
-            <li>
-              <Link
-                to="/"
-                className="nav-links-mobile"
-                onClick={closeMobileMenu}
-              >
-                Iniciar sesión
-              </Link>
-            </li>
           </ul>
-          <LogInBox button={button}/>
         </div>
         
       </nav>
