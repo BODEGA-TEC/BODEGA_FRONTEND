@@ -37,12 +37,14 @@ const Inventory = (props) => {
               <Tab
                 component={Link}
                 to="/inventario/equipo"
+                style={{ color: "#FFFF" }}
                 label="Equipo"
                 {...a11yProps(0)}
               />
               <Tab
                 component={Link}
                 to="/inventario/componentes"
+                style={{ color: "#FFFF" }}
                 label="Componentes"
                 {...a11yProps(1)}
               />
