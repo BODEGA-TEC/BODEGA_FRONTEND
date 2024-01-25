@@ -74,14 +74,14 @@ const Login = () => {
             value={userName}
             placeholder='Carné'
             onChange={(e) => { TFUserName(e) }}
-            style={{ marginBottom: '10%', width: '250px' }}
+            style={{ marginBottom: '15px', width: '250px' }}
           />
           <div>
             {alertUserVisible && (
               <Alert
                 severity="error"
                 onClose={() => setAlertUserVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px'}}
+                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
               >
                 {alertUserMessage}
               </Alert>
@@ -94,22 +94,27 @@ const Login = () => {
             className='input-field'
             placeholder='Contraseña'
             onChange={(e) => { TFPassword(e) }}
-            style={{ marginBottom: '10%', width: '250px' }}
+            style={{ marginBottom: '15px', width: '250px' }}
           />
           <div>
             {alertPasswordVisible && (
               <Alert
                 severity="error"
                 onClose={() => setAlertPasswordVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px'}}
+                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
               >
                 {alertPasswordMessage}
               </Alert>
             )}
           </div>
+          <div className="forgot-password" style={{ marginBottom: '15px', width: '250px', textAlign: 'center' }}>
+            <span onClick={() => { /* Agrega la lógica de redirección o acción deseada aquí */ }}>
+              ¿Olvidaste tu contraseña?
+            </span>
+          </div>
         </div>
 
-        <button className='login-button' onClick={(e) => {checkInfo(e)}}>Iniciar sesión</button>
+        <button className='login-button' onClick={(e) => { checkInfo(e) }}>Iniciar sesión</button>
       </div>
     </div>
   );
