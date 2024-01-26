@@ -1,5 +1,4 @@
 import React from 'react';
-import '../App/App.css';
 import PasswordBd from '../components/PasswordBd/PasswordBd';
 
 export default function Maintenance() {
