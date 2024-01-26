@@ -1,17 +1,17 @@
-:root{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+:root {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 100;
-    
+
 }
 
-.text_normal{
+.text_normal {
     font-size: 20px;
     color: #000;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.text_small{
+.text_small {
     font-style: normal;
     font-size: 10px;
     color: #000;
@@ -19,7 +19,7 @@
     margin-bottom: 10px;
 }
 
-.text_title{
+.text_title {
     font-weight: bold;
     font-size: 30px;
     color: #000;
@@ -27,7 +27,8 @@
     margin-bottom: 10px;
 }
 
-.text_title2{
+.text_title2 {
+    position: relative;
     font-weight: bold;
     font-size: 75px;
     color: #ffffff;
@@ -36,7 +37,27 @@
     align-items: start;
 }
 
-.subtitle{
+
+.text_title2::after {
+    content: "Sistema Integrado de Bodega Electrónica";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    background-color: #545151;
+    color: #fff;
+    font-size: 20px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.text_title2:hover::after {
+    display: block;
+}
+
+.subtitle {
     font-weight: semi-bold;
     width: 400px;
     font-size: 40px;
@@ -46,15 +67,13 @@
 }
 
 .text__wrapper {
-    position:relative;
+    position: relative;
 }
 
-.text_container{
-    background-color:  #fff;
+.text_container {
+    background-color: #fff;
     align-items: center;
     max-width: 1120px;
     width: 90%;
     margin: 100;
 }
-
-
