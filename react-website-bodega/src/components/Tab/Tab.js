@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Tab = ({ tabName, activeTab, handleTabClick }) => (
-  <p onClick={() => handleTabClick(tabName)} className={activeTab === tabName ? 'active' : ''} style={{marginBottom: '10px'}}>
+  <p onClick={() => handleTabClick(tabName)} className={activeTab === tabName ? 'active' : ''} style={{ marginBottom: '10px' }}>
     {tabName}
   </p>
 );
@@ -10,7 +10,13 @@ const TabContent = ({ activeTab }) => {
   if (activeTab === '¿Quiénes somos?') {
     return <p>Bodega tiene la función de brindar un servicio de préstamo de equipos y componentes a los estudiantes de la Escuela de Electrónica del Tecnológico de Costa Rica. Gracias a esto, los estudiantes pueden tener acceso gratuito a equipo costoso, que es necesario para sus cursos.</p>;
   } else if (activeTab === 'Términos de servicio') {
-    return <p>Contenido de Servicios</p>;
+    return (
+      <div>
+        <p>1. El servicio de bodega está condicionado al uso adecuado de los dispositivos entregados. En caso de encontrarse algún daño en el dispositivo a la hora de su entrega, el usuario del servicio está obligado a reponer el equipo con uno de las mismas características, o dar una compensación monetaria, equivalente al equipo en cuestión.</p>
+        <p>2. Para el retiro y la devolución de equipo, se requerirá una boleta debidamente firmada y sellada, tanto por el profesor del curso, a como por el asistente de bodega que esté realizando la entrega del equipo prestado.</p>
+        <p>3. Solo los estudiantes pertenecientes a la Escuela de Ingeniería en Electrónica del Tecnológico de Costa Rica, tienen derecho a este servicio.</p>
+      </div>
+    )
   } else if (activeTab === '¿Cómo funciona?') {
     return <p>Para acceder a un préstamo, se han de completar los datos presentes en la boleta que se puede encontrar en esta misma página en la sección de Formularios. El profesor del curso por el cual se pidió el equipo, también tiene que firmar la boleta, dando fe de la necesidad del equipo. Luego, el estudiante se tiene que diriger a las instalaciones físicas, donde tendrá que retirar el equipo con los asistentes. Finalmente, completado el periodo de uso, se tendrá que devolver en las mismas condiciones a como se retiró, y seguir los pasos de devolución con los asistentes.</p>;
   } else if (activeTab === 'Ubicación') {
