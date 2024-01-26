@@ -10,6 +10,7 @@ import Services from "../pages/Services";
 import Terms from "../pages/Terms";
 import Inventory from "../pages/Inventory";
 import Maintenance from "../pages/Maintenance";
+import Registration from "../pages/Registration";
 
 function App() {
   // Recuperar el estado del tab al cargar la aplicación
@@ -51,6 +52,10 @@ function App() {
           <Route
             path="maintenance"
             element={<Maintenance />}
+          />
+          <Route
+            path="register"
+            element={<Registration />}
           />
         </Route>
       </Routes>
