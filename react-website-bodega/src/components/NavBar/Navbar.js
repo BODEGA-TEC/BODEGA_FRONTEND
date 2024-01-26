@@ -102,7 +102,7 @@ function Navbar({ handleTabChange }) {
                     <Link to={"/admin/registrar-asistentes"} className="nav-links" onClick={closeMobileMenu}>
                       Registrar Asistentes
                     </Link>
-                    <Link to={"/admin/mantenimiento-db"} className="nav-links" onClick={closeMobileMenu}>
+                    <Link to={"../maintenance"} className="nav-links" onClick={closeMobileMenu}>
                       Mantenimiento de la base de datos
                     </Link>
                   </div>
