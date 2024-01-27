@@ -96,7 +96,7 @@ function Navbar({ handleTabChange }) {
                     style={{ color: "#FFF", borderColor: "#FFF" }}
                   />
                   <div className="dropdown-content">
-                    <Link to={"/admin/reportes"} className="nav-links" onClick={closeMobileMenu}>
+                    <Link to={"../returned"} className="nav-links" onClick={closeMobileMenu}>
                       Reportes de Objetos No Devueltos
                     </Link>
                     <Link to={"../register"} className="nav-links" onClick={closeMobileMenu}>
