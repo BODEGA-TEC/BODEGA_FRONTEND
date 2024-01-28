@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import Alert from "@mui/material/Alert";
+import { Snackbar } from '@mui/material';
 import "./PasswordBd.css";
 
 const PasswordBd = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [alertPasswordVisible, setAlertPasswordVisible] = useState(false);
-  const [alertPasswordMessage, setAlertPasswordMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
-  const [alertConfirmPasswordVisible, setAlertConfirmPasswordVisible] = useState(false);
-  const [alertConfirmPasswordMessage, setAlertConfirmPasswordMessage] = useState("");
+  const handleCloseSnackbar = (
+    event,
+    reason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   const TFPassword = (event) => {
     setPassword(event.target.value);
@@ -21,19 +29,19 @@ const PasswordBd = () => {
   }
 
   const checkInfo = (event) => {
-    if (confirmPassword === "" || password === "") {
-      if (password === "") {
-        setAlertPasswordMessage("Campo de contraseña vacío.");
-        setAlertPasswordVisible(true);
-      }
-      if (confirmPassword === "") {
-        setAlertConfirmPasswordMessage("Debe confirmar su contraseña.");
-        setAlertConfirmPasswordVisible(true);
-      }
+    if (confirmPassword === "" && password === "") {
+      setLoginError("Campos de contraseña vacíos.");
+      setSnackbarOpen(true);
+    } else if (password === "") {
+      setLoginError("Campo de contraseña vacío.");
+      setSnackbarOpen(true);
+    } else if (confirmPassword === "") {
+      setLoginError("Debe confirmar su contraseña.");
+      setSnackbarOpen(true);
     } else {
       if (password !== confirmPassword) {
-        setAlertConfirmPasswordMessage("Las contraseñas no coinciden.");
-        setAlertConfirmPasswordVisible(true);
+        setLoginError("Las contraseñas no coinciden.");
+        setSnackbarOpen(true);
       } else {
         handleSubmit(event);
       }
@@ -59,17 +67,6 @@ const PasswordBd = () => {
             onChange={(e) => { TFPassword(e) }}
             style={{ marginBottom: '15px', width: '250px' }}
           />
-          <div>
-            {alertPasswordVisible && (
-              <Alert
-                severity="error"
-                onClose={() => setAlertPasswordVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
-              >
-                {alertPasswordMessage}
-              </Alert>
-            )}
-          </div>
           <input
             type="password"
             id="confirmPassword"
@@ -79,20 +76,22 @@ const PasswordBd = () => {
             onChange={(e) => { TFConfirmPassword(e) }}
             style={{ marginBottom: '15px', width: '250px' }}
           />
-          <div>
-            {alertConfirmPasswordVisible && (
-              <Alert
-                severity="error"
-                onClose={() => setAlertConfirmPasswordVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
-              >
-                {alertConfirmPasswordMessage}
-              </Alert>
-            )}
-          </div>
           <button className='password-button' onClick={(e) => checkInfo(e)}>Cambiar contraseña</button>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+      >
+        <Alert
+          severity="error"
+          variant='filled'
+          onClose={handleCloseSnackbar}
+          sx={{ width: '100%' }}
+        >
+          {loginError}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -4,16 +4,14 @@ import useAuth from "../../hooks/useAuth";
 import Alert from '@mui/material/Alert';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { login } from "../../services/AuthService";
+import { Snackbar } from '@mui/material';
 
 const Login = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const [alertUserVisible, setAlertUserVisible] = useState(false);
-  const [alertUserMessage, setAlertUserMessage] = useState("");
-
-  const [alertPasswordVisible, setAlertPasswordVisible] = useState(false);
-  const [alertPasswordMessage, setAlertPasswordMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const { setAuth } = useAuth();
 
@@ -26,19 +24,30 @@ const Login = () => {
   }
 
   const checkInfo = (event) => {
-    if (userName === "" || password === "") {
-      if (userName === "") {
-        setAlertUserMessage("Campo de nombre vacío.");
-        setAlertUserVisible(true);
-      }
-      if (password === "") {
-        setAlertPasswordMessage("Campo de contraseña vacía.");
-        setAlertPasswordVisible(true);
-      }
+    if (userName === "" && password === "") {
+      setLoginError("Campos de nombre y contraseña vacíos.");
+      setSnackbarOpen(true);
+    } else if (userName === "") {
+      setLoginError("Campo de nombre vacío.");
+      setSnackbarOpen(true);
+    } else if (password === "") {
+      setLoginError("Campo de contraseña vacía.");
+      setSnackbarOpen(true);
     } else {
       handleSubmit(event);
     }
-  }
+  };
+  
+
+  const handleCloseSnackbar = (
+    event,
+    reason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
 
   const handleSubmit = async (e) => {
@@ -53,12 +62,13 @@ const Login = () => {
         setAuth({ user, roles, token });
         //navigate(from, { replace: true });
       } else {
-        setAlertPasswordMessage("Información incorrecta.");
-        setAlertPasswordVisible(true);
+        setLoginError("Credenciales incorrectas");
+        setSnackbarOpen(true);
       }
     } catch (err) {
-      setAlertPasswordMessage(err);
-      setAlertPasswordVisible(true);
+      console.error(err);
+      setLoginError("Credenciales inválidas");
+      setSnackbarOpen(true);
     }
   };
 
@@ -76,17 +86,6 @@ const Login = () => {
             onChange={(e) => { TFUserName(e) }}
             style={{ marginBottom: '15px', width: '250px' }}
           />
-          <div>
-            {alertUserVisible && (
-              <Alert
-                severity="error"
-                onClose={() => setAlertUserVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
-              >
-                {alertUserMessage}
-              </Alert>
-            )}
-          </div>
           <input
             type="password"
             id="password"
@@ -96,17 +95,6 @@ const Login = () => {
             onChange={(e) => { TFPassword(e) }}
             style={{ marginBottom: '15px', width: '250px' }}
           />
-          <div>
-            {alertPasswordVisible && (
-              <Alert
-                severity="error"
-                onClose={() => setAlertPasswordVisible(false)}
-                sx={{ maxWidth: '250px', maxHeight: '100px', marginBottom: '10px', marginTop: '-20px' }}
-              >
-                {alertPasswordMessage}
-              </Alert>
-            )}
-          </div>
           <div className="forgot-password" style={{ marginBottom: '15px', width: '250px', textAlign: 'center' }}>
             <span onClick={() => { /* Agrega la lógica de redirección o acción deseada aquí */ }}>
               ¿Olvidaste tu contraseña?
@@ -116,6 +104,18 @@ const Login = () => {
 
         <button className='login-button' onClick={(e) => { checkInfo(e) }}>Iniciar sesión</button>
       </div>
+      <Snackbar 
+        open={snackbarOpen} 
+        autoHideDuration={6000}>
+        <Alert
+          severity="error"
+          variant='filled'
+          onClose={handleCloseSnackbar}
+          sx={{ width: '100%' }}
+        >
+          {loginError}  
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
