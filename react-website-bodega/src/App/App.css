@@ -4,6 +4,10 @@
   padding: 1;
 }
 
+body {
+  background-image: url('/public/images/pruebaImg.svg');
+}
+
 .card-container {
   display: flex;
   align-items: center;
