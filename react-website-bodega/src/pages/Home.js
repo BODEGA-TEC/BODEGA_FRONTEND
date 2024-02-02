@@ -2,19 +2,17 @@ import "../App/App.css";
 import Footer from "../components/Footer/Footer";
 import Text from "../components/Text/Text";
 import Login from "../components/Login/Login";
-import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 
 const Home = () => {
-  //const { setAuth } = useContext(AuthContext);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+  const logout = useLogout();
 
-  // const logout = async () => {
-  //   // if used in more components, this should be in context
-  //   // axios to /logout endpoint
-  //   setAuth({});
-  //   navigate("/");
-  // };
+  const signOut = async () => {
+    await logout();
+    navigate("/linkpage");
+  };
 
   return (
     <>
@@ -34,6 +32,9 @@ const Home = () => {
           />
         </div>
         <Login />
+        <div className="flexGrow">
+          <button onClick={signOut}>Cerrar sesión</button>
+        </div>
       </div>
       <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
         <Footer />

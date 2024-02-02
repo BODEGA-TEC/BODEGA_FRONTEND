@@ -7,6 +7,9 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   // Estado local para almacenar la información de autenticación
   const [auth, setAuth] = useState({});
+  const [persist, setPersist] = useState(
+    JSON.parse(localStorage.getItem("persist")) || false
+  );
 
   // Función para verificar si el usuario tiene un rol específico
   const hasRole = (targetRole) => {
@@ -15,12 +18,14 @@ export const AuthProvider = ({ children }) => {
 
   // Función para verificar si el usuario está autenticado
   const isLoggedIn = () => {
-    return !!auth?.nombre;
+    return !!auth?.id;
   };
 
   // Renderiza el proveedor de autenticación con el valor del contexto
   return (
-    <AuthContext.Provider value={{ auth, setAuth, hasRole, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ auth, setAuth, persist, setPersist, hasRole, isLoggedIn }}
+    >
       {children}
     </AuthContext.Provider>
   );

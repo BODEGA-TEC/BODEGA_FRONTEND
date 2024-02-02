@@ -12,6 +12,8 @@ import Inventory from "../pages/Inventory";
 import Maintenance from "../pages/Maintenance";
 import Registration from "../pages/Registration";
 import Returned from "../pages/Returned";
+import PersistLogin from "../components/Login/PersistLogin";
+import { ROLES } from "../utils/constants"
 
 function App() {
   // Recuperar el estado del tab al cargar la aplicación
@@ -33,35 +35,40 @@ function App() {
 
   return (
     <>
+      {/* Barra de navegación */}
       <Navbar handleTabChange={handleInventoryTabChange} />
+
+      {/* Definición de rutas */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* PUBLIC ROUTES */}
+
+          {/* Rutas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route path="services" element={<Services />} />
           <Route path="terms" element={<Terms />} />
-          {/* PROTECTED ROUTES */}
-          <Route
-            path="inventario/equipo"
-            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
-          />
-          <Route
-            path="inventario/componentes"
-            element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />}
-          />
-          <Route
-            path="maintenance"
-            element={<Maintenance />}
-          />
-          <Route
-            path="register"
-            element={<Registration />}
-          />
-          <Route
-            path="returned"
-            element={<Returned />}
-          />
+
+          {/* Rutas protegidas */}
+          <Route element={<PersistLogin />}>
+            
+            {/* Ruta para el registro de usuarios */}
+            <Route path="register" element={<Registration />} />
+
+            {/* Rutas para el inventario */}
+            <Route path="inventario/equipo" element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />} />
+            <Route path="inventario/componentes" element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />} />
+
+            {/* Rutas protegidas para administradores */}
+            <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR]} />}>
+              <Route path="maintenance" element={<Maintenance />} />
+            </Route>
+            
+            {/* Rutas protegidas para administradores y asistentes */}
+            <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]} />}>
+              <Route path="returned" element={<Returned />} />
+            </Route>
+
+          </Route>
         </Route>
       </Routes>
     </>

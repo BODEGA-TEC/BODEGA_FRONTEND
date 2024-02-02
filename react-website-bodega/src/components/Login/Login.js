@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 import useAuth from "../../hooks/useAuth";
 import Alert from "@mui/material/Alert";
@@ -20,7 +20,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
 
   // Obtener funciones de autenticación y enrutamiento
-  const { setAuth } = useAuth();
+  const { setAuth, persist, setPersist } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,6 +59,16 @@ const Login = () => {
     }
     setSnackbarOpen(false);
   };
+
+  // Función para alternar el estado de persistencia en localStorage
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
+
+  useEffect(() => {
+    // Almacena el estado de persistencia en localStorage
+    localStorage.setItem("persist", persist);
+  }, [persist]);
 
   // Manejador para enviar el formulario de inicio de sesión
   const handleSubmit = async (e) => {
@@ -106,6 +116,15 @@ const Login = () => {
             }}
             style={{ marginBottom: "15px", width: "250px" }}
           />
+          <div className="persistCheck">
+            <input
+              type="checkbox"
+              id="persist"
+              onChange={togglePersist}
+              checked={persist}
+            />
+            <label htmlFor="persist">Permanecer loggeado</label>
+          </div>
           <div
             className="forgot-password"
             style={{

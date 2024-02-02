@@ -68,3 +68,16 @@
   cursor: pointer;
   margin-bottom: 10px;
 }
+
+.persistCheck {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.persistCheck label {
+  margin: 0;
+} 
+
+[type="checkbox"] {
+  margin: 0 5px 2px 2px;
+}
