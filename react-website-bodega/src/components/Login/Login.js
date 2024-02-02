@@ -2,26 +2,32 @@ import React, { useState } from "react";
 import "./Login.css";
 import useAuth from "../../hooks/useAuth";
 import Alert from "@mui/material/Alert";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { Snackbar } from "@mui/material";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Login = () => {
+  // Obtener instancia de axios privado para la solicitud de inicio de sesión
   const axiosPrivate = useAxiosPrivate();
 
+  // Estado para el nombre de usuario y contraseña
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
+  // Estado para manejar el Snackbar de errores
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [loginError, setLoginError] = useState("");
 
+  // Obtener funciones de autenticación y enrutamiento
   const { setAuth } = useAuth();
-
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/inventario/equipo";
 
+  // Determinar la ruta de redirección después del inicio de sesión
+  const from = location.state?.from?.pathname || "/";
+
+  // Manejadores de cambio para los campos de usuario y contraseña
   const TFUserName = (event) => {
     setUserName(event.target.value);
   };
@@ -30,6 +36,7 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
+  // Verificar la información antes de enviar el formulario
   const checkInfo = (event) => {
     if (userName === "" && password === "") {
       setLoginError("Campos de usuario y contraseña vacíos.");
@@ -45,6 +52,7 @@ const Login = () => {
     }
   };
 
+  // Manejador para cerrar el Snackbar
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -52,6 +60,7 @@ const Login = () => {
     setSnackbarOpen(false);
   };
 
+  // Manejador para enviar el formulario de inicio de sesión
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -63,10 +72,8 @@ const Login = () => {
         }
       );
       setAuth({ id, nombre, rol, accessToken, refreshToken });
-      console.log(id, nombre, rol, accessToken, refreshToken)
-      //navigate(from, { replace: true });
+      navigate(from, { replace: true }); // Navegar devuelta al lugar de donde viene la solicitud
     } catch (err) {
-      //console.error(err);
       setLoginError(err);
       setSnackbarOpen(true);
     }

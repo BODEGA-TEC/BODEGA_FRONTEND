@@ -6,6 +6,7 @@ import { generateBarcode } from "../../../utils/functions"; // Asegúrate de imp
 import useAuth from "../../../hooks/useAuth";
 import { ROLES } from "../../../utils/constants";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //MRT Imports
 import {
@@ -31,6 +32,8 @@ const EquipoTable = ({
   setOpenEditPopup,
 }) => {
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [records, setRecords] = useState([]);
 
@@ -197,6 +200,8 @@ const EquipoTable = ({
       setRecords(data);
     } catch (error) {
       // if (error !== null) console.error("Error al recuperar equipo:", error);
+      // Esto deberia ser la pantalla de login
+      navigate("/", { state: { from: location }, replace: true });
     }
   };
 

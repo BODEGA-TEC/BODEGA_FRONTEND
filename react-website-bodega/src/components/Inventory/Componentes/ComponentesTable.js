@@ -9,6 +9,7 @@ import { generateBarcode } from "../../../utils/functions"; // Asegúrate de imp
 import useAuth from "../../../hooks/useAuth";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { ROLES } from "../../../utils/constants";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //MRT Imports
 import {
@@ -34,6 +35,8 @@ const ComponenteTable = ({
   setOpenEditPopup,
 }) => {
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [records, setRecords] = useState([]);
 
@@ -196,6 +199,8 @@ const ComponenteTable = ({
     } catch (error) {
       // if (error !== null)
       //   console.error("Error al recuperar componentes:", error);
+      // Esto deberia ser la pantalla de login
+      navigate("/", { state: { from: location }, replace: true });
     }
   };
 
@@ -243,7 +248,7 @@ const ComponenteTable = ({
     enableStickyHeader: true,
 
     // Sin log no se muestran acciones, y si es profesor tampoco.
-    enableRowActions: isLoggedIn() && !hasRole(ROLES.PROFESOR),
+    enableRowActions: isLoggedIn(),
 
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "top",
