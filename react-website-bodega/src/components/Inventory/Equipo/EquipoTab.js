@@ -9,6 +9,7 @@ import { defaultPalette } from "../../../config";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import * as EquipoService from "../../../services/EquipoService";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 /* Styles */
 const PageContent = styled(Paper)(({ theme }) => ({
@@ -17,6 +18,8 @@ const PageContent = styled(Paper)(({ theme }) => ({
 }));
 
 const EquipoTab = () => {
+  const axiosPrivate = useAxiosPrivate();
+
   // Para informacion importante
   const [categorias, setCategorias] = useState([]);
   const [estados, setEstados] = useState([]);
@@ -40,7 +43,7 @@ const EquipoTab = () => {
 
   // Recuperar las categorías
   useEffect(() => {
-    EquipoService.getCategorias()
+    EquipoService.getCategorias(axiosPrivate)
       .then((data) => {
         setCategorias(data);
       })
@@ -52,7 +55,7 @@ const EquipoTab = () => {
 
   // Recuperar los estados
   useEffect(() => {
-    EquipoService.getEstados()
+    EquipoService.getEstados(axiosPrivate)
       .then((data) => {
         setEstados(data);
       })

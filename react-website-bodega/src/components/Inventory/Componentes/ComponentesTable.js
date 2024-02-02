@@ -7,6 +7,7 @@ import PopupButton from "../../../components/PopupButton";
 import { defaultPalette } from "../../../config";
 import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 import useAuth from "../../../hooks/useAuth";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { ROLES } from "../../../utils/constants";
 
 //MRT Imports
@@ -32,6 +33,8 @@ const ComponenteTable = ({
   setOpenAddPopup,
   setOpenEditPopup,
 }) => {
+  const axiosPrivate = useAxiosPrivate();
+
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
@@ -188,11 +191,11 @@ const ComponenteTable = ({
 
   const fetchData = async () => {
     try {
-      const data = await getComponente();
+      const data = await getComponente(axiosPrivate);
       setRecords(data);
     } catch (error) {
-      if (error !== null)
-        console.error("Error al recuperar componentes:", error);
+      // if (error !== null)
+      //   console.error("Error al recuperar componentes:", error);
     }
   };
 
@@ -208,7 +211,7 @@ const ComponenteTable = ({
   // Eliminar componente
   const handleDeleteButton = (componenteId) => {
     // Llama a la función del servicio para eliminar un activo
-    deleteComponente(componenteId)
+    deleteComponente(axiosPrivate, componenteId)
       .then(() => {
         // Recarga la página después de un breve retraso
         setTimeout(() => {

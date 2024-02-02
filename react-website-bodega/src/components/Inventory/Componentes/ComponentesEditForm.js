@@ -7,8 +7,11 @@ import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate 
 import useAuth from "../../../hooks/useAuth";
 import { CONDICIONITEMS, ROLES } from "../../../utils/constants";
 import { Edit } from "@mui/icons-material";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function ComponenteForm(props) {
+  const axiosPrivate = useAxiosPrivate();
+
   // Informacion
   const { record } = props;
 
@@ -99,7 +102,7 @@ export default function ComponenteForm(props) {
   // Update componente
   const putComponente = (componente) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    ComponentesService.putComponente(componente.id, componente)
+    ComponentesService.putComponente(axiosPrivate, componente.id, componente)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);

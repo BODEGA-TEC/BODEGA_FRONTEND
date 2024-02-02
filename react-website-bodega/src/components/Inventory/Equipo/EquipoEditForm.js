@@ -6,8 +6,11 @@ import * as EquipoService from "../../../services/EquipoService";
 import useAuth from "../../../hooks/useAuth";
 import { CONDICIONITEMS, ROLES } from "../../../utils/constants";
 import { Edit } from "@mui/icons-material";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function EquipoForm(props) {
+  const axiosPrivate = useAxiosPrivate();
+
   // Informacion
   const { record } = props;
 
@@ -60,7 +63,7 @@ export default function EquipoForm(props) {
   // Update equipo
   const putEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    EquipoService.putEquipo(equipo.id, equipo)
+    EquipoService.putEquipo(axiosPrivate, equipo.id, equipo)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);

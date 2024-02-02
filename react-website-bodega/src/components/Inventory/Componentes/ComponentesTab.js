@@ -9,6 +9,7 @@ import { defaultPalette } from "../../../config";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import * as ComponentesService from "../../../services/ComponentesService";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 /* Styles */
 const PageContent = styled(Paper)(({ theme }) => ({
@@ -17,6 +18,8 @@ const PageContent = styled(Paper)(({ theme }) => ({
 }));
 
 const ComponentesTab = () => {
+  const axiosPrivate = useAxiosPrivate();
+
   // Para informacion importante
   const [categorias, setCategorias] = useState([]);
   const [estados, setEstados] = useState([]);
@@ -40,7 +43,7 @@ const ComponentesTab = () => {
 
   // Recuperar las categorías
   useEffect(() => {
-    ComponentesService.getCategorias()
+    ComponentesService.getCategorias(axiosPrivate)
       .then((data) => {
         setCategorias(data);
       })
@@ -52,7 +55,7 @@ const ComponentesTab = () => {
 
   // Recuperar los estados
   useEffect(() => {
-    ComponentesService.getEstados()
+    ComponentesService.getEstados(axiosPrivate)
       .then((data) => {
         setEstados(data);
       })

@@ -4,6 +4,7 @@ import Controls from "../../../components/controls/Controls";
 import { useForm, Form } from "../../../hooks/useForm";
 import * as EquipoService from "../../../services/EquipoService";
 import { CONDICIONITEMS } from "../../../utils/constants";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const initialFValues = {
   id: 0,
@@ -20,6 +21,8 @@ const initialFValues = {
 };
 
 export default function EquipoForm(props) {
+  const axiosPrivate = useAxiosPrivate();
+
   // Select
   const { categorias, estados } = props.options;
   const [estado, setEstado] = useState("");
@@ -89,7 +92,7 @@ export default function EquipoForm(props) {
   // Crear equipo
   const postEquipo = (equipo) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    EquipoService.postEquipo(equipo)
+    EquipoService.postEquipo(axiosPrivate, equipo)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);

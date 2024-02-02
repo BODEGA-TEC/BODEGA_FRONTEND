@@ -8,13 +8,13 @@ import {
 } from "./UtilsService";
 
 // Función para obtener estados y mapearlos
-export async function getEstados() {
-  return UtilsGetEstados("equipo");
+export async function getEstados(axiosInstance) {
+  return UtilsGetEstados(axiosInstance, "equipo");
 }
 
 // Función para obtener categorías de equipo y mapearlas
-export async function getCategorias() {
-  const data = await getRequest("categorias/equipo");
+export async function getCategorias(axiosInstance) {
+  const data = await getRequest(axiosInstance, "categorias/equipo");
   return (
     data?.map((categoria) => ({
       id: categoria.id.toString(),
@@ -24,8 +24,8 @@ export async function getCategorias() {
 }
 
 // Función para obtener los datos del equipo
-export async function getEquipo() {
-  const data = await getRequest("equipo");
+export async function getEquipo(axiosInstance) {
+  const data = await getRequest(axiosInstance, "equipo");
   return (
     data?.map((equipo) => ({
       id: equipo.id,
@@ -46,9 +46,9 @@ export async function getEquipo() {
 }
 
 // Función para agregar un nuevo equipo
-export async function postEquipo(equipo) {
+export async function postEquipo(axiosInstance, equipo) {
   try {
-    return await postRequest("equipo", equipo);
+    return await postRequest(axiosInstance, "equipo", equipo);
   } catch (error) {
     // Maneja errores
     console.error("Servidor desconectado");
@@ -57,9 +57,9 @@ export async function postEquipo(equipo) {
 }
 
 // Función para actualizar un equipo utilizando PUT
-export async function putEquipo(equipoId, equipo) {
+export async function putEquipo(axiosInstance, equipoId, equipo) {
   try {
-    return await putRequest(`equipo/${equipoId}`, equipo);
+    return await putRequest(axiosInstance, `equipo/${equipoId}`, equipo);
   } catch (error) {
     // Maneja errores
     console.error("Servidor desconectado");
@@ -68,9 +68,9 @@ export async function putEquipo(equipoId, equipo) {
 }
 
 // Función para eliminar un equipo utilizando DELETE
-export async function deleteEquipo(equipoId) {
+export async function deleteEquipo(axiosInstance, equipoId) {
   try {
-    return await deleteRequest(`equipo/${equipoId}`);
+    return await deleteRequest(axiosInstance, `equipo/${equipoId}`);
   } catch (error) {
     // Maneja errores
     console.error("Servidor desconectado");

@@ -1,13 +1,15 @@
 import { postRequest } from "./UtilsService";
 
+//const axiosPrivate = useAxiosPrivate();
+
 // Endpoint constants
 const REGISTER_ENDPOINT = "/register";
 const LOGIN_ENDPOINT = "/login";
 
 // Function to handle user registration
-export async function register(userInfo) {
+export async function register(axiosInstance, userInfo) {
   try {
-    const response = await postRequest(REGISTER_ENDPOINT, userInfo);
+    const response = await postRequest(axiosInstance, REGISTER_ENDPOINT, userInfo);
 
     // Assuming the response has { status, message, data }
     const { status, message } = response?.data;
@@ -25,14 +27,12 @@ export async function register(userInfo) {
 }
 
 // Function to handle user login
-export async function login(credentials) {
+export async function login(axiosInstance, credentials) {
   try {
-    const { data } = await postRequest(LOGIN_ENDPOINT, credentials);
+    //console.log(credentials);
+    const { data } = await postRequest(axiosInstance, LOGIN_ENDPOINT, credentials);
     return data;
-  } catch (response) {
-    if (!response?.data) {
-      console.log(response);
-      throw response.data.message;
-    }
+  } catch (error) {
+    throw error;
   }
 }

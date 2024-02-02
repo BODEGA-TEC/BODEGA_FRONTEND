@@ -1,27 +1,19 @@
-import axios from "axios";
-import { host } from "../config";
-
-const API = axios.create({
-  baseURL: host + "/api",
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import axios from "./api";
 
 export function handleError(error) {
   if (!error?.response) {
     console.error("Sin respuesta del servidor");
+    console.error(error);
     return null;
   } else {
-    throw error.response;
+    throw error.response?.data?.message;
   }
 }
 
 // Función genérica para hacer solicitudes GET a la API
-export async function getRequest(endpoint) {
+export async function getRequest(axiosInstance, endpoint) {
   try {
-    const response = await API.get(endpoint);
+    const response = await axiosInstance.get(endpoint);
     const serviceResponse = response.data;
 
     if (!serviceResponse.success) {
@@ -36,11 +28,11 @@ export async function getRequest(endpoint) {
 }
 
 // Función genérica para realizar una solicitud POST a la API
-export async function postRequest(endpoint, data) {
+export async function postRequest(axiosInstance, endpoint, data) {
   try {
-    const response = await API.post(endpoint, data);
+    const response = await axiosInstance.post(endpoint, data);
     const serviceResponse = response.data;
-    console.log("Respuesta POST ", serviceResponse);
+    // console.log("Respuesta POST ", serviceResponse);
 
     if (!serviceResponse.success) {
       throw new Error(`${serviceResponse.message}`);
@@ -54,9 +46,9 @@ export async function postRequest(endpoint, data) {
 }
 
 // Función genérica para realizar una solicitud PUT a la API
-export async function putRequest(endpoint, data) {
+export async function putRequest(axiosInstance, endpoint, data) {
   try {
-    const response = await API.put(endpoint, data);
+    const response = await axiosInstance.put(endpoint, data);
     const serviceResponse = response.data;
 
     if (!serviceResponse.success) {
@@ -71,9 +63,9 @@ export async function putRequest(endpoint, data) {
 }
 
 // Función genérica para realizar una solicitud DELETE a la API
-export async function deleteRequest(endpoint) {
+export async function deleteRequest(axiosInstance, endpoint) {
   try {
-    const response = await API.delete(endpoint);
+    const response = await axiosInstance.delete(endpoint);
     const serviceResponse = response.data;
 
     if (!serviceResponse.success) {
@@ -88,8 +80,8 @@ export async function deleteRequest(endpoint) {
 }
 
 // Función para obtener estados y mapearlos
-export async function getEstados(tipoActivo) {
-  const data = await getRequest(`estados/${tipoActivo}`);
+export async function getEstados(axiosInstance, tipoActivo) {
+  const data = await getRequest(axiosInstance, `estados/${tipoActivo}`);
   return (
     data?.map((estado) => ({
       id: estado.id.toString(),

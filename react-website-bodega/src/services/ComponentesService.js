@@ -8,13 +8,13 @@ import {
 } from "./UtilsService";
 
 // Función para obtener estados y mapearlos
-export async function getEstados() {
-  return UtilsGetEstados("componentes");
+export async function getEstados(axiosInstance) {
+  return UtilsGetEstados(axiosInstance, "componentes");
 }
 
 // Función para obtener categorías de componente y mapearlas
-export async function getCategorias() {
-  const data = await getRequest("categorias/componentes");
+export async function getCategorias(axiosInstance) {
+  const data = await getRequest(axiosInstance, "categorias/componentes");
   return (
     data?.map((categoria) => ({
       id: categoria.id.toString(),
@@ -24,8 +24,8 @@ export async function getCategorias() {
 }
 
 // Función para obtener los datos del componente
-export async function getComponente() {
-  const data = await getRequest("componentes");
+export async function getComponente(axiosInstance) {
+  const data = await getRequest(axiosInstance, "componentes");
   return (
     data?.map((componente) => ({
       id: componente.id,
@@ -45,33 +45,34 @@ export async function getComponente() {
 }
 
 // Función para agregar un nuevo componente
-export async function postComponente(componente) {
+export async function postComponente(axiosInstance, componente) {
   try {
-    return await postRequest("componentes", componente);
+    return await postRequest(axiosInstance, "componentes", componente);
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }
 
 // Función para actualizar un componente utilizando PUT
-export async function putComponente(componenteId, componente) {
+export async function putComponente(axiosInstance, componenteId, componente) {
   try {
-    return await putRequest(`componentes/${componenteId}`, componente);
+    return await putRequest(
+      axiosInstance,
+      `componentes/${componenteId}`,
+      componente
+    );
   } catch (error) {
     // Maneja errores
-    // console.error(error);
     throw error;
   }
 }
 
 // Función para eliminar un componente utilizando DELETE
-export async function deleteComponente(componenteId) {
+export async function deleteComponente(axiosInstance, componenteId) {
   try {
-    return await deleteRequest(`componentes/${componenteId}`);
+    return await deleteRequest(axiosInstance, `componentes/${componenteId}`);
   } catch (error) {
     // Maneja errores
-    // console.error(error);
     throw error;
   }
 }

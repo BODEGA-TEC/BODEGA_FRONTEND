@@ -5,6 +5,7 @@ import { useForm, Form } from "../../../hooks/useForm";
 import * as ComponentesService from "../../../services/ComponentesService";
 import { CONDICIONITEMS } from "../../../utils/constants";
 import { handleNumericKeyPress } from "../../../utils/functions"; // Asegúrate de importar la función correcta
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const initialFValues = {
   id: 0,
@@ -20,6 +21,8 @@ const initialFValues = {
 };
 
 export default function ComponentesForm(props) {
+  const axiosPrivate = useAxiosPrivate();
+
   // Select
   const { categorias, estados } = props.options;
   const [estado, setEstado] = useState("");
@@ -97,7 +100,7 @@ export default function ComponentesForm(props) {
   // Crear componente
   const postComponente = (componente) => {
     // Llama a la función del servicio para agregar un nuevo activo
-    ComponentesService.postComponente(componente)
+    ComponentesService.postComponente(axiosPrivate, componente)
       .then(({ message }) => {
         // Muestra la alerta de éxito
         setErrorFlag(false);

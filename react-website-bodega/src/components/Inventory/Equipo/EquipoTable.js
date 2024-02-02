@@ -5,6 +5,7 @@ import { defaultPalette } from "../../../config";
 import { generateBarcode } from "../../../utils/functions"; // Asegúrate de importar la función correcta
 import useAuth from "../../../hooks/useAuth";
 import { ROLES } from "../../../utils/constants";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 //MRT Imports
 import {
@@ -29,6 +30,8 @@ const EquipoTable = ({
   setOpenAddPopup,
   setOpenEditPopup,
 }) => {
+  const axiosPrivate = useAxiosPrivate();
+
   const [records, setRecords] = useState([]);
 
   const { hasRole, isLoggedIn } = useAuth();
@@ -190,10 +193,10 @@ const EquipoTable = ({
 
   const fetchData = async () => {
     try {
-      const data = await getEquipo();
+      const data = await getEquipo(axiosPrivate);
       setRecords(data);
     } catch (error) {
-      if (error !== null) console.error("Error al recuperar equipo:", error);
+      // if (error !== null) console.error("Error al recuperar equipo:", error);
     }
   };
 
@@ -209,7 +212,7 @@ const EquipoTable = ({
   // Eliminar equipo
   const handleDeleteButton = (equipoId) => {
     // Llama a la función del servicio para eliminar un activo
-    deleteEquipo(equipoId)
+    deleteEquipo(axiosPrivate, equipoId)
       .then(() => {
         // Recarga la página después de un breve retraso
         setTimeout(() => {
