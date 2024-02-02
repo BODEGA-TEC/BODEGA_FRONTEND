@@ -10,31 +10,27 @@ const useRefreshToken = () => {
   // Función para actualizar el token de acceso
   const refresh = async () => {
     // Realiza una solicitud para obtener un nuevo token de acceso
-    const response = await axios.post(
-      REFRESH_TOKEN_ENDPOINT,
-      {
-        usuarioId: auth.id,
-        accessTokenExpirado: auth.accessToken,
-        refreshToken: auth.refreshToken,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(REFRESH_TOKEN_ENDPOINT, {
+      withCredentials: true,
+    });
 
-    const { rol, accessToken, refreshToken } = response.data.data;
+    const { id, nombre, rol, accessToken } = response.data.data;
 
     // Actualiza el estado de autenticación con los nuevos tokens
     setAuth((prev) => {
-      //console.log(JSON.stringify(prev));
+      // console.log(JSON.stringify(prev));
       // console.log("Access", accessToken);
+      // console.log("Rol", rol);
+      // console.log("id", id);
+      // console.log("nombre", nombre);
 
       // Devuelve un nuevo objeto de autenticación con los tokens actualizados
       return {
         ...prev,
+        id: id,
+        nombre: nombre,
         rol: rol,
         accessToken: accessToken,
-        refreshToken: refreshToken,
       };
     });
 

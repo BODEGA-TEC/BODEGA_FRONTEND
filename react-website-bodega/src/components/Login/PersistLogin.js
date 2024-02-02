@@ -23,16 +23,14 @@ const PersistLogin = () => {
 
     // persist added here AFTER tutorial video
     // Avoids unwanted call to verifyRefreshToken
-
-    console.log("AUTH", !auth?.accessToken && persist );
     !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (isMounted = false);
   }, []);
 
   useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
+    // console.log(`isLoading: ${isLoading}`);
+    // console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
   }, [isLoading]);
 
   return (

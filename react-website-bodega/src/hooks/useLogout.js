@@ -7,11 +7,11 @@ const useLogout = () => {
 
   // Define la función logout para realizar la operación de cierre de sesión
   const logout = async () => {
+    
     // Limpia el estado de autenticación (setea el contexto de autenticación a un objeto vacío)
     const tokenRequest = {
       accessToken: auth.accessToken,
     };
-
     setAuth({});
 
     try {
@@ -20,7 +20,6 @@ const useLogout = () => {
         withCredentials: true, // Incluye las credenciales (cookies) en la solicitud
       });
 
-      console.log("logout", response);
     } catch (err) {
       // Maneja cualquier error que ocurra durante la solicitud
       console.error(err);
