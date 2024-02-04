@@ -4,6 +4,7 @@ import "./Navbar.css";
 import Controls from "../controls/Controls";
 import useAuth from "../../hooks/useAuth";
 import { ROLES } from "../../utils/constants";
+import useLogout from "../../hooks/useLogout";
 
 function Navbar({ handleTabChange }) {
   const [click, setClick] = useState(false);
@@ -12,6 +13,7 @@ function Navbar({ handleTabChange }) {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const navigate = useNavigate();
+  const logout = useLogout();
 
   const { hasRole, isLoggedIn } = useAuth();
 
@@ -23,6 +25,11 @@ function Navbar({ handleTabChange }) {
     } else {
       setButton(true);
     }
+  };
+
+  const signOut = async () => {
+    await logout();
+    navigate("/");
   };
 
   // Render Log In button once.
@@ -110,6 +117,14 @@ function Navbar({ handleTabChange }) {
               </li>
             )}
 
+            {/* Condición para cerrar sesión solo si el usuario está logueado */}
+            {isLoggedIn() && (
+              <li className="nav-item">
+                <Link className="nav-links" onClick={signOut}>
+                  Cerrar sesión
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
 
