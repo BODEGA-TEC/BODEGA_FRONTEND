@@ -12,14 +12,14 @@ export async function register(axiosInstance, userInfo) {
     const response = await postRequest(axiosInstance, REGISTER_ENDPOINT, userInfo);
 
     // Assuming the response has { status, message, data }
-    const { status, message } = response?.data;
+    const { success, message } = response;
 
-    if (status) {
+    if (success) {
       // Registration successful
-      return { success: true };
+      return { success: true, message: message };
     } else {
       // Registration failed, treat 'message' as an error
-      throw new Error(message || "Registration failed");
+      return { success: false, message: message || "Registration failed"};
     }
   } catch (error) {
     throw error;

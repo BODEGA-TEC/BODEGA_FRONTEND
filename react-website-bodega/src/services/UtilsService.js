@@ -40,7 +40,10 @@ export async function postRequest(axiosInstance, endpoint, data) {
 
     return serviceResponse;
   } catch (error) {
-    // Maneja errores
+    // Si la respuesta tiene un status y datos, puedes retornarlos
+    if (error.response && error.response.data) {
+      return error.response.data;
+    }
     throw handleError(error);
   }
 }
