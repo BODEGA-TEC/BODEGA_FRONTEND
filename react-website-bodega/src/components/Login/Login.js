@@ -65,6 +65,12 @@ const Login = () => {
     setPersist((prev) => !prev);
   };
 
+  // Función para limpiar los campos de usuario y contraseña
+  const cleanInput = () => {
+    setUserName("");
+    setPassword("");
+  };
+
   useEffect(() => {
     // Almacena el estado de persistencia en localStorage
     localStorage.setItem("persist", persist);
@@ -77,12 +83,14 @@ const Login = () => {
       const { id, nombre, rol, accessToken, refreshToken } = await login(
         axiosPrivate,
         {
-          username: userName,
+          correo: userName,
           clave: password,
         }
       );
       setAuth({ id, nombre, rol, accessToken, refreshToken });
       navigate(from, { replace: true }); // Navegar devuelta al lugar de donde viene la solicitud
+      cleanInput();
+
     } catch (err) {
       setLoginError(err);
       setSnackbarOpen(true);
