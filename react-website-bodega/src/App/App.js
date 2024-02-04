@@ -50,9 +50,6 @@ function App() {
 
           {/* Rutas protegidas */}
           <Route element={<PersistLogin />}>
-            
-            {/* Ruta para el registro de usuarios */}
-            <Route path="register" element={<Registration />} />
 
             {/* Rutas para el inventario */}
             <Route path="inventario/equipo" element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />} />
@@ -61,8 +58,10 @@ function App() {
             {/* Rutas protegidas para administradores */}
             <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR]} />}>
               <Route path="maintenance" element={<Maintenance />} />
+              {/* Ruta para el registro de asistentes */}
+              <Route path="register" element={<Registration />} />
             </Route>
-            
+
             {/* Rutas protegidas para administradores y asistentes */}
             <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]} />}>
               <Route path="returned" element={<Returned />} />
