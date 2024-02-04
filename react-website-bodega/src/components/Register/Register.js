@@ -4,12 +4,16 @@ import Alert from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
 import { register } from '../../services/AuthService';
 import './Register.css';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [carne, setCarne] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  // Obtener instancia de axios privado para la solicitud de inicio de sesión
+  const axiosPrivate = useAxiosPrivate();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [loginError, setLoginError] = useState('');
@@ -25,9 +29,16 @@ const Register = () => {
     setSnackbarOpen(false);
   };
 
+  const cleanInputs = () => {
+    setName('');
+    setEmail('');
+    setUserName('');
+    setPassword('');
+  };
+
   const checkInfo = (event) => {
     event.preventDefault();
-    if (name === '' && email === '' && carne === '' && password === '') {
+    if (name === '' && email === '' && userName === '' && password === '') {
       setLoginError('Campos de información vacíos.');
       setSnackbarOpen(true);
     } else if (name === '') {
@@ -36,8 +47,8 @@ const Register = () => {
     } else if (email === '') {
       setLoginError('Campo de correo electrónico vacío.');
       setSnackbarOpen(true);
-    } else if (carne === '') {
-      setLoginError('Campo de carne vacío.');
+    } else if (userName === '') {
+      setLoginError('Campo de username vacío.');
       setSnackbarOpen(true);
     } else if (password === '') {
       setLoginError('Campo de contraseña vacío.');
@@ -50,16 +61,26 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await register({
-        nombre: name,
-        correo: email,
-        carne: carne,
-        clave: password,
-      });
+      console.log("PRUEBAs");
+      const response = await register(
+        axiosPrivate,
+        {
+          nombre: name,
+          username: userName,
+          correo: email,
+          clave: password,
+          rol: "ASISTENTE"
+        });
+      // Si la respuesta es correcta, muestra un mensaje de éxito y si no, muestra un mensaje de error
       if (response.success) {
         // Registration successful
         setType('success');
-        setLoginError('Registro exitoso');
+        setLoginError(response.message);
+        setSnackbarOpen(true);
+        cleanInputs();
+      } else {
+        setType('error');
+        setLoginError(response.message);
         setSnackbarOpen(true);
       }
     }
@@ -72,7 +93,7 @@ const Register = () => {
 
   return (
     <div className="register-card-container">
-      <h2 className="title-field">Registro</h2>
+      <h2 className="title-field">Registro de Asistentes</h2>
       <form className="register-input" onSubmit={checkInfo}>
         <div>
           <input
@@ -87,22 +108,22 @@ const Register = () => {
         </div>
         <div>
           <input
-            type="email"
-            id="email"
-            value={email}
-            placeholder='Correo electrónico'
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            id="username"
+            value={userName}
+            placeholder='Usuario'
+            onChange={(e) => setUserName(e.target.value)}
             className="input-field"
             style={{ marginBottom: '5%', width: '250px' }}
           />
         </div>
         <div>
           <input
-            type="text"
-            id="carne"
-            value={carne}
-            placeholder='Carné'
-            onChange={(e) => setCarne(e.target.value)}
+            type="email"
+            id="email"
+            value={email}
+            placeholder='Correo electrónico'
+            onChange={(e) => setEmail(e.target.value)}
             className="input-field"
             style={{ marginBottom: '5%', width: '250px' }}
           />
