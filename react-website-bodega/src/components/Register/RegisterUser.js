@@ -61,15 +61,14 @@ const RegisterUser = () => {
     }
   };
 
-  // Función handleSelectChange
-  const handleSelectChange = (setter) => (event) => {
-    setter(event.target.value);
+  // Función handleRolChange
+  const handleRolChange = (event) => {
+    setRol(event.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("PRUEBAs");
       const response = await register(axiosPrivate, {
         nombre: name,
         username: userName,
@@ -77,6 +76,7 @@ const RegisterUser = () => {
         clave: password,
         rol: rol,
       });
+
       // Si la respuesta es correcta, muestra un mensaje de éxito y si no, muestra un mensaje de error
       if (response.success) {
         // Registration successful
@@ -91,14 +91,14 @@ const RegisterUser = () => {
       }
     } catch (err) {
       setType("error");
-      setLoginError("Registro fallido");
+      setLoginError(err);
       setSnackbarOpen(true);
     }
   };
 
   return (
     <div className="register-card-container">
-      <h2 className="title-field">Registrar usuario/cuenta</h2>
+      <h2 className="title-field">Registrar usuario</h2>
       <form className="register-input" onSubmit={checkInfo}>
         <div>
           <input
@@ -151,7 +151,7 @@ const RegisterUser = () => {
             value={rol}
             className="select-field"
             style={{ width: "250px" }}
-            onChange={(event) => handleSelectChange(event, setRol)}
+            onChange={handleRolChange}
           >
             {roles.map((option, index) => (
               <option key={index} value={option}>
@@ -161,7 +161,7 @@ const RegisterUser = () => {
           </select>
         </div>
         <button type="submit" className="register-button">
-          Registrarse
+          Registrar
         </button>
       </form>
       <Snackbar open={snackbarOpen} autoHideDuration={6000}>

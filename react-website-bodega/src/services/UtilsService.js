@@ -1,5 +1,3 @@
-import axios from "./api";
-
 export function handleError(error) {
   if (!error?.response) {
     console.error("Sin respuesta del servidor");

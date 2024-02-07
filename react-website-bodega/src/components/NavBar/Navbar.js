@@ -107,7 +107,7 @@ function Navbar({ handleTabChange }) {
                       Reportes de Objetos No Devueltos
                     </Link>
                     <Link to={"../register"} className="nav-links" onClick={closeMobileMenu}>
-                      Registrar Asistentes
+                      Registrar usuario
                     </Link>
                     <Link to={"../maintenance"} className="nav-links" onClick={closeMobileMenu}>
                       Mantenimiento de la base de datos
