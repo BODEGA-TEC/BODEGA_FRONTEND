@@ -93,7 +93,7 @@ function Navbar({ handleTabChange }) {
             </li>
 
             {/* Condición para mostrar el menú de Administrador solo si el usuario está logueado y es administrador */}
-            {isLoggedIn() && hasRole(ROLES.ADMINISTRADOR) && (
+            {isLoggedIn() && hasRole(ROLES.ADMIN) && (
               <li className="nav-item">
                 <div className="dropdown">
                   <Controls.Button

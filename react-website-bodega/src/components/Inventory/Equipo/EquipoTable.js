@@ -289,7 +289,7 @@ const EquipoTable = ({
         sx={{ m: 0 }}
         // Mostrar la opción solo si el usuario es administrador
         style={{
-          display: hasRole(ROLES.ADMINISTRADOR) ? "block" : "none",
+          display: hasRole(ROLES.ADMIN) ? "block" : "none",
         }}
       >
         <ListItemIcon>
@@ -308,7 +308,7 @@ const EquipoTable = ({
         // Mostrar la opción solo si el usuario es administrador o asistente
         style={{
           display:
-            hasRole(ROLES.ADMINISTRADOR) || hasRole(ROLES.ASISTENTE)
+            hasRole(ROLES.ADMIN) || hasRole(ROLES.ASISTENTE)
               ? "block"
               : "none",
         }}
@@ -340,7 +340,7 @@ const EquipoTable = ({
             <MRTToggleFullScreenButton table={table} />
           </Box>
           {isLoggedIn() &&
-          (hasRole(ROLES.ADMINISTRADOR) || hasRole(ROLES.ASISTENTE)) ? (
+          (hasRole(ROLES.ADMIN) || hasRole(ROLES.ASISTENTE)) ? (
             <PopupButton
               sx={{ display: "flex" }}
               text="Agregar"

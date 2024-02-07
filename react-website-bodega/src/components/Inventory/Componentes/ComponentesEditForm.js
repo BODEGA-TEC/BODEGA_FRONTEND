@@ -175,7 +175,7 @@ export default function ComponenteForm(props) {
 
   // Verificar si el usuario puede editar (está logeado y es administrador)
   const hasEditRights = () => {
-    return isLoggedIn() && hasRole(ROLES.ADMINISTRADOR);
+    return isLoggedIn() && hasRole(ROLES.ADMIN);
   };
 
   return (

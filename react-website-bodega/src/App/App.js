@@ -13,7 +13,7 @@ import Maintenance from "../pages/Maintenance";
 import Registration from "../pages/Registration";
 import Returned from "../pages/Returned";
 import PersistLogin from "../components/Login/PersistLogin";
-import { ROLES } from "../utils/constants"
+import { ROLES } from "../utils/constants";
 
 function App() {
   // Recuperar el estado del tab al cargar la aplicación
@@ -41,7 +41,6 @@ function App() {
       {/* Definición de rutas */}
       <Routes>
         <Route path="/" element={<Layout />}>
-
           {/* Rutas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="unauthorized" element={<Unauthorized />} />
@@ -50,23 +49,35 @@ function App() {
 
           {/* Rutas protegidas */}
           <Route element={<PersistLogin />}>
-
             {/* Rutas para el inventario */}
-            <Route path="inventario/equipo" element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />} />
-            <Route path="inventario/componentes" element={<Inventory tab={inventoryTab} setTab={setInventoryTab} />} />
+            <Route
+              path="inventario/equipo"
+              element={
+                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
+              }
+            />
+            <Route
+              path="inventario/componentes"
+              element={
+                <Inventory tab={inventoryTab} setTab={setInventoryTab} />
+              }
+            />
 
             {/* Rutas protegidas para administradores */}
-            <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR]} />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
               <Route path="maintenance" element={<Maintenance />} />
               {/* Ruta para el registro de asistentes */}
               <Route path="register" element={<Registration />} />
             </Route>
 
             {/* Rutas protegidas para administradores y asistentes */}
-            <Route element={<RequireAuth allowedRoles={[ROLES.ADMINISTRADOR, ROLES.ASISTENTE]} />}>
+            <Route
+              element={
+                <RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.ASISTENTE]} />
+              }
+            >
               <Route path="returned" element={<Returned />} />
             </Route>
-
           </Route>
         </Route>
       </Routes>

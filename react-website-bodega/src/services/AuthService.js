@@ -30,8 +30,8 @@ export async function register(axiosInstance, userInfo) {
 export async function login(axiosInstance, credentials) {
   try {
     //console.log(credentials);
-    const { data } = await postRequest(axiosInstance, LOGIN_ENDPOINT, credentials);
-    return data;
+    const response = await postRequest(axiosInstance, LOGIN_ENDPOINT, credentials);
+    return response.data;
   } catch (error) {
     throw error;
   }
