@@ -1,5 +1,3 @@
-import axios from "./api";
-
 export function handleError(error) {
   if (!error?.response) {
     console.error("Sin respuesta del servidor");
@@ -15,11 +13,6 @@ export async function getRequest(axiosInstance, endpoint) {
   try {
     const response = await axiosInstance.get(endpoint);
     const serviceResponse = response.data;
-
-    if (!serviceResponse.success) {
-      throw new Error(`${serviceResponse.message}`);
-    }
-
     return serviceResponse.data;
   } catch (error) {
     // Maneja errores
@@ -32,18 +25,8 @@ export async function postRequest(axiosInstance, endpoint, data) {
   try {
     const response = await axiosInstance.post(endpoint, data);
     const serviceResponse = response.data;
-    // console.log("Respuesta POST ", serviceResponse);
-
-    if (!serviceResponse.success) {
-      throw new Error(`${serviceResponse.message}`);
-    }
-
     return serviceResponse;
   } catch (error) {
-    // Si la respuesta tiene un status y datos, puedes retornarlos
-    if (error.response && error.response.data) {
-      return error.response.data;
-    }
     throw handleError(error);
   }
 }
@@ -53,11 +36,6 @@ export async function putRequest(axiosInstance, endpoint, data) {
   try {
     const response = await axiosInstance.put(endpoint, data);
     const serviceResponse = response.data;
-
-    if (!serviceResponse.success) {
-      throw new Error(`${serviceResponse.message}`);
-    }
-
     return serviceResponse;
   } catch (error) {
     // Maneja errores
@@ -70,11 +48,6 @@ export async function deleteRequest(axiosInstance, endpoint) {
   try {
     const response = await axiosInstance.delete(endpoint);
     const serviceResponse = response.data;
-
-    if (!serviceResponse.success) {
-      throw new Error(`${serviceResponse.message}`);
-    }
-
     return serviceResponse;
   } catch (error) {
     // Maneja errores

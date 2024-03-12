@@ -83,14 +83,13 @@ const Login = () => {
       const { id, nombre, rol, accessToken, refreshToken } = await login(
         axiosPrivate,
         {
-          correo: userName,
+          username: userName,
           clave: password,
         }
       );
       setAuth({ id, nombre, rol, accessToken, refreshToken });
       navigate(from, { replace: true }); // Navegar devuelta al lugar de donde viene la solicitud
       cleanInput();
-
     } catch (err) {
       setLoginError(err);
       setSnackbarOpen(true);

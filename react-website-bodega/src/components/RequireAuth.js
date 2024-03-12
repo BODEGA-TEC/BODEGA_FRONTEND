@@ -13,7 +13,6 @@ const RequireAuth = ({ allowedRoles }) => {
     return <Outlet />;
   } else {
     // Si el usuario no tiene un rol permitido, redirigir según su estado de autenticación
-    console.log("here");
     return auth?.id ? (
       <Navigate to="/unauthorized" state={{ from: location }} replace />
     ) : (
